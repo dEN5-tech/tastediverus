@@ -16,6 +16,7 @@
     "buffer": "^6.0.3",
     "cheerio": "^1.0.0-rc.10",
     "cheerio-tableparser": "^1.0.1",
+    "concurrently": "^7.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
