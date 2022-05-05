@@ -15,7 +15,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "tastediverus" #Must be unique in Heroku
           heroku_email: "labeg10231@3dmasti.com"
-          buildpack: "heroku/nodejs" #OPTIONAL
           dontuseforce: false #OPTIONAL and DEFAULT - false
           usedocker: false #OPTIONAL and DEFAULT - false
           appdir: "" #OPTIONAL and DEFAULT - "". This is useful if the api you're deploying is in a subfolder
