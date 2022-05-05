@@ -45,7 +45,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev_server": "nodemon servere/main.js",
-    "start": "concurrently  \"npm run dev_server\" \"npm run start_\"",
+    "start": "node server.js",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
