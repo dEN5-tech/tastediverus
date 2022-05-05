@@ -27,7 +27,7 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
     const [Fetched,setFetched]  = useState(false)
 
     async function GetAll(q,type){
-        const response =await axios.get('http://localhost:3001/api/SearchAll', {
+        const response =await axios.get('/api/SearchAll', {
             params: {
                 'query': q,
                 'type': type
@@ -74,11 +74,11 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
 
 
     function SetLike(elem) {
-        axios.get(`http://localhost:3001/api/like?id=${id}&year=${year}&title=${title}&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
+        axios.get(`/api/like?id=${id}&year=${year}&title=${title}&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
             .then(function (response) {
                 return setData(response.data.data)
             })
-        axios.get(`http://localhost:3001/api/get_data?offset=0&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
+        axios.get(`/api/get_data?offset=0&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
             .then(function (response) {
                 return data_posts(response.data.data)
             })

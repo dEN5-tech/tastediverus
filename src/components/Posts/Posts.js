@@ -15,7 +15,7 @@ const Posts = () => {
     const [SearchDara,setSearchDara]  = useState()
     const history = useParams()
     useMemo(()=>{
-        axios.get(`http://localhost:3001/api/get_data?offset=0&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
+        axios.get(`/api/get_data?offset=0&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
             .then(function (response) {
                 return setData(response.data.data)
             })
