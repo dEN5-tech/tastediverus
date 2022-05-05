@@ -45,7 +45,7 @@ async function animevost_search(q){
 
 
 const app = express()
-const port = 3001
+const port =  process.env.PORT
 
 
 app.use(cors())
