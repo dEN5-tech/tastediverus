@@ -19,7 +19,7 @@ const Login = () => {
     const [email,setEmail] = useState()
     function Loginprocessed(elem) {
         elem.preventDefault()
-        axios.get(`http://localhost:3001/api/login?email=${email}&password=${pass}`, {
+        axios.get(`/api/login?email=${email}&password=${pass}`, {
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
                 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
