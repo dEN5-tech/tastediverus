@@ -45,8 +45,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev_server": "nodemon servere/main.js",
-    "start": "nodemon server.js",
-    "deploy": "concurrently \"npm start dev_server\" \"npm start start\""
+    "api_server": "nodemon server.js",
+    "start": "concurrently \"npm start dev_server\" \"npm start api_server\""
   },
   "eslintConfig": {
     "extends": [
