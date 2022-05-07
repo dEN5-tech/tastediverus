@@ -9,7 +9,7 @@ const SmarthardSearch = require("./api/api");
 var SpotifyWebApi = require('spotify-web-api-node');
 const getArtistSpotify = require("./api/api");
 var kinopoisk = require('kinopoisk-ru');
-
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 var spotifyApi = new SpotifyWebApi()
 spotifyApi.setAccessToken("BQCciMOY0t_s4JWhcFUC1TgywRGPU_DrE8ziJ0H5mYx22_DWz8UUwJRzW4lq2RlxK7wRCSMRsIpMdJ615N4")
@@ -44,6 +44,7 @@ async function animevost_search(q){
 }
 
 
+await delay(5000)
 const app = express()
 const port =  3001
 
