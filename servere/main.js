@@ -44,7 +44,7 @@ async function animevost_search(q){
 }
 
 
-await delay(5000)
+delay(5000)
 const app = express()
 const port =  3001
 
