@@ -12,7 +12,7 @@ var kinopoisk = require('kinopoisk-ru');
 
 
 var spotifyApi = new SpotifyWebApi()
-
+spotifyApi.setAccessToken("BQCciMOY0t_s4JWhcFUC1TgywRGPU_DrE8ziJ0H5mYx22_DWz8UUwJRzW4lq2RlxK7wRCSMRsIpMdJ615N4")
 
 
 
@@ -45,7 +45,7 @@ async function animevost_search(q){
 
 
 const app = express()
-const port =  process.env.PORT
+const port =  3001
 
 
 app.use(cors())
@@ -112,25 +112,26 @@ async function myshows_query(query, id) {
 }
 
 
-app.get('/api/get_data', async (req, res) => {
+
+
+app.get('/get_data', async (req, res) => {
     let type_data = req.query.type == "1" ?  "recommended" : `recommended/qt-${req.query.type}`
 
     axios.get(`https://tastedive.com/fragment/${type_data||"recommended"}/start-${req.query.offset||"0"}/rpp-${req.query.count||"12"}`, {
         headers: {
             'authority': 'tastedive.com',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept': '*/*',
             'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
-            'cache-control': 'max-age=0',
-            'cookie': `${req.query.token}`,
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
+            'content-type': 'application/json',
+            'cookie': 'tk_r=427469|6ffbefef8ca908a7d478723a0aa7f9aa27d2656d22b196dc074a18a62aaae0bc022a183831ce947a6f29431f05def2436af715033edb143794765d807b9ac75f; tk_s=.eJxdkLtqAzEQRX8lqHah9-y6DgQ3MRjSpBGj0YgIOytYaQ3G-N-jkBQh5dx7uBzmLgK1NYdez7yIvTj65-kdXtThVexEyCu3D7Hv68bjKmkA0UTF7CdgK52J0udkNVkEIkRDObtZZjdlTTJrCZC1QcSZo46cDLKSIE2SkLRna2aSFgk8OsNKxYkyylmlBFZbhck5ZAPGkkLwNGVGO7QulbCXOnTvgkq_hQU_eagdrrjUax0E1W3p6y1QTd_F6e1P9gufttYKjrxtMZVraWMwqH9TT8d4wdbFYye2xuvPB6wG62fx-AIkWGJe.FVcNdw.ig4e1vvnXvPtAapCr5MBqgcvYMU',
+            'referer': 'https://tastedive.com/',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'document',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-site': 'none',
-            'sec-fetch-user': '?1',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
         }
     }).then(r => {
         if (r.data == undefined){
@@ -173,7 +174,7 @@ app.get('/api/get_data', async (req, res) => {
 
 
 
-app.get('/api/login', (req, res) => {
+app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
     axios.get('https://tastedive.com/account/signin', {
         params: {
@@ -261,7 +262,7 @@ app.get('/api/login', (req, res) => {
 
 })
 
-app.get('/api/like', (req, res) => {
+app.get('/like', (req, res) => {
     const response =  axios.get(
         `https://tastedive.com/profile/add/1/${req.query.id}?qid=&t=${req.query.type}&n=${req.query.title}&d=${req.query.year}&ajax=1`
         , {
@@ -285,7 +286,7 @@ app.get('/api/like', (req, res) => {
 })
 
 
-app.get('/api/getArtistSpotify', (req, res) => {
+app.get('/getArtistSpotify', (req, res) => {
     spotifyApi.searchArtists(req.query.query)
         .then(function(data) {
             res.json({url:data.body.artists.items[0].external_urls.spotify})
@@ -295,7 +296,7 @@ app.get('/api/getArtistSpotify', (req, res) => {
 })
 
 
-app.get('/api/AnimeVostSearch', (req, res) => {
+app.get('/AnimeVostSearch', (req, res) => {
     animevost_search(req.query.query)
         .then(function(data) {
             res.json(data)
@@ -305,7 +306,7 @@ app.get('/api/AnimeVostSearch', (req, res) => {
 })
 
 
-app.get('/api/SearchAll', (req, res) => {
+app.get('/SearchAll', (req, res) => {
     if(req.query.type=="h"||req.query.type=="m"){
         Promise.all(
             [animevost_search(req.query.query),
@@ -325,7 +326,8 @@ app.get('/api/SearchAll', (req, res) => {
 })
 
 
-app.get('/api/spotCode', (req, res) => {
+
+app.get('/spotCode', (req, res) => {
     spotifyApi.authorizationCodeGrant(req.query.code).then(
         function(data) {
             spotifyApi.setAccessToken(data.body['access_token']);

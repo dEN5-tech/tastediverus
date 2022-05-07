@@ -18,7 +18,7 @@ async function LikeByIdApi(id,year,title,type){
 
 
 async function getArtistSpotify(query){
-    const response = await axios.get('/api/getArtistSpotify', {
+    const response = await axios.get('/getArtistSpotify', {
         params: {
             'query': query
         },
