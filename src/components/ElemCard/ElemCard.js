@@ -79,7 +79,7 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
                 'year': `${year}`,
                 'title': `${title}`,
                 'type': `${history.type.toString().split(":").join("")}`,
-                'token': 'tk_r=427469|6ffbefef8ca908a7d478723a0aa7f9aa27d2656d22b196dc074a18a62aaae0bc022a183831ce947a6f29431f05def2436af715033edb143794765d807b9ac75f; tk_s=.eJxdkLtqAzEQRX8lqHah9-y6DgQ3MRjSpBGj0YgIOytYaQ3G-N-jkBQh5dx7uBzmLgK1NYdez7yIvTj65-kdXtThVexEyCu3D7Hv68bjKmkA0UTF7CdgK52J0udkNVkEIkRDObtZZjdlTTJrCZC1QcSZo46cDLKSIE2SkLRna2aSFgk8OsNKxYkyylmlBFZbhck5ZAPGkkLwNGVGO7QulbCXOnTvgkq_hQU_eagdrrjUax0E1W3p6y1QTd_F6e1P9gufttYKjrxtMZVraWMwqH9TT8d4wdbFYye2xuvPB6wG62fx-AIkWGJe.FVcNdw.ig4e1vvnXvPtAapCr5MBqgcvYMU'
+                'token': `${JSON.parse(localStorage.getItem('cookie')).cookie}`
             },
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
