@@ -4,6 +4,10 @@ import { Label, Input } from '@rebass/forms'
 import styled from 'styled-components';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Button from 'react-bootstrap-button-loader';
+import {ExclamationDiamondFill} from "react-bootstrap-icons";
+
+
 
 const AgreeBtn = styled.button`
   color: #e90707;
@@ -17,30 +21,24 @@ const Login = () => {
     const [pass,setPass] = useState()
     const navigate = useNavigate();
     const [email,setEmail] = useState()
+    const [show, setShow] = useState(true);
+    const [warn, setWarn] = useState(null);
+    const [variant, setVariant] = useState("primary");
     function Loginprocessed(elem) {
         elem.preventDefault()
-        axios.get(`/api/login?email=${email}&password=${pass}`, {
-            headers: {
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
-                'Cache-Control': 'max-age=0',
-                'Connection': 'keep-alive',
-                'If-None-Match': 'W/"ee-9my1j9xEhjJCXILA5XfXPvpkwQo"',
-                'Sec-Fetch-Dest': 'document',
-                'Sec-Fetch-Mode': 'navigate',
-                'Sec-Fetch-Site': 'none',
-                'Sec-Fetch-User': '?1',
-                'Upgrade-Insecure-Requests': '1',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36',
-                'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
-                'sec-ch-ua-mobile': '?0',
-                'sec-ch-ua-platform': '"Windows"'
+        axios.get(`/api/login?email=${email}&password=${pass}`
+        ).then(function (response) {
+            if(response.data.cookie){
+                localStorage.setItem('cookie', JSON.stringify(response.data))
+                navigate("/posts:1");
             }
-        }).then(function (response) {
-            localStorage.setItem('cookie', JSON.stringify(response.data));
-            /*JSON.parse(localStorage.getItem('cookie'))*/
-            navigate("/posts:1");
-            })
+            }).catch(()=> {
+            setShow(true)
+            setVariant("warning")
+            setWarn(<ExclamationDiamondFill/>)
+
+        })
+
 
 
     }
@@ -70,7 +68,14 @@ const Login = () => {
                     placeholder='password'
                 />
             </div>
-            <AgreeBtn onClick={Loginprocessed}>Login</AgreeBtn>
+            <Button onClick={(e_)=>{
+                setVariant("primary")
+                setWarn(null)
+                setShow(true)
+                Loginprocessed(e_)
+                setShow(false)
+            }}
+                variant={variant} icon={warn}   loading={!show} disabled={!show}>Login</Button>
 
         </div>
 

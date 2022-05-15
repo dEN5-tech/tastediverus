@@ -1,14 +1,8 @@
 const express = require('express')
-const get_show = require("./api/api");
 const htmlToJson = require("html-to-json");
 var cors = require('cors')
-const LikeByIdApi = require("./api/api");
-const get_token = require("./api/api");
 const axios = require("axios");
-const SmarthardSearch = require("./api/api");
 var SpotifyWebApi = require('spotify-web-api-node');
-const getArtistSpotify = require("./api/api");
-var kinopoisk = require('kinopoisk-ru');
 const puppeteer = require('puppeteer');
 const chromeOptions = {
     headless: true,
@@ -47,21 +41,27 @@ async function puper_(mail, pass) {
     await page.goto('https://tastedive.com/account/signin?next=https%3A%2F%2Ftastedive.com%2F&trigger=TopBar', {waitUntil: 'load'});
 
 
+    try{
+        await page.evaluate((a, b) => {
+            document.querySelector('#email').value = a;
+            document.querySelector('#password').value = b;
+            document.querySelector('button[class="button button-primary"]').click();
+        }, mail, pass);
+        await page.waitForSelector('body > main > article > div.title-toggle-wrap > hgroup > h2', {
+            visible: true,
+            timeout: 1500
+        });
+        var cookie = await page.evaluate(function() {
+            return document.cookie;
+        });
 
-    await page.evaluate((a, b) => {
-        document.querySelector('#email').value = a;
-        document.querySelector('#password').value = b;
-        document.querySelector('button[class="button button-primary"]').click();
-    }, mail, pass);
-    await page.waitForSelector('body > main > article > div.title-toggle-wrap > hgroup > h2', {
-        visible: true,
-    });
-    var cookie = await page.evaluate(function() {
-        return document.cookie;
-    });
+        await browser.close();
+        return cookie
+    }catch (e) {
+        await browser.close();
+    }
 
-    await browser.close();
-    return cookie
+
 }
 
 
@@ -133,6 +133,7 @@ async function kinopoisk_query(query) {
     }).catch(err=>{data: null})
     return response.data.films[0]
 }
+
 
 
 async function myshows_query(query, id) {
@@ -236,8 +237,8 @@ app.get('/get_data', async (req, res) => {
 app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
     puper_(req.query.email, req.query.password).then((data)=>{
-                    res.json({cookie:data})
-                }).catch(e=>e)
+                    res.json(data ? {cookie:data} :{error:"Not valid data"})
+                })
 
 })
 
@@ -286,7 +287,7 @@ app.get('/AnimeVostSearch', (req, res) => {
 
 
 app.get('/SearchAll', (req, res) => {
-    if(req.query.type=="h"||req.query.type=="m"){
+    if(req.query.type=="h"||req.query.type=="m"||req.query.type=="1"){
         Promise.all(
             [animevost_search(req.query.query),
                 myshows_query(req.query.query,1),
