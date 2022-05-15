@@ -38,7 +38,6 @@ const preparePageForTests = async (page) => {
 }
 
 
-
 async function puper_(mail, pass) {
 
     const browser = await puppeteer.launch(chromeOptions);;
