@@ -28,7 +28,7 @@ const Posts = () => {
         "infiniteCharacters",
         async ({ pageParam = 0,meta }) =>
             await fetch(
-                `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=20&type=h`
+                `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=20&type=h&token=${pageParam}`
             ).then((result) => result.json()),
         {
 

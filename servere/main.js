@@ -182,7 +182,7 @@ app.get('/get_data', async (req, res) => {
             'accept': '*/*',
             'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
             'content-type': 'application/json',
-            'cookie': 'tk_r=427469|6ffbefef8ca908a7d478723a0aa7f9aa27d2656d22b196dc074a18a62aaae0bc022a183831ce947a6f29431f05def2436af715033edb143794765d807b9ac75f; tk_s=.eJxdkLtqAzEQRX8lqHah9-y6DgQ3MRjSpBGj0YgIOytYaQ3G-N-jkBQh5dx7uBzmLgK1NYdez7yIvTj65-kdXtThVexEyCu3D7Hv68bjKmkA0UTF7CdgK52J0udkNVkEIkRDObtZZjdlTTJrCZC1QcSZo46cDLKSIE2SkLRna2aSFgk8OsNKxYkyylmlBFZbhck5ZAPGkkLwNGVGO7QulbCXOnTvgkq_hQU_eagdrrjUax0E1W3p6y1QTd_F6e1P9gufttYKjrxtMZVraWMwqH9TT8d4wdbFYye2xuvPB6wG62fx-AIkWGJe.FVcNdw.ig4e1vvnXvPtAapCr5MBqgcvYMU',
+            'cookie': `${req.query.token}`,
             'referer': 'https://tastedive.com/',
             'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
             'sec-ch-ua-mobile': '?0',
