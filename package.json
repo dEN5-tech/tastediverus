@@ -43,8 +43,7 @@
     "styled-components": "^5.3.5",
     "tough-cookie": "^4.0.0",
     "web-vitals": "^2.1.4",
-    "ym-api": "^1.2.1",
-
+    "ym-api": "^1.2.1"
   },
   "scripts": {
     "start_": "react-scripts start",
