@@ -28,7 +28,6 @@
     "kinopoisk-ru": "^1.0.3",
     "node-shikimori-api": "^1.1.3",
     "nodemon": "^2.0.15",
-    "phantom": "^6.3.0",
     "puppeteer": "^14.1.0",
     "react": "^18.0.0",
     "react-bootstrap": "^2.3.1",
@@ -43,7 +42,6 @@
     "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.3.5",
     "tough-cookie": "^4.0.0",
-    "vk-io": "^4.5.2",
     "web-vitals": "^2.1.4",
     "ym-api": "^1.2.1"
   },
