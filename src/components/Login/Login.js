@@ -31,15 +31,13 @@ const Login = () => {
             if(response.data.cookie){
                 localStorage.setItem('cookie', JSON.stringify(response.data))
                 navigate("/posts:1");
+            }else{
+                setShow(true)
+                setVariant("warning")
+                setWarn(<ExclamationDiamondFill/>)
             }
-            }).catch(()=> {
-            setShow(true)
-            setVariant("warning")
-            setWarn(<ExclamationDiamondFill/>)
-
-        })
-
-
+        }
+            )
 
     }
 
