@@ -15,9 +15,14 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts:type" element={<Posts />} />
+                {/*<Route path="/inftest:type" element={
+                    <QueryClientProvider client={queryClient}>
+                        <InfiniteCSRPage />
+                    </QueryClientProvider>} />*/}
             </Routes>
         </BrowserRouter>
   );
 }
+
 
 export default App;

@@ -9,10 +9,69 @@ const SmarthardSearch = require("./api/api");
 var SpotifyWebApi = require('spotify-web-api-node');
 const getArtistSpotify = require("./api/api");
 var kinopoisk = require('kinopoisk-ru');
+const puppeteer = require('puppeteer');
+const chromeOptions = {
+    headless: true,
+    defaultViewport: null,
+    args: [
+        "--incognito",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote"
+    ],
+};
+
+
+
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 var spotifyApi = new SpotifyWebApi()
-spotifyApi.setAccessToken("BQCciMOY0t_s4JWhcFUC1TgywRGPU_DrE8ziJ0H5mYx22_DWz8UUwJRzW4lq2RlxK7wRCSMRsIpMdJ615N4")
+
+
+
+const preparePageForTests = async (page) => {
+
+// Pass the User-Agent Test.
+    const userAgent = 'Mozilla/5.0 (X11; Linux x86_64)' +
+        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36';
+    await page.setUserAgent(userAgent);
+}
+
+
+
+async function puper_(mail, pass) {
+
+    const browser = await puppeteer.launch(chromeOptions);;
+    const page = await browser.newPage();
+    await preparePageForTests(page);
+
+    await page.goto('https://tastedive.com/account/signin?next=https%3A%2F%2Ftastedive.com%2F&trigger=TopBar', {waitUntil: 'load'});
+
+
+
+    await page.evaluate((a, b) => {
+        document.querySelector('#email').value = a;
+        document.querySelector('#password').value = b;
+        document.querySelector('button[class="button button-primary"]').click();
+    }, mail, pass);
+    await page.waitForSelector('body > main > article > div.title-toggle-wrap > hgroup > h2', {
+        visible: true,
+    });
+    var cookie = await page.evaluate(function() {
+        return document.cookie;
+    });
+
+    await browser.close();
+    return cookie
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -177,89 +236,9 @@ app.get('/get_data', async (req, res) => {
 
 app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
-    axios.get('https://tastedive.com/account/signin', {
-        params: {
-            'next': 'https://tastedive.com/',
-            'trigger': 'TopBar'
-        },
-        withCredentials: true,
-        headers: {
-            'authority': 'tastedive.com',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
-            'referer': 'https://tastedive.com/',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'document',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-user': '?1',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
-        }
-    }).then((e)=>{
-        axios.get('https://tastedive.com/account/signin', {
-            headers: {
-                'authority': 'tastedive.com',
-                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
-                'cache-control': 'max-age=0',
-                'cookie': `${e.headers["set-cookie"].toString().split(";")[0]}`,
-                'origin': 'https://tastedive.com',
-                'referer': 'https://tastedive.com/account/signin?next=https%3A%2F%2Ftastedive.com%2F&trigger=TopBar',
-                'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
-                'sec-ch-ua-mobile': '?0',
-                'sec-ch-ua-platform': '"Windows"',
-                'sec-fetch-dest': 'document',
-                'sec-fetch-mode': 'navigate',
-                'sec-fetch-site': 'same-origin',
-                'sec-fetch-user': '?1',
-                'upgrade-insecure-requests': '1',
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
-            }
-        }).then((data)=>{
-            htmlToJson.parse(data.data, ["input[name='_csrf_token']", function ($item) {
-                return $item.attr("value");
-            }]).done(r => {
-                axios.post(
-                    'https://tastedive.com/complete/email/',
-                    new URLSearchParams({
-                        'form_type': 'signin',
-                        'next': 'https://tastedive.com/',
-                        '_csrf_token': r,
-                        'form_js': "ihasjs",
-                        'email': req.query.email,
-                        'password': req.query.password
-                    }),
-                    {
-                        headers: {
-                            'authority': 'tastedive.com',
-                            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-                            'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
-                            'cache-control': 'max-age=0',
-                            'cookie': `${e.headers["set-cookie"].toString().split(";")[0]}`,
-                            'origin': 'https://tastedive.com',
-                            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
-                            'sec-ch-ua-mobile': '?0',
-                            'sec-ch-ua-platform': '"Windows"',
-                            'sec-fetch-dest': 'document',
-                            'sec-fetch-mode': 'navigate',
-                            'sec-fetch-site': 'same-origin',
-                            'sec-fetch-user': '?1',
-                            'upgrade-insecure-requests': '1',
-                            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
-                        }
-                    }
-                ).then((data)=>{
-
-                    res.json({cookie:data.headers["set-cookie"].toString().split(";")[0]})
+    puper_(req.query.email, req.query.password).then((data)=>{
+                    res.json({cookie:data})
                 }).catch(e=>e)
-            })
-        })
-
-    })
-
 
 })
 
