@@ -37,7 +37,11 @@ const Login = () => {
                 setWarn(<ExclamationDiamondFill/>)
             }
         }
-            )
+            ).catch((e)=>{
+            setShow(true)
+            setVariant("warning")
+            setWarn(<ExclamationDiamondFill/>)
+        })
 
     }
 

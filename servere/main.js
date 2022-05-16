@@ -287,7 +287,7 @@ app.get('/AnimeVostSearch', (req, res) => {
 
 
 app.get('/SearchAll', (req, res) => {
-    if(req.query.type=="h"||req.query.type=="m"||req.query.type=="1"){
+    if(["h","m","1"].includes(req.query.type)){
         Promise.all(
             [animevost_search(req.query.query),
                 myshows_query(req.query.query,1),
