@@ -229,7 +229,9 @@ app.get('/get_data', async (req, res) => {
         }
 
     }
-    )
+    ).catch(()=>{
+        res.json({data: null})
+    })
 })
 
 
