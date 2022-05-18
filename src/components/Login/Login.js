@@ -23,7 +23,7 @@ const Login = ({setcookie}) => {
     const [variant, setVariant] = useState("primary");
     function Loginprocessed(elem) {
         elem.preventDefault()
-        axios.get(`${process.env.PATH || "https://tastediverus.herokuapp.com/api"}/login?email=${email}&password=${pass}`
+        axios.get(`${process.env.URL_PATH_REMOTE || "https://tastediverus.herokuapp.com/api"}/login?email=${email}&password=${pass}`
         ).then(function (response) {
             if(response.data.cookie){
                 setcookie(response.data)

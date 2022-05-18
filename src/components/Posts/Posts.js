@@ -23,13 +23,13 @@ function Get_all_length(pages){
 
 
 const Posts = ({cookie}) => {
-    console.log(process.env.PATH)
+    console.log(process.env.URL_PATH_REMOTE)
     const history = useParams()
     const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
         "infiniteCharacters",
         async ({ pageParam = 0,meta }) =>
             await fetch(
-                `${process.env.PATH || "https://tastediverus.herokuapp.com/api"}/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
+                `${process.env.URL_PATH_REMOTE || "https://tastediverus.herokuapp.com/api"}/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
             ).then((result) => result.json()),
         {
 
