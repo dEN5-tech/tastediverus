@@ -42,7 +42,7 @@ const Posts = () => {
     /*window.location.reload()*/
     return (
             <div>
-                {status === "success" && data?.pages.data &&
+                {status === "success" && data?.pages.data && (
                     <InfiniteScroll
                         dataLength={data?.pages.length * 20}
                         next={fetchNextPage}
