@@ -1,6 +1,6 @@
 import {
     BrowserRouter as Router,
-    Route, Routes, NavLink, useParams
+    Route, Routes, NavLink, useParams, useNavigate
 } from "react-router-dom";
 import './App.css';
 import Posts from "./components/Posts/Posts";
@@ -30,6 +30,7 @@ const tdTypes =  [
 
 
 function App() {
+    const navigate = useNavigate();
     return (
         <Router>
             <div className="App">
@@ -45,7 +46,10 @@ function App() {
                         </Nav.Link>
 
                             {tdTypes.map((key,) => (
-                                <Nav.Link key={key.tdType} as={NavLink} to={`/posts:${key.tdType}`} >
+                                <Nav.Link  onClick={(e) => {
+                                    e.preventDefault()
+                                    navigate(`/posts:${key.tdType}`)
+                                }} key={key.tdType} as={NavLink} >
                                     {key.title}
                                 </Nav.Link>
                             ))}
