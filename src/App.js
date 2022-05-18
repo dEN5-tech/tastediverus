@@ -1,6 +1,6 @@
 import {
     BrowserRouter as Router,
-    Route, Routes, NavLink, useParams, useNavigate
+    Route, Routes, NavLink, useParams, useNavigate, useHistory
 } from "react-router-dom";
 import './App.css';
 import Posts from "./components/Posts/Posts";
@@ -8,6 +8,7 @@ import Login from "./components/Login/Login";
 import {Nav, Navbar} from "react-bootstrap";
 import ElemCard from "./components/ElemCard/ElemCard";
 
+import useLocalStorage from "use-local-storage";
 
 
 
@@ -30,7 +31,7 @@ const tdTypes =  [
 
 
 function App() {
-    const navigate = useNavigate();
+    const [cookie, setcookie] = useLocalStorage("cookie", localStorage.getItem('cookie')||undefined);
     return (
         <Router>
             <div className="App">
@@ -45,24 +46,30 @@ function App() {
                             Home
                         </Nav.Link>
 
-                            {tdTypes.map((key,) => (
-                                <Nav.Link  onClick={(e) => {
-                                    e.preventDefault()
-                                    navigate(`/posts:${key.tdType}`)
-                                }} key={key.tdType} as={NavLink} >
+                            {cookie ? tdTypes.map((key,) => (
+                                <Nav.Link  key={key.tdType} as={NavLink} to={`/posts:${key.tdType}`}>
                                     {key.title}
                                 </Nav.Link>
-                            ))}
+                            )) : null}
 
-                        <Nav.Link as={NavLink} to="/login">
-                            One More
+
+                        <Nav.Link onClick={e=>{
+                            if(e.target.href.toString().includes("/logout"))
+                                setcookie(undefined)
+                        }}
+                            as={NavLink} to={
+                            cookie ? "/logout" : "/login"
+                            }>
+                            {
+                                cookie ? "logout" : "login"
+                            }
                         </Nav.Link>
                     </Nav>
                 </Navbar>
                 <Routes>
                         <Route path="/" exact="true" element={<Home/>} />
-                    <Route path="/posts:type" exact="true" element={<Posts/>} />
-                    <Route path="/login" exact="true" element={<Login/>} />
+                    <Route path="/posts:type" exact="true" element={<Posts cookie={cookie}/>} />
+                    <Route path="/login" exact="true" element={<Login setcookie={setcookie}/>} />
                 </Routes>
             </div>
         </Router>

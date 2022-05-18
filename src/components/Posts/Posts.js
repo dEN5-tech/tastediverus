@@ -22,13 +22,13 @@ function Get_all_length(pages){
 
 
 
-const Posts = () => {
+const Posts = ({cookie}) => {
     const history = useParams()
     const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
         "infiniteCharacters",
         async ({ pageParam = 0,meta }) =>
             await fetch(
-                `/api/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`
+                `/api/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(cookie).cookie}`
             ).then((result) => result.json()),
         {
 

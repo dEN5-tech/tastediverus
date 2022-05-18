@@ -17,7 +17,7 @@ const AgreeBtn = styled.button`
 
 
 
-const Login = () => {
+const Login = ({setcookie}) => {
     const [pass,setPass] = useState()
     const navigate = useNavigate();
     const [email,setEmail] = useState()
@@ -26,10 +26,10 @@ const Login = () => {
     const [variant, setVariant] = useState("primary");
     function Loginprocessed(elem) {
         elem.preventDefault()
-        axios.get(`/api/login?email=${email}&password=${pass}`
+        axios.get(`api/login?email=${email}&password=${pass}`
         ).then(function (response) {
             if(response.data.cookie){
-                localStorage.setItem('cookie', JSON.stringify(response.data))
+                setcookie(JSON.stringify(response.data))
                 navigate("/posts:1");
             }else{
                 setShow(true)

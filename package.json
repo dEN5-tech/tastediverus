@@ -42,6 +42,7 @@
     "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.3.5",
     "tough-cookie": "^4.0.0",
+    "use-local-storage": "^2.3.6",
     "web-vitals": "^2.1.4",
     "ym-api": "^1.2.1"
   },
