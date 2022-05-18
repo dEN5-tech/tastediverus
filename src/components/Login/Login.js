@@ -8,13 +8,10 @@ import Button from 'react-bootstrap-button-loader';
 import {ExclamationDiamondFill} from "react-bootstrap-icons";
 
 
-
 const AgreeBtn = styled.button`
   color: #e90707;
   background-color: #282c34;
 `;
-
-
 
 
 const Login = ({setcookie}) => {
@@ -26,10 +23,10 @@ const Login = ({setcookie}) => {
     const [variant, setVariant] = useState("primary");
     function Loginprocessed(elem) {
         elem.preventDefault()
-        axios.get(`api/login?email=${email}&password=${pass}`
+        axios.get(`${process.env.PATH || "https://tastediverus.herokuapp.com/api"}/login?email=${email}&password=${pass}`
         ).then(function (response) {
             if(response.data.cookie){
-                setcookie(JSON.stringify(response.data))
+                setcookie(response.data)
                 navigate("/posts:1");
             }else{
                 setShow(true)

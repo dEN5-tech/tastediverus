@@ -5,7 +5,7 @@ import {
 import './App.css';
 import Posts from "./components/Posts/Posts";
 import Login from "./components/Login/Login";
-import {Nav, Navbar} from "react-bootstrap";
+import {Button, Nav, Navbar} from "react-bootstrap";
 import ElemCard from "./components/ElemCard/ElemCard";
 
 import useLocalStorage from "use-local-storage";
@@ -47,7 +47,7 @@ function App() {
                         </Nav.Link>
 
                             {cookie ? tdTypes.map((key,) => (
-                                <Nav.Link  key={key.tdType} as={NavLink} to={`/posts:${key.tdType}`}>
+                                <Nav.Link onClick={(e)=>console.log(e)} key={key.tdType} as={Button} to={`/posts:${key.tdType}`}>
                                     {key.title}
                                 </Nav.Link>
                             )) : null}

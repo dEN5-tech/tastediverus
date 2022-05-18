@@ -9,6 +9,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
 import { QueryClient, useQuery } from 'react-query'
 
+
+
 const queryClient = new QueryClient()
 
 function Get_all_length(pages){
@@ -20,15 +22,14 @@ function Get_all_length(pages){
 }
 
 
-
-
 const Posts = ({cookie}) => {
+    console.log(process.env.PATH)
     const history = useParams()
     const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
         "infiniteCharacters",
         async ({ pageParam = 0,meta }) =>
             await fetch(
-                `/api/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(cookie).cookie}`
+                `${process.env.PATH || "https://tastediverus.herokuapp.com/api"}/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
             ).then((result) => result.json()),
         {
 
@@ -113,10 +114,10 @@ const Posts = ({cookie}) => {
 };
 
 
-const Posts_ = () => {
+const Posts_ = ({cookie}) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <Posts />
+            <Posts cookie={cookie}/>
         </QueryClientProvider>
     );
 };
