@@ -298,9 +298,9 @@ app.get('/YandexSearch', (req, res) => {
 
         }, function (err) {
             res.json({data: null})
-        }).catch(()=>{
-            res.json({data: null})
         })
+    }).catch(()=>{
+        res.json({data: null})
     })
 
 
