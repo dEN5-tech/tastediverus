@@ -298,7 +298,9 @@ app.get('/YandexSearch', (req, res) => {
 
         }, function (err) {
             res.json({data: null})
-        });
+        }).catch(()=>{
+            res.json({data: null})
+        })
     })
 
 
@@ -309,7 +311,9 @@ app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
     puper_(req.query.email, req.query.password).then((data)=>{
                     res.json(data ? {cookie:data} :{error:"Not valid data"})
-                })
+                }).catch(()=>{
+        res.json({data: null})
+    })
 
 })
 
@@ -333,7 +337,9 @@ app.get('/like', (req, res) => {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
         }
 
-}).then(e=>res.json((e.data)))
+}).then(e=>res.json((e.data))).catch(()=>{
+        res.json({data: null})
+    })
 })
 
 
