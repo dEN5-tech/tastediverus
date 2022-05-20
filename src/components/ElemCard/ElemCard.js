@@ -97,8 +97,10 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Windows"'
             }
+        }).then(()=>{
+            window.location.reload()
         })
-        window.location.reload()
+
     }
 
     return (

@@ -174,6 +174,8 @@ async function myshows_query(query, id) {
 
 
 
+
+
 app.get('/get_data', async (req, res) => {
     let type_data = req.query.type == "1" ?  "recommended" : `recommended/qt-${req.query.type}`
 
@@ -234,7 +236,74 @@ app.get('/get_data', async (req, res) => {
     })
 })
 
+app.get('/YandexSearch', (req, res) => {
+    /*req.query.url, req.query.query*/
 
+    axios.get('https://yandex.ru/images/search?' + new URLSearchParams({
+        'from': 'tabbar',
+        'rpt': 'imageview',
+        'url': `${req.query.url||''}`,
+        'cbir_page': 'similar',
+        'callback': 'JSON.parse',
+        'format': 'json',
+        'p': `${req.query.page||'1'}`,
+        "text": `${req.query.query||''}`,
+        'request': JSON.stringify({
+            "blocks": [
+                {
+                    "block": "serp-list_infinite_yes",
+                    "params":
+                        {
+                            "initialPageNum": 0
+                        },
+                    "version": 2
+                }]
+        }),
+        'yu': '3565362461650984765',
+        'uinfo': 'sw-1280-sh-1024-ww-772-wh-913-pd-1-wp-5x4_1280x1024',
+    }), {
+        headers: {
+            'authority': 'yandex.ru',
+            'accept': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
+            'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+            'device-memory': '8',
+            'downlink': '7.35',
+            "Cookie":JSON.stringify({
+                'cbir-usage': 'view%2Cpanel',
+                'yandexuid': '3565362461650984765',
+                'yuidss': '3565362461650984765'
+            }),
+            'dpr': '1',
+            'ect': '4g',
+            'rtt': '50',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="100", "Google Chrome";v="100"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
+            'viewport-width': '772',
+            'x-requested-with': 'XMLHttpRequest',
+        }
+    }).then(e=>{
+        htmlToJson.parse(e.data.blocks[0].html, function () {
+            return this.map("div[class^='serp-item serp-item_type_search serp-item_group_search']", function ($item) {
+                return JSON.parse($item.attr('data-bem'))["serp-item"]
+
+            });
+        }).done(function (items) {
+
+            res.json({data: items})
+
+        }, function (err) {
+            res.json({data: null})
+        });
+    })
+
+
+
+})
 
 app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/

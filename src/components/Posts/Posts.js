@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useMemo, useState} from "react";
 import axios from "axios";
 import {Tiles} from "@rebass/layout";
@@ -22,10 +22,12 @@ function Get_all_length(pages){
 }
 
 
-const Posts = ({cookie}) => {
-    console.log(process.env.URL_PATH_REMOTE)
+
+const Posts = ({cookie,type}) => {
+
+
     const history = useParams()
-    const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    const { data,error, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
         "infiniteCharacters",
         async ({ pageParam = 0,meta }) =>
             await fetch(
@@ -36,23 +38,33 @@ const Posts = ({cookie}) => {
             getNextPageParam: (lastPage, pages) => {
                 if (lastPage.data) {
                     return Get_all_length(pages)
+                }else{
+                    return undefined
                 }
-            },
+            }
+
         }
     );
+
+    useEffect(() => {
+        if (type) {
+            console.log(type)
+            fetchNextPage()
+        }
+    }, [type])
     /*window.location.reload()*/
     return (
             <div>
-                {status === "success" && data?.pages.data && (
-                    <InfiniteScroll
+
+                {status === "success" && (
+                    <InfiniteScroll key={Math.random().toString().split("0.").join("")}
                         dataLength={data?.pages.length * 20}
-                        next={fetchNextPage}
-                        hasMore={hasNextPage}
                         loader={<h4>Loading...</h4>}
                     >
 
                         <Tiles width={[150, null, 150]}>
-                            {data?.pages.map((page) =>(
+                            {hasNextPage ?
+                            data?.pages.map((page) =>(
                                 <>
 
                                     {page.data.map((item) => (
@@ -64,7 +76,7 @@ const Posts = ({cookie}) => {
                                             {...item} />
                                     ))}
                                 </>
-                            ))}
+                            )) : <div>Not found</div>}
                         </Tiles>
                     </InfiniteScroll>
                 )}
@@ -114,10 +126,10 @@ const Posts = ({cookie}) => {
 };
 
 
-const Posts_ = ({cookie}) => {
+const Posts_ = ({cookie,type}) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <Posts cookie={cookie}/>
+            <Posts type={type} cookie={cookie}/>
         </QueryClientProvider>
     );
 };

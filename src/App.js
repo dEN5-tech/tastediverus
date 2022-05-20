@@ -1,6 +1,6 @@
 import {
     BrowserRouter as Router,
-    Route, Routes, NavLink, useParams, useNavigate, useHistory
+    Route, Routes, NavLink, useParams, useNavigate, useHistory, Link
 } from "react-router-dom";
 import './App.css';
 import Posts from "./components/Posts/Posts";
@@ -9,6 +9,7 @@ import {Button, Nav, Navbar} from "react-bootstrap";
 import ElemCard from "./components/ElemCard/ElemCard";
 
 import useLocalStorage from "use-local-storage";
+import {useState} from "react";
 
 
 
@@ -31,6 +32,7 @@ const tdTypes =  [
 
 
 function App() {
+    const [Type,setType] = useState()
     const [cookie, setcookie] = useLocalStorage("cookie", localStorage.getItem('cookie')||undefined);
     return (
         <Router>
@@ -47,7 +49,9 @@ function App() {
                         </Nav.Link>
 
                             {cookie ? tdTypes.map((key,) => (
-                                <Nav.Link onClick={(e)=>console.log(e)} key={key.tdType} as={Button} to={`/posts:${key.tdType}`}>
+                                <Nav.Link onClick={e=> {
+                                    setType(e.target.href.split(/.*:/).join(""))
+                                }} key={key.tdType} as={Link} to={`/posts:${key.tdType}`}>
                                     {key.title}
                                 </Nav.Link>
                             )) : null}
@@ -68,7 +72,7 @@ function App() {
                 </Navbar>
                 <Routes>
                         <Route path="/" exact="true" element={<Home/>} />
-                    <Route path="/posts:type" exact="true" element={<Posts cookie={cookie}/>} />
+                    <Route path="/posts:type" exact="true" element={<Posts type={Type} cookie={cookie}/>} />
                     <Route path="/login" exact="true" element={<Login setcookie={setcookie}/>} />
                 </Routes>
             </div>
