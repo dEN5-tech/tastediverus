@@ -32,6 +32,7 @@ const tdTypes =  [
 
 
 function App() {
+
     const [Type,setType] = useState()
     const [cookie, setcookie] = useLocalStorage("cookie", localStorage.getItem('cookie')||undefined);
     return (

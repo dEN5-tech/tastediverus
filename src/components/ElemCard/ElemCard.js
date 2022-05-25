@@ -17,13 +17,14 @@ import Button from 'react-bootstrap-button-loader';
 
 
 
+
 const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) => {
     const [SearchDara,setSearchDara]  = useState(false)
     const [data,setData]  = useState([])
     const [Fetched,setFetched]  = useState(false)
 
     async function GetAll(q,type){
-        const response =await axios.get(`${process.env.URL_PATH_REMOTE || "https://tastediverus.herokuapp.com/api"}/SearchAll`, {
+        const response =await axios.get(`https://tastediverus.herokuapp.com/api/SearchAll`, {
             params: {
                 'query': q,
                 'type': type
@@ -73,7 +74,7 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
 
     }
     function SetLike() {
-        axios.get(`${process.env.URL_PATH_REMOTE || "https://tastediverus.herokuapp.com/api"}/like`, {
+        axios.get(`https://tastediverus.herokuapp.com/api/like`, {
             params: {
                 'id':`${id}`,
                 'year': `${year}`,

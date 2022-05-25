@@ -307,6 +307,47 @@ app.get('/YandexSearch', (req, res) => {
 
 })
 
+
+app.get('/AhoyAgregator', (req, res) => {
+    let search = {
+        'kinopoisk': req.query.kinopoisk,
+        'resize': '1',
+        'button_limit': '100',
+        'button_size': '1',
+        'separator': ','
+    }
+     axios.post(
+         'https://ahoy.yohoho.cc/?cache081',
+         new URLSearchParams(search),
+         {
+             headers: {
+                 'authority': 'ahoy.yohoho.cc',
+                 'accept': '*/*',
+                 'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+                 'origin': 'https://4h0y.gitlab.io',
+                 'referer': 'https://4h0y.gitlab.io/',
+                 'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
+                 'sec-ch-ua-mobile': '?0',
+                 'sec-ch-ua-platform': '"Windows"',
+                 'sec-fetch-dest': 'empty',
+                 'sec-fetch-mode': 'cors',
+                 'sec-fetch-site': 'cross-site',
+                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
+             }
+         }
+     ).then(r =>{
+         res.json({data: r.data})
+     }).catch(e=>{
+         res.json({data: null})
+     })
+
+
+})
+
+
+
+
+
 app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
     puper_(req.query.email, req.query.password).then((data)=>{
