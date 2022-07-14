@@ -8,20 +8,25 @@ import {
 import {ListGroup} from "react-bootstrap";
 
 
+
 import { Heart,BarChartFill,Calendar3,Search } from 'react-bootstrap-icons';
 import {Col} from "react-bootstrap";
 import {Row} from "react-bootstrap";
 import {OverlayTrigger} from "react-bootstrap";
 import Button from 'react-bootstrap-button-loader';
-
+import Iplayer from "../IPLayer/Iplayer";
 
 
 
 
 const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) => {
-    const [SearchDara,setSearchDara]  = useState(false)
+
     const [data,setData]  = useState([])
     const [Fetched,setFetched]  = useState(false)
+    const [show, setShow] = useState(false);
+    const [SearchDara,setSearchDara]  = useState(false)
+    const [IPlayerData,setIPlayerData]  = useState("")
+
 
     async function GetAll(q,type){
         const response =await axios.get(`https://tastediverus.herokuapp.com/api/SearchAll`, {
@@ -70,9 +75,6 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
     }
 
 
-    function alertClicked() {
-
-    }
     function SetLike() {
         axios.get(`https://tastediverus.herokuapp.com/api/like`, {
             params: {
@@ -104,8 +106,22 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
 
     }
 
+    function openPlayer(e) {
+        axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${SearchDara[2]?.kinopoisk.filmId}`).then((e)=>{
+            setIPlayerData(e.data.data.collaps)
+            console.log(IPlayerData)
+            setShow(true)
+        })
+    }
+
     return (
     <Card style={{ width: width}}>
+        <Iplayer
+            show={show}
+            title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
+            url={IPlayerData.iframe}
+            setShow={setShow}
+        ></Iplayer>
         <Card.Img variant="top" srcSet={srcset} />
         <Card.Body>
             <Card.Title>{title}</Card.Title>
@@ -121,6 +137,12 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
                 <ListGroup.Item>
                     <Calendar3/> {year}
                 </ListGroup.Item>
+                {SearchDara[2]?.kinopoisk.filmId ?
+                    (
+                        <ListGroup.Item action onClick={openPlayer}>
+                            open in player
+                        </ListGroup.Item>
+                    ) : null}
             </ListGroup>
                 {SearchDara ?
                 (

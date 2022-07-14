@@ -8,6 +8,7 @@ import {QueryClientProvider, useInfiniteQuery} from "react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
 import { QueryClient, useQuery } from 'react-query'
+import Iplayer from "../IPLayer/Iplayer";
 
 
 
@@ -37,8 +38,6 @@ const Posts = ({cookie,type}) => {
             getNextPageParam: (lastPage, pages) => {
                 if (lastPage.data) {
                     return Get_all_length(pages)
-                }else{
-                    return undefined
                 }
             }
 
@@ -51,14 +50,17 @@ const Posts = ({cookie,type}) => {
             fetchNextPage()
         }
     }, [type])
-    /*window.location.reload()*/
+
+
+
     return (
             <div>
-
                 {status === "success" && (
                     <InfiniteScroll key={Math.random().toString().split("0.").join("")}
                         dataLength={data?.pages.length * 20}
                         loader={<h4>Loading...</h4>}
+                                    hasMore={true}
+                                    next={fetchNextPage}
                     >
 
                         <Tiles width={[150, null, 150]}>
@@ -71,7 +73,6 @@ const Posts = ({cookie,type}) => {
                                             history={history}
                                             width={170}
                                             key={item.id}
-
                                             {...item} />
                                     ))}
                                 </>
