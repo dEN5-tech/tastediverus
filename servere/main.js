@@ -211,8 +211,7 @@ app.get('/get_data', async (req, res) => {
                         rating: $item.find('div.entity-titles > span.entity-subtitle > span.score').text(),
                         year: $item.attr("data-disambiguation"),
                         type: $item.find('img[class^="entity-image "][alt]').attr("class").split("entity-image ")[1],
-
-
+                        href_id: $item.find('a[id][href][class="js-resource-card-link"][data-no-instant]').attr("href").split("/like/")[1],
                     };
 
                     num++

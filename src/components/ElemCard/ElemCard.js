@@ -16,12 +16,14 @@ import { Row } from "react-bootstrap";
 import { OverlayTrigger } from "react-bootstrap";
 import Button from 'react-bootstrap-button-loader';
 import Iplayer from "../IPLayer/Iplayer";
+import invert from 'invert-color';
+
 
 
 const enum_color ={
-    s:"#8c78b4",
-    m:"#f08c78",
-    h:"#148cc8"
+    artists:"#8c78b4",
+    movies:"#f08c78",
+    shows:"#148cc8"
 }
 
 
@@ -30,7 +32,7 @@ const enum_color ={
 
 
 
-const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts }) => {
+const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts,type }) => {
 
     const [data, setData] = useState([])
     const [Fetched, setFetched] = useState(false)
@@ -131,31 +133,31 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
 
 
     return (
-        <Card style={{backgroundColor: enum_color["m"]}}>
+        <Card style={{backgroundColor: enum_color[type]}}>
         <Iplayer
             show={show}
             title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
             url={IPlayerData.iframe}
             setShow={setShow}
         ></Iplayer>
-        <Card.Img variant="top" srcSet={srcset} />
+        <Card.Img variant="top" srcSet={srcset} onLoad={(e)=>{console.log(e)}} />
         <Card.Body>
             <Card.Title>{title}</Card.Title>
             <ListGroup>
-                <ListGroup.Item action onClick={SetLike}>
+                <ListGroup.Item action onClick={SetLike}  style={{backgroundColor: invert(enum_color[type])}}>
                     <Heart/> {likes}
                 </ListGroup.Item>
 
-                <ListGroup.Item>
+                <ListGroup.Item  style={{backgroundColor: invert(enum_color[type])}}>
                     <BarChartFill/> {rating}
                 </ListGroup.Item>
 
-                <ListGroup.Item>
+                <ListGroup.Item  style={{backgroundColor: invert(enum_color[type])}}>
                     <Calendar3/> {year}
                 </ListGroup.Item>
                 {SearchDara  ?
                     (
-                        <ListGroup.Item action onClick={openPlayer}>
+                        <ListGroup.Item action onClick={openPlayer}  style={{backgroundColor: invert(enum_color[type])}}>
                             open in player
                         </ListGroup.Item>
                     ) : null}
@@ -189,6 +191,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                         GetAll(title,history.type.toString().split(":").join("")).then(e=>setSearchDara(e.data))
                         setFetched(false)
                         }}
+                        style={{backgroundColor: invert(enum_color[type])}}
                       loading={Fetched}><Search/> Search</Button>
                 )}
 
