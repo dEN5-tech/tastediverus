@@ -10,14 +10,14 @@ import { ListGroup } from "react-bootstrap";
 
 
 
-import { Heart, BarChartFill, Calendar3, Search } from 'react-bootstrap-icons';
+import { Heart, BarChartFill, Calendar3, Search,Link } from 'react-bootstrap-icons';
 import { Col } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { OverlayTrigger } from "react-bootstrap";
 import Button from 'react-bootstrap-button-loader';
 import Iplayer from "../IPLayer/Iplayer";
 import invert from 'invert-color';
-
+import {useNavigate} from 'react-router-dom';
 
 
 const enum_color ={
@@ -32,13 +32,15 @@ const enum_color ={
 
 
 
-const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts,type }) => {
+
+const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts,type,href_id,type_s }) => {
 
     const [data, setData] = useState([])
     const [Fetched, setFetched] = useState(false)
     const [show, setShow] = useState(false);
     const [SearchDara, setSearchDara] = useState(false)
     const [IPlayerData, setIPlayerData] = useState("")
+    const navigate = useNavigate()
 
 
     async function GetAll(q, type) {
@@ -97,7 +99,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                 'id': `${id}`,
                 'year': `${year}`,
                 'title': `${title}`,
-                'type': `${history.type.toString().split(":").join("")}`,
+                'type': `${type_s}`,
                 'token': `${JSON.parse(localStorage.getItem('cookie')).cookie}`
             },
             headers: {
@@ -131,33 +133,41 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
         })
     }
 
+    function openSim(e) {
+        navigate(`/similar/${href_id}/${id}`,{state:{type:type_s}});
+    }
 
     return (
-        <Card style={{backgroundColor: enum_color[type]}}>
+        <Card /*style={{backgroundColor: enum_color[type]}}*/>
         <Iplayer
             show={show}
             title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
             url={IPlayerData.iframe}
             setShow={setShow}
         ></Iplayer>
-        <Card.Img variant="top" srcSet={srcset} onLoad={(e)=>{console.log(e)}} />
+        <Card.Img variant="top" srcSet={srcset} />
         <Card.Body>
             <Card.Title>{title}</Card.Title>
             <ListGroup>
-                <ListGroup.Item action onClick={SetLike}  style={{backgroundColor: invert(enum_color[type])}}>
+                <ListGroup.Item action onClick={SetLike}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                     <Heart/> {likes}
                 </ListGroup.Item>
 
-                <ListGroup.Item  style={{backgroundColor: invert(enum_color[type])}}>
+                <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                     <BarChartFill/> {rating}
                 </ListGroup.Item>
 
-                <ListGroup.Item  style={{backgroundColor: invert(enum_color[type])}}>
+                <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                     <Calendar3/> {year}
+                </ListGroup.Item>
+                <ListGroup.Item
+                /*style={{backgroundColor: invert(enum_color[type])}}*/
+                 action onClick={openSim}>
+                    <Link/> similar
                 </ListGroup.Item>
                 {SearchDara  ?
                     (
-                        <ListGroup.Item action onClick={openPlayer}  style={{backgroundColor: invert(enum_color[type])}}>
+                        <ListGroup.Item action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                             open in player
                         </ListGroup.Item>
                     ) : null}
@@ -188,10 +198,10 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                 (
                     <Button onClick={(e_)=>{
                         setFetched(true)
-                        GetAll(title,history.type.toString().split(":").join("")).then(e=>setSearchDara(e.data))
+                        GetAll(title,type_s).then(e=>setSearchDara(e.data))
                         setFetched(false)
                         }}
-                        style={{backgroundColor: invert(enum_color[type])}}
+                        /*style={{backgroundColor: invert(enum_color[type])}}*/
                       loading={Fetched}><Search/> Search</Button>
                 )}
 

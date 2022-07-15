@@ -11,6 +11,10 @@ import { QueryClient, useQuery } from 'react-query'
 import Iplayer from "../IPLayer/Iplayer";
 import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
+import {useLocation} from 'react-router-dom';
+
+
+
 
 const queryClient = new QueryClient()
 
@@ -23,20 +27,21 @@ function Get_all_length(pages) {
 }
 
 
-const Posts = ({ cookie, type }) => {
+const SimPage = ({ cookie, type }) => {
 
 
+    const loc = useLocation()
     const history = useParams()
 
-
-    const { data, error, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
-        `data_cards_${history.type.toString().split(":").join("")}`,
-        async ({ pageParam = 0, meta }) =>
+    const { data, error, status, fetchNextPage, hasNextPage} = useInfiniteQuery(
+        `data_cards_sim`,
+        async ({ last_child = history.id, meta }) =>
             await fetch(
-                `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
+                `https://tastediverus.herokuapp.com/api/get_data_sim?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${last_child}&offset=14&token=${cookie.cookie}`
             ).then((result) => result.json()), {
 
                 getNextPageParam: (lastPage, pages) => {
+                	console.log(lastPage, pages)
                     if (lastPage.data.length === 0) hasNextPage = false;
                     if (lastPage.data) {
                         return Get_all_length(pages)
@@ -53,7 +58,7 @@ const Posts = ({ cookie, type }) => {
             console.log(type)
             fetchNextPage()
         }
-    }, [type])
+    }, [history])
 
 
 
@@ -82,7 +87,7 @@ const Posts = ({ cookie, type }) => {
                                             history={history}
                                             width={170}
                                             key={item.id}
-                                            type_s={history.type.toString().split(":").join("")}
+                                            type_s={loc.state.type}
                                             {...item} />
                                             </LazyLoad>
                                         
@@ -94,58 +99,14 @@ const Posts = ({ cookie, type }) => {
                 )}
             </div>
     );
-
-
-
-    /*
-
-
-
-
-
-
-
-       const [data,setData]  = useState([])
-       const [SearchDara,setSearchDara]  = useState()
-       const history = useParams()
-       useMemo(()=>{
-           axios.get(`/api/get_data?offset=0&count=20&type=${history.type.toString().split(":").join("")}&token=${JSON.parse(localStorage.getItem('cookie')).cookie}`)
-               .then(function (response) {
-                   return setData(response.data.data)
-               })
-
-       },[]);
-
-
-
-       return (
-           <div className="App">
-               {data ?
-                   (
-                       <Tiles width={[150, null, 150]}>
-                       {data.map(item => {
-                           return (<ElemCard
-                           data_posts={setData}
-                           history={history}
-                           width={170}
-                           key={item.id}
-
-                           {...item} />)})}
-                       </Tiles>
-                   ) :
-                   (
-                       <div>Not found</div>
-                   )}
-           </div>
-       );*/
 };
 
 
-const Posts_ = ({ cookie, type }) => {
+const SimPage_ = ({ cookie, type }) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <Posts type={type} cookie={cookie}/>
+            <SimPage type={type} cookie={cookie}/>
         </QueryClientProvider>
     );
 };
-export default Posts_;
+export default SimPage_;

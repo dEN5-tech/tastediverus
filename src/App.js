@@ -5,6 +5,7 @@ import {
 import './App.css';
 import Posts from "./components/Posts/Posts";
 import Login from "./components/Login/Login";
+import SimPage_ from "./components/simPage/simPage";
 import {Button, Nav, Navbar} from "react-bootstrap";
 import ElemCard from "./components/ElemCard/ElemCard";
 
@@ -73,8 +74,10 @@ function App() {
                 </Navbar>
                 <Routes>
                         <Route path="/" exact="true" element={<Home/>} />
-                    <Route path="/posts:type" exact="true" element={<Posts type={Type} cookie={cookie}/>} />
-                    <Route path="/login" exact="true" element={<Login setcookie={setcookie}/>} />
+                        <Route path="/posts:type" exact="true" element={<Posts type={Type} cookie={cookie}/>} />
+                        <Route path="/view/:iframe" exact="true" element={<Posts type={Type} cookie={cookie}/>} />
+                        <Route path="/similar/:href_id/:id" exact="true" element={<SimPage_ type={Type} cookie={cookie}/>} />
+                        <Route path="/login" exact="true" element={<Login setcookie={setcookie}/>} />
                 </Routes>
             </div>
         </Router>
