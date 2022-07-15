@@ -1,35 +1,46 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import {useMemo, useState} from "react";
+import { useMemo, useState } from "react";
 import {
-    Card,Tooltip
+    Card,
+    Tooltip
 } from "react-bootstrap";
-import {ListGroup} from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 
 
 
-import { Heart,BarChartFill,Calendar3,Search } from 'react-bootstrap-icons';
-import {Col} from "react-bootstrap";
-import {Row} from "react-bootstrap";
-import {OverlayTrigger} from "react-bootstrap";
+import { Heart, BarChartFill, Calendar3, Search } from 'react-bootstrap-icons';
+import { Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import { OverlayTrigger } from "react-bootstrap";
 import Button from 'react-bootstrap-button-loader';
 import Iplayer from "../IPLayer/Iplayer";
 
 
+const enum_color ={
+    s:"#8c78b4",
+    m:"#f08c78",
+    h:"#148cc8"
+}
 
 
-const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) => {
 
-    const [data,setData]  = useState([])
-    const [Fetched,setFetched]  = useState(false)
+
+
+
+
+const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts }) => {
+
+    const [data, setData] = useState([])
+    const [Fetched, setFetched] = useState(false)
     const [show, setShow] = useState(false);
-    const [SearchDara,setSearchDara]  = useState(false)
-    const [IPlayerData,setIPlayerData]  = useState("")
+    const [SearchDara, setSearchDara] = useState(false)
+    const [IPlayerData, setIPlayerData] = useState("")
 
 
-    async function GetAll(q,type){
-        const response =await axios.get(`https://tastediverus.herokuapp.com/api/SearchAll`, {
+    async function GetAll(q, type) {
+        const response = await axios.get(`https://tastediverus.herokuapp.com/api/SearchAll`, {
             params: {
                 'query': q,
                 'type': type
@@ -54,22 +65,25 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
         return response.data
     }
 
-    function IndientElem(type_,data){
-        if(type_=="kinopoisk"){
+    function IndientElem(type_, data) {
+        if (type_ == "kinopoisk") {
 
-            return {href:
-                    `https://www.kinopoisk.ru/${data.type.replace("TV_","")}/${data.filmId}/`,icon:
-                    "https://www.google.com/s2/favicons?domain=www.kinopoisk.ru"}
-        }else
-        if(type_=="animevost"){
-            return {href:
-                    `https://reansn0w.github.io/AnimeVostORGCustomPlayer/New/?id=${data.id}`,icon:
-                    "https://www.google.com/s2/favicons?domain=anivost.org"}
-        }else
-        if(type_=="myshows"){
-            return {href:
-                    `https://myshows.me/view/${data.id}`,icon:
-                    "https://www.google.com/s2/favicons?domain=myshows.me"}
+            return {
+                href: `https://www.kinopoisk.ru/${data.type.replace("TV_","")}/${data.filmId}/`,
+                icon: "https://www.google.com/s2/favicons?domain=www.kinopoisk.ru"
+            }
+        } else
+        if (type_ == "animevost") {
+            return {
+                href: `https://reansn0w.github.io/AnimeVostORGCustomPlayer/New/?id=${data.id}`,
+                icon: "https://www.google.com/s2/favicons?domain=anivost.org"
+            }
+        } else
+        if (type_ == "myshows") {
+            return {
+                href: `https://myshows.me/view/${data.id}`,
+                icon: "https://www.google.com/s2/favicons?domain=myshows.me"
+            }
         }
         return null
     }
@@ -78,7 +92,7 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
     function SetLike() {
         axios.get(`https://tastediverus.herokuapp.com/api/like`, {
             params: {
-                'id':`${id}`,
+                'id': `${id}`,
                 'year': `${year}`,
                 'title': `${title}`,
                 'type': `${history.type.toString().split(":").join("")}`,
@@ -100,22 +114,24 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Windows"'
             }
-        }).then(()=>{
+        }).then(() => {
             window.location.reload()
         })
 
     }
 
     function openPlayer(e) {
-        axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${SearchDara[2]?.kinopoisk.filmId}`).then((e)=>{
+
+        axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${SearchDara[2]?.kinopoisk.filmId}`).then((e) => {
             setIPlayerData(e.data.data.collaps)
             console.log(IPlayerData)
             setShow(true)
         })
     }
 
+
     return (
-    <Card style={{ width: width}}>
+        <Card style={{backgroundColor: enum_color["m"]}}>
         <Iplayer
             show={show}
             title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
@@ -137,7 +153,7 @@ const ElemCard = ({title,srcset,id,likes,rating,year,width,history,data_posts}) 
                 <ListGroup.Item>
                     <Calendar3/> {year}
                 </ListGroup.Item>
-                {SearchDara[2]?.kinopoisk.filmId ?
+                {SearchDara  ?
                     (
                         <ListGroup.Item action onClick={openPlayer}>
                             open in player

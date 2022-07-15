@@ -9,7 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
 import { QueryClient, useQuery } from 'react-query'
 import Iplayer from "../IPLayer/Iplayer";
-
+import LazyLoad from 'react-lazyload';
 
 
 const queryClient = new QueryClient()
@@ -73,11 +73,14 @@ const Posts = ({ cookie, type }) => {
                                 <>
 
                                     {page.data.map((item) => (
+                                        <LazyLoad height={"auto"}>
                                         <ElemCard
                                             history={history}
                                             width={170}
                                             key={item.id}
                                             {...item} />
+                                            </LazyLoad>
+                                        
                                     ))}
                                 </>
                             )) : <div>Not found</div>}

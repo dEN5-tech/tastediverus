@@ -210,9 +210,7 @@ app.get('/get_data', async (req, res) => {
                         likes: $item.find('div.entity-opine > button.opine.like.js-opine-ex > span.count').text(),
                         rating: $item.find('div.entity-titles > span.entity-subtitle > span.score').text(),
                         year: $item.attr("data-disambiguation"),
-/*
-                        type: $item.find("div.entity-titles > span.entity-subtitle").children[0].text(),
-*/
+                        type: $item.find('img[class^="entity-image "][alt]').attr("class").split("entity-image ")[1],
 
 
                     };
