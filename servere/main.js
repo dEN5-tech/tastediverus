@@ -236,6 +236,68 @@ app.get('/get_data', async (req, res) => {
     })
 })
 
+
+app.get('/get_data_sim', async (req, res) => {
+    axios.get(`https://tastedive.com/fragment/results/${req.query.title}${req.query.type}/qt-${req.query.type_s}/li-${req.query.last_child}/rpp-${req.query.offset}`, {
+        headers: {
+            'authority': 'tastedive.com',
+            'accept': '*/*',
+            'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+            'content-type': 'application/json',
+            'cookie': `${req.query.token}`,
+            'referer': 'https://tastedive.com/',
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
+        }
+    }).then(r => {
+        if (r.data == undefined){
+            res.json({data: null})
+        }else{
+            var promise = htmlToJson.parse(r.data.toString(), function () {
+                let num =  1
+                return this.map('div[class*="entity entity-card grid-item js-entity"]', function ($item) {
+
+                    var dtn = {
+                        title:$item.find('span.entity-title').text(),
+                        srcset: $item.find('div.entity-image-wrap > img').attr("srcset"),
+                        id: $item.find('div.entity-card-content > a').attr("id"),
+                        likes: $item.find('div.entity-opine > button.opine.like.js-opine-ex > span.count').text(),
+                        rating: $item.find('div.entity-titles > span.entity-subtitle > span.score').text(),
+                        year: $item.attr("data-disambiguation"),
+/*
+                        type: $item.find("div.entity-titles > span.entity-subtitle").children[0].text(),
+*/
+
+
+                    };
+
+                    num++
+                    return dtn
+
+                });
+            }).done(function (items) {
+
+                        res.json({data: items})
+
+            }, function (err) {
+                res.json({data: null})
+            });
+        }
+
+    }
+    ).catch(()=>{
+        res.json({data: null})
+    })
+})
+
+
+
+
 app.get('/YandexSearch', (req, res) => {
     /*req.query.url, req.query.query*/
 

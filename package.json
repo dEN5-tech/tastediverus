@@ -24,6 +24,7 @@
     "htmlmetaparser": "^2.1.2",
     "htmlparser2": "^8.0.1",
     "http-proxy-middleware": "^2.0.6",
+    "iframe-resizer-react": "^1.1.0",
     "jssoup": "^0.0.15",
     "kinopoisk-ru": "^1.0.3",
     "node-shikimori-api": "^1.1.3",
