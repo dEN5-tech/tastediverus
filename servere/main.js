@@ -3,7 +3,7 @@ const htmlToJson = require("html-to-json");
 var cors = require('cors')
 const axios = require("axios");
 var SpotifyWebApi = require('spotify-web-api-node');
-import { YMApi } from "ym-api";
+const { YMApi } = require("ym-api");
 const api = new YMApi();
 
 
@@ -103,7 +103,7 @@ async function animevost_search(q){
         }
     ).catch(err=>{data: null})
 
-    return response?.data?.data[0]
+    return response.data.data[0]
 }
 
 
