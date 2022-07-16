@@ -369,6 +369,9 @@ app.get('/YandexSearch', (req, res) => {
 })
 
 
+
+
+
 app.get('/AhoyAgregator', (req, res) => {
     let search = {
         'kinopoisk': req.query.kinopoisk,
@@ -481,9 +484,40 @@ app.get('/SearchAll', (req, res) => {
             res.json({data: null});
         });
     }else if (["s"].includes(req.query.type)){
-        api.searchArtists(req.query.query).then((e)=>{
+        axios.post(
+    'https://music.yandex.ru/handlers/suggest.jsx',
+    new URLSearchParams({
+        'text': req.query.query,
+        'from': 'suggest',
+        'lang': 'ru',
+        'sign': '7aa8ebea45c34e57ed16038b873447805eb08625:1657953656316',
+        'experiments': '{"ABTestIds":"","WebDontPayPopup":"promocode-fullscreen","WebGenerativeTab":"default","WebInteractiveSplashscreenWithTrackTimeLimit":"30sec","WebNewImport":"on","WebTVMusicYnison":"default","WebTouchReact2021":"on","WebYMConnect":"default","adv":"newMinimalBlock","barBelowExperiment":"default","boostConfigExperiment62b17ef2b96e38262e0a69a3":"default","boostConfigExperiment62b181379f048212d1693f3e":"default","boostConfigExperiment62b186a4b96e38262e0a69c2":"on","boostConfigExperiment62b1ad969f048212d16942dd":"default","boostConfigExperiment62c2e06013e44c7382e0fac9":"on","boostConfigExperiment62d0790a01632b329f00d41d":"on","boostConfigExperiment62d12246d72869181def93d2":"default","boostConfigExperiment62d129a07ee63376cf113243":"default","hideChildContentFromRecently":"on","iframeNewReact":"default","miniBrick":"advFixed","musicCrackdownTiming":"default","musicMobileWebLocked":"play","musicPrice":"default","musicSearchRanking":"default","playlistBoostExperiment607289c805a7dd7ae28a8b04":"default","playlistBoostExperiment607289d405a7dd7ae28a8b07":"default","playlistBoostExperiment62b52e604607ba1e1cbf3747":"default","playlistBoostExperiment62bfdb364c0095096ad69fe9":"on","playlistBoostExperiment62d073e61e45067a39fd9ec9":"on","playlistBoostExperiment62d073f21e45067a39fd9ecb":"on","playlistBoostExperiment62d074031e45067a39fd9ecd":"on","playlistBoostExperiment62d074131e45067a39fd9ecf":"on","playlistBoostExperiment62d074201e45067a39fd9ed1":"on","playlistBoostExperiment62d074321e45067a39fd9ed3":"on","playlistBoostExperiment62d102d901632b329f00d54e":"default","playlistBoostExperiment62d102e901632b329f00d550":"default","playlistBoostExperiment62d12234d72869181def93d0":"default","playlistBoostExperiment62d1284e01632b329f00d5c1":"default","plusWeb":"on","useHlsTracks":"default","webAntiMusicBlockNaGlavnoi":"on","webBannerRefrash":"on-3600","webBarBelowRubilnik":"default","webChromeCast":"default","webSidebarBanner":"default","webStationsHeadLink":"default"}',
+        'external-domain': 'music.yandex.ru',
+        'overembed': 'false'
+    }),
+    {
+        headers: {
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
+            'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Cookie': 'ys=vbch.2-35-0; yandexuid=3126363181657953656; _yasc=/fS1M/4rD3wpzTc1IQrF27ZC9mqn79u59oOMJiDn2KKBbA==; i=9ZwUWah4W6hwxmjacjl2RsH565EqXy1TLxKb0yJF9Qu+gr/BczoHY3mLR9MHAAr6+XUt2BgZQmBgAznpfGnrskCGKBI=; device_id=b6322782f8d2548d14d1c0ae17d73548fa39fb145; active-browser-timestamp=1657953659521',
+            'Origin': 'https://music.yandex.ru',
+            'Referer': 'https://music.yandex.ru/home',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-Retpath-Y': 'https://music.yandex.ru/home',
+            'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"'
+        }
+    }
+).then((e)=>{
             console.log(e)
-            res.json({data: e})
+            res.json({data: e.data.entities[0].results})
         }).catch(()=>{
             res.json({data: null})
         })
@@ -492,6 +526,7 @@ app.get('/SearchAll', (req, res) => {
     }
 
 })
+
 
 
 

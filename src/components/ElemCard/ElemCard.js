@@ -173,7 +173,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                         </ListGroup.Item>
                     ) : null}
             </ListGroup>
-                {SearchDara ?
+                {SearchDara.length>0 ?
                 (
                     <Row>
                         {SearchDara?.map(item => {
@@ -199,7 +199,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                 (
                     <Button onClick={(e_)=>{
                         setFetched(true)
-                        GetAll(title,type_s).then(e=>e.data.lenght>0 ? setSearchDara(e.data): null)
+                        GetAll(title,type_s).then(e=>setSearchDara(e.data))
                         setFetched(false)
                         }}
                         /*style={{backgroundColor: invert(enum_color[type])}}*/
