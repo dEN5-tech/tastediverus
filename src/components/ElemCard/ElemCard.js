@@ -18,6 +18,9 @@ import Button from 'react-bootstrap-button-loader';
 import Iplayer from "../IPLayer/Iplayer";
 import invert from 'invert-color';
 import {useNavigate} from 'react-router-dom';
+import jp  from 'jsonpath';
+
+
 
 
 const enum_color ={
@@ -202,7 +205,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                     <Button onClick={(e_)=>{
                         setFetched(true)
                         GetAll(title,type_s).then(e=>{
-                            setymId(e.data.entities[1].results[0].playlist.kind)
+                            setymId(jp.query(e,`$.data.entities[?(@.type=="playlist"||@.type=="artist")].results[0]`)[0].playlist.kind)
                             setSearchDara(e.data)})
                         setFetched(false)
                         }}
