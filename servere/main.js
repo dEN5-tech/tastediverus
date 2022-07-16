@@ -517,7 +517,7 @@ app.get('/SearchAll', (req, res) => {
     }
 ).then((e)=>{
             console.log(e)
-            res.json({data: e.data.entities[0].results})
+            res.json({data: e.data})
         }).catch(()=>{
             res.json({data: null})
         })
