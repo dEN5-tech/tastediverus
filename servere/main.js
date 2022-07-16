@@ -3,6 +3,11 @@ const htmlToJson = require("html-to-json");
 var cors = require('cors')
 const axios = require("axios");
 var SpotifyWebApi = require('spotify-web-api-node');
+import { YMApi } from "ym-api";
+const api = new YMApi();
+
+
+
 const puppeteer = require('puppeteer');
 const chromeOptions = {
     headless: true,
@@ -475,6 +480,15 @@ app.get('/SearchAll', (req, res) => {
         }, function(err) {
             res.json({data: null});
         });
+    }else if (["s"].includes(req.query.type)){
+        api.searchArtists(req.query.query).then((e)=>{
+            console.log(e)
+            res.json({data: e})
+        }).catch(()=>{
+            res.json({data: null})
+        })
+    }else{
+
     }
 
 })

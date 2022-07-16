@@ -141,6 +141,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
         <Card /*style={{backgroundColor: enum_color[type]}}*/>
         <Iplayer
             show={show}
+            type={type_s}
             title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
             url={IPlayerData.iframe}
             setShow={setShow}
@@ -198,7 +199,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                 (
                     <Button onClick={(e_)=>{
                         setFetched(true)
-                        GetAll(title,type_s).then(e=>setSearchDara(e.data))
+                        GetAll(title,type_s).then(e=>e.data.lenght>0 ? setSearchDara(e.data): null)
                         setFetched(false)
                         }}
                         /*style={{backgroundColor: invert(enum_color[type])}}*/

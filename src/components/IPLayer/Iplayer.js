@@ -6,7 +6,7 @@ import IframeResizer from 'iframe-resizer-react'
 
 
 
-const Iplayer = ({ show, setShow, url, title }) => {
+const Iplayer = ({ show, setShow, url, title,type }) => {
 
 
 
@@ -22,19 +22,33 @@ const Iplayer = ({ show, setShow, url, title }) => {
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            {type == 's' ? 
             <IframeResizer
-            style={
-                {
-    display: "block",       /* iframes are inline by default */
-    background: "#000",
-    border: "none",         /* Reset default border */
-    height: "100vh",        /* Viewport-relative units */
-    width: "100vw",
-}
+            src="https://music.yandex.ru/iframe/#artist/1151"
+            style={{
+                display: "block",       
+                background: "#000",
+                border: "none",         
+                height: "100vh",        
+                width: "100vw",
+            }}
+            frameborder="0">
+            </IframeResizer>
+            : null }
+            {["h","m"].includes(type) ? 
+            <IframeResizer
+            style={{display: "block",
+            background: "#000",
+            border: "none",
+            height: "100vh",
+            width: "100vw"}
             }
             allow="fullscreen"
-  src={url}
-/>
+            src={url}
+            />
+            : null }
+
+
 
             </Modal.Body>
             <Modal.Footer>
