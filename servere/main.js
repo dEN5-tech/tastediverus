@@ -483,7 +483,7 @@ app.get('/SearchAll', (req, res) => {
         }, function(err) {
             res.json({data: null});
         });
-    }else if (["s"].includes(req.query.type)){
+    }else if ("s" === req.query.type){
         axios.post(
     'https://music.yandex.ru/handlers/suggest.jsx',
     new URLSearchParams({
@@ -521,8 +521,6 @@ app.get('/SearchAll', (req, res) => {
         }).catch(()=>{
             res.json({data: null})
         })
-    }else{
-
     }
 
 })

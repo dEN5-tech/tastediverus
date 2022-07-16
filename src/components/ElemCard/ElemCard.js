@@ -205,7 +205,9 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                     <Button onClick={(e_)=>{
                         setFetched(true)
                         GetAll(title,type_s).then(e=>{
-                            setymId(jp.query(e,`$.data.entities[?(@.type=="playlist"||@.type=="artist")].results[0]`)[0].playlist.kind)
+                            if(type==="s"){
+                                setymId(jp.query(e,`$.data.entities[?(@.type=="playlist"||@.type=="artist")].results[0]`)[0].playlist.kind)
+                            }
                             setSearchDara(e.data)})
                         setFetched(false)
                         }}
