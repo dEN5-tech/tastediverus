@@ -37,6 +37,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
 
     const [data, setData] = useState([])
     const [Fetched, setFetched] = useState(false)
+    const [ymId, setymId] = useState(false)
     const [show, setShow] = useState(false);
     const [SearchDara, setSearchDara] = useState(false)
     const [IPlayerData, setIPlayerData] = useState("")
@@ -142,6 +143,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
         <Iplayer
             show={show}
             type={type_s}
+            id={ymId}
             title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
             url={IPlayerData.iframe}
             setShow={setShow}
@@ -199,7 +201,9 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                 (
                     <Button onClick={(e_)=>{
                         setFetched(true)
-                        GetAll(title,type_s).then(e=>setSearchDara(e.data))
+                        GetAll(title,type_s).then(e=>{
+                            setymId(e.data.entities[1].results[0].playlist.kind)
+                            setSearchDara(e.data)})
                         setFetched(false)
                         }}
                         /*style={{backgroundColor: invert(enum_color[type])}}*/

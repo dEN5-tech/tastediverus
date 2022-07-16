@@ -6,7 +6,7 @@ import IframeResizer from 'iframe-resizer-react'
 
 
 
-const Iplayer = ({ show, setShow, url, title,type }) => {
+const Iplayer = ({ show, setShow, url, title,type,id }) => {
 
 
 
@@ -24,7 +24,7 @@ const Iplayer = ({ show, setShow, url, title,type }) => {
             <Modal.Body>
             {type == 's' ? 
             <IframeResizer
-            src="https://music.yandex.ru/iframe/#artist/1151"
+            src={`https://music.yandex.ru/iframe/#artist/${id}`}
             style={{
                 display: "block",       
                 background: "#000",
