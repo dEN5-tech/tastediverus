@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import {
     Card,
     Tooltip
@@ -38,7 +38,7 @@ const enum_color ={
 
 const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts,type,href_id,type_s }) => {
 
-    const [data, setData] = useState([])
+    const [data, setData] = useState({})
     const [Fetched, setFetched] = useState(false)
     const [ymId, setymId] = useState(false)
     const [show, setShow] = useState(false);
@@ -178,11 +178,25 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
         navigate(`/similar/${href_id}/${id}`,{state:{type:type_s}});
     }
 
+
+    useEffect(() => {
+    axios.get(`https://tastediverus.herokuapp.com/api/search_kinopoisk`, {
+            params: {
+                'query': title
+            }
+        })
+        .then((e) => {
+            if (e.data.films.length > 0)
+                setData(e.data.films[0])
+        })
+    }, [])
+
+
     return (
         <Card /*style={{backgroundColor: enum_color[type]}}*/>
         <Card.Img variant="top" srcSet={srcset} />
         <Card.Body>
-            <Card.Title>{title}</Card.Title>
+            <Card.Title>{data.nameRu}</Card.Title>
             <ListGroup>
                 <ListGroup.Item action onClick={SetLike}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                     <Heart/> {likes}
@@ -207,47 +221,6 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                         </ListGroup.Item>
                     ) : null}
             </ListGroup>
-                {!SearchDara?.status ==="ok" ?
-                (
-                    <Row>
-                        {SearchDara?.map(item => {
-                            if(Object.keys(item).length > 0){
-                                let elems = IndientElem(Object.keys(item)[0],item[Object.keys(item)[0]])
-                                return (
-                                <Col>
-
-                                    <Card.Link
-                                    key={elems.href}
-                                    href={elems.href}>
-                                        <OverlayTrigger
-                                        placement="right"
-                                        delay={{ show: 250, hide: 400 }}
-                                        overlay={<Tooltip id="button-tooltip">{Object.keys(item)[0]}</Tooltip>}
-                                        >
-                                        <img src={elems.icon}/>
-                                        </OverlayTrigger>
-                                    </Card.Link>
-                                </Col>
-                                )
-                            }})}
-                    </Row>
-                ) :
-                (
-                        <ListGroup.Item>
-                            <Button onClick={(e_)=>{
-                        setFetched(true)
-                        GetAll(title,type_s).then(e=>{
-                            setSearchDara(e.data.data||e.data.entities||e.data)})
-                        setFetched(false)
-                        }}
-                        /*style={{backgroundColor: invert(enum_color[type])}}*/
-                      loading={Fetched}><Search/> Search</Button>
-                        </ListGroup.Item>
-                    
-                )}
-
-
-
         </Card.Body>
     </Card>
     );

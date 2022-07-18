@@ -411,6 +411,40 @@ app.get('/AhoyAgregator', (req, res) => {
 
 
 
+app.get('/search_kinopoisk', (req, res) => {
+    axios.get('https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword', {
+    params: {
+        'keyword': req.query.query,
+        'page': '1'
+    },
+    headers: {
+        'authority': 'kinopoiskapiunofficial.tech',
+        'accept': 'application/json',
+        'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache',
+        'referer': 'https://kinopoiskapiunofficial.tech/documentation/api/',
+        'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36',
+        'x-api-key': '1a98a0b3-5b44-4174-87fe-9fc1cc15eff8'
+    }
+}).then(r =>{
+         res.json({data:r.data})
+     }).catch(e=>{
+         res.json({data: null})
+     })
+
+
+})
+
+
+
+
 
 app.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
