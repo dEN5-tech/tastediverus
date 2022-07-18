@@ -484,11 +484,12 @@ app.get('/search_show_movie', (req, res) => {
             data[2] = {kinopoisk:data[2]}
 
             res.json({data: data})
-        }, function(err) {
+        }).catch( function(err) {
             res.json({data: null});
         });
 
-}
+})
+
 
 
 app.get('/search_music', (req, res) => {
