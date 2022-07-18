@@ -101,9 +101,8 @@ async function animevost_search(q){
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36'
             }
         }
-    ).catch(err=>{data: null})
-
-    return response.data.data[0]
+    ).then(()=>{return response.data.data[0]})
+    .catch(err=>{return {data: null}})
 }
 
 
