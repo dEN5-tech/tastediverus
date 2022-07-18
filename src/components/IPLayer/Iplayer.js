@@ -24,15 +24,6 @@ const Iplayer = ({ show, setShow, url, title,type,id }) => {
         autoFocus={false}
         backdrop={false}
         show={show} 
-        onEnter={(e)=>{
-            e.stopPropogation()
-        }}
-        onEntered={(e)=>{
-            e.stopPropogation()
-        }}
-        onEntering={(e)=>{
-            e.stopPropogation()
-        }}
         onHide={handleClose}
         fullscreen={"xxl-down"}>
             <Modal.Header closeButton>

@@ -486,9 +486,7 @@ app.get('/search_show_movie', (req, res) => {
             data[2] = {kinopoisk:data[2]}
 
             res.json({data: data})
-        }).catch( function(err) {
-            res.json({data: null});
-        });
+        })
 
 })
 

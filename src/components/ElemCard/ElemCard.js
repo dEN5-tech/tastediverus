@@ -49,7 +49,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
 
     async function GetAll(q, type) {
 
-        if(["m","t"].includes(type)){
+        if(["m","h"].includes(type)){
             const response = await axios.get(`https://tastediverus.herokuapp.com/api/search_show_movie`, {
             params: {
                 'query': q,
@@ -157,12 +157,21 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
     }
 
     function openPlayer(e) {
-
-        axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${SearchDara[2]?.kinopoisk.filmId}`).then((e) => {
-            setIPlayerData(e.data.data.collaps)
-            console.log(IPlayerData)
-            setShow(true)
+        if(jp.query(SearchDara,`$.*.*.nameRu`)[0]){
+            const elem = jp.query(SearchDara,`$.*.kinopoisk`)[0]
+            axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${elem.filmId}`).then((e) => {
+            navigate(`/view/${type_s}/${elem.filmId}`,{state:{
+                url:e.data.data.collaps.iframe,
+                title:elem.nameRu
+            }
+            })
         })
+
+        }else if(jp.query(SearchDara,`$.*.*.*.playlist`)[0].kind){
+            navigate(`/view/${type_s}/${jp.query(SearchDara,`$.*.*.*.playlist`)[0].kind}`)
+        }
+
+
     }
 
     function openSim(e) {
@@ -171,14 +180,6 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
 
     return (
         <Card /*style={{backgroundColor: enum_color[type]}}*/>
-        <Iplayer
-            show={show}
-            type={type_s}
-            id={ymId}
-            title={`${SearchDara[2]?.kinopoisk.nameRu} | ${IPlayerData.quality}`}
-            url={IPlayerData.iframe}
-            setShow={setShow}
-        ></Iplayer>
         <Card.Img variant="top" srcSet={srcset} />
         <Card.Body>
             <Card.Title>{title}</Card.Title>
@@ -199,23 +200,25 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                  action onClick={openSim}>
                     <Link/> similar
                 </ListGroup.Item>
-                {SearchDara  ?
+                {SearchDara?.length > 0  ?
                     (
                         <ListGroup.Item action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                             open in player
                         </ListGroup.Item>
                     ) : null}
             </ListGroup>
-                {SearchDara.length>0 ?
+                {!SearchDara?.status ==="ok" ?
                 (
                     <Row>
                         {SearchDara?.map(item => {
-                            if(Object.keys(item).length){
+                            if(Object.keys(item).length > 0){
                                 let elems = IndientElem(Object.keys(item)[0],item[Object.keys(item)[0]])
                                 return (
                                 <Col>
 
-                                    <Card.Link href={elems.href}>
+                                    <Card.Link
+                                    key={elems.href}
+                                    href={elems.href}>
                                         <OverlayTrigger
                                         placement="right"
                                         delay={{ show: 250, hide: 400 }}
@@ -230,17 +233,17 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                     </Row>
                 ) :
                 (
-                    <Button onClick={(e_)=>{
+                        <ListGroup.Item>
+                            <Button onClick={(e_)=>{
                         setFetched(true)
                         GetAll(title,type_s).then(e=>{
-                            if(type==="s"){
-                                setymId(jp.query(e,`$.data.entities[?(@.type=="playlist"||@.type=="artist")].results[0]`)[0].playlist.kind)
-                            }
-                            setSearchDara(e.data)})
+                            setSearchDara(e.data.data||e.data.entities||e.data)})
                         setFetched(false)
                         }}
                         /*style={{backgroundColor: invert(enum_color[type])}}*/
                       loading={Fetched}><Search/> Search</Button>
+                        </ListGroup.Item>
+                    
                 )}
 
 

@@ -74,7 +74,7 @@ const Posts = ({ cookie, type }) => {
                                     {page.data.map((item) => (
                                         <LazyLoad
                                         height={"auto"}
-                                        key={item}
+                                        key={item.id}
                                         offset={[-200, 0]}
                                         placeholder={<Spinner  animation={"border"} role={"status"} />}
                                         >
