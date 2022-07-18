@@ -116,7 +116,7 @@ app.use(cors())
 
 
 async function kinopoisk_query(query) {
-    const response = await axios.get('https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword', {
+    const response = axios.get('https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword', {
         params: {
             'keyword': query,
             'page': '1'
@@ -135,8 +135,9 @@ async function kinopoisk_query(query) {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36',
             'x-api-key': '1a98a0b3-5b44-4174-87fe-9fc1cc15eff8'
         }
-    }).catch(err=>{data: null})
-    return response.data.films[0]
+    }).then(()=>{return response.data.films[0]})
+    .catch(err=>{return {data: null}})
+    
 }
 
 
