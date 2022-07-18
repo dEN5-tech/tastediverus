@@ -7,7 +7,8 @@ import { useParams } from "react-router-dom";
 import { QueryClientProvider, useInfiniteQuery } from "react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
-import { QueryClient, useQuery } from 'react-query'
+import { QueryClient, useQuery   } from 'react-query'
+import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 import Iplayer from "../IPLayer/Iplayer";
 import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
@@ -30,21 +31,25 @@ function Get_all_length(pages) {
 const SimPage = ({ cookie, type }) => {
 
 
+
+
+	const fetchSimPosts = async ({pageParam=history.id}) => await fetch(`https://tastediverus.herokuapp.com/api/get_data_sim?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${pageParam}&offset=14&token=${cookie.cookie}`).then((e)=>e.json())
+    
+
+
     const loc = useLocation()
     const history = useParams()
+    const [Fetched, setFetched] = useState(false)
 
-    const { data, error, status, fetchNextPage, hasNextPage} = useInfiniteQuery(
-        `data_cards_sim`,
-        async ({ last_child = history.id, meta }) =>
-            await fetch(
-                `https://tastediverus.herokuapp.com/api/get_data_sim?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${last_child}&offset=14&token=${cookie.cookie}`
-            ).then((result) => result.json()), {
+    const { data, error, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
+        `sim_posts_${history.href_id}_${history.id}`,fetchSimPosts, {
 
                 getNextPageParam: (lastPage, pages) => {
-                	console.log(lastPage, pages)
-                    if (lastPage.data.length === 0) hasNextPage = false;
+                    if (lastPage.data.length === 0) {
+                    	setFetched(false)
+                    };
                     if (lastPage.data) {
-                        return Get_all_length(pages)
+                        return parseInt(lastPage.data.pop()?.id)
                     }
                 }
 
@@ -53,26 +58,25 @@ const SimPage = ({ cookie, type }) => {
 
 
 
-    useEffect(() => {
-        if (type) {
-            console.log(type)
-            fetchNextPage()
-        }
-    }, [history])
 
+	useEffect(()=>{
+		if(status === "success"){
+			setFetched(true)
+		}
 
+	},[status])
 
     return (
         <div>
                 {status === "success" && (
                     <InfiniteScroll key={Math.random().toString().split("0.").join("")}
-                        dataLength={data?.pages.length * 20}
+                        dataLength={data?.pages.length * 14}
                                     hasMore={hasNextPage}
                                     next={fetchNextPage}
                     >
 
                         <Tiles width={[150, null, 150]}>
-                            {hasNextPage ?
+                            {Fetched ?
                             data?.pages.map((page) =>(
                                 <>
 

@@ -468,8 +468,12 @@ app.get('/AnimeVostSearch', (req, res) => {
 })
 
 
-app.get('/SearchAll', (req, res) => {
-    if(["h","m","1"].includes(req.query.type)){
+
+
+
+
+
+app.get('/search_show_movie', (req, res) => {
         Promise.all(
             [animevost_search(req.query.query),
                 myshows_query(req.query.query,1),
@@ -483,7 +487,11 @@ app.get('/SearchAll', (req, res) => {
         }, function(err) {
             res.json({data: null});
         });
-    }else if ("s" === req.query.type){
+
+}
+
+
+app.get('/search_music', (req, res) => {
         axios.post(
     'https://music.yandex.ru/handlers/suggest.jsx',
     new URLSearchParams({
@@ -521,9 +529,8 @@ app.get('/SearchAll', (req, res) => {
         }).catch(()=>{
             res.json({data: null})
         })
-    }
 
-})
+}
 
 
 
