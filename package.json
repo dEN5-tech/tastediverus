@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
+    "filter-object": "^3.0.0",
     "get-image-colors": "^4.0.1",
     "html-to-json": "^0.6.0",
     "htmlmetaparser": "^2.1.2",

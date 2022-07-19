@@ -23,6 +23,8 @@ import jp  from 'jsonpath';
 
 
 
+
+
 const enum_color ={
     artists:"#8c78b4",
     movies:"#f08c78",
@@ -36,9 +38,9 @@ const enum_color ={
 
 
 
-const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data_posts,type,href_id,type_s }) => {
+const ElemCard = ({ title ,kinopoisk_id, srcset, id, likes, rating, year, width, history, data_posts,type,href_id,type_s }) => {
 
-    const [data, setData] = useState({})
+    const [data, setData] = useState()
     const [Fetched, setFetched] = useState(false)
     const [ymId, setymId] = useState(false)
     const [show, setShow] = useState(false);
@@ -157,21 +159,9 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
     }
 
     function openPlayer(e) {
-        if(jp.query(SearchDara,`$.*.*.nameRu`)[0]){
-            const elem = jp.query(SearchDara,`$.*.kinopoisk`)[0]
-            axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${elem.filmId}`).then((e) => {
-            navigate(`/view/${type_s}/${elem.filmId}`,{state:{
-                url:e.data.data.collaps.iframe,
-                title:elem.nameRu
-            }
-            })
+            axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${kinopoisk_id}`).then((e) => {
+            navigate(`/view/${type_s}/${kinopoisk_id}/${title}`)
         })
-
-        }else if(jp.query(SearchDara,`$.*.*.*.playlist`)[0].kind){
-            navigate(`/view/${type_s}/${jp.query(SearchDara,`$.*.*.*.playlist`)[0].kind}`)
-        }
-
-
     }
 
     function openSim(e) {
@@ -179,24 +169,11 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
     }
 
 
-    useEffect(() => {
-    axios.get(`https://tastediverus.herokuapp.com/api/search_kinopoisk`, {
-            params: {
-                'query': title
-            }
-        })
-        .then((e) => {
-            if (e.data.films.length > 0)
-                setData(e.data.films[0])
-        })
-    }, [])
-
-
     return (
         <Card /*style={{backgroundColor: enum_color[type]}}*/>
         <Card.Img variant="top" srcSet={srcset} />
         <Card.Body>
-            <Card.Title>{data.nameRu}</Card.Title>
+            <Card.Title>{title}</Card.Title>
             <ListGroup>
                 <ListGroup.Item action onClick={SetLike}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                     <Heart/> {likes}
@@ -214,7 +191,7 @@ const ElemCard = ({ title, srcset, id, likes, rating, year, width, history, data
                  action onClick={openSim}>
                     <Link/> similar
                 </ListGroup.Item>
-                {SearchDara?.length > 0  ?
+                {kinopoisk_id  ?
                     (
                         <ListGroup.Item action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
                             open in player

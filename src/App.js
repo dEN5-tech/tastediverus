@@ -75,7 +75,7 @@ function App() {
                 <Routes>
                         <Route path="/" exact="true" element={<Home/>} />
                         <Route path="/posts:type" exact="true" element={<Posts type={Type} cookie={cookie}/>} />
-                        <Route path="/view/:type/:id" exact="true" element={<IframePlayer/>} />
+                        <Route path="/view/:type/:id/:title" exact="true" element={<IframePlayer/>} />
                         <Route path="/similar/:href_id/:id" exact="true" element={<SimPage_ type={Type} cookie={cookie}/>} />
                         <Route path="/login" exact="true" element={<Login setcookie={setcookie}/>} />
                 </Routes>
