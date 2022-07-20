@@ -75,6 +75,9 @@ async function puper_(mail, pass) {
 
 
 
+function getUseIdByToken(token){
+    return token.match(/(!?tk_r\=(?<userId>.*)\|)/).groups.userId
+}
 
 
 
@@ -272,6 +275,64 @@ app.get('/get_data', async(req, res) => {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
         }
     }).then(r => {
+        if (r.data == undefined) {
+            res.json({
+                data: null
+            })
+        } else {
+            htmlToJson.parse(r.data.toString(), function () {
+                let num = 1
+                return this.map('div[class*="entity entity-card grid-item js-entity"]', function ($item) {
+
+                    var dtn = {
+                        title: $item.find('span.entity-title').text(),
+                        srcset: $item.find('div.entity-image-wrap > img').attr("srcset"),
+                        id: $item.find('div.entity-card-content > a').attr("id"),
+                        likes: $item.find('div.entity-opine > button.opine.like.js-opine-ex > span.count').text(),
+                        rating: $item.find('div.entity-titles > span.entity-subtitle > span.score').text(),
+                        year: $item.attr("data-disambiguation"),
+                        type: $item.find('img[class^="entity-image "][alt]').attr("class").split("entity-image ")[1],
+                        href_id: $item.find('a[id][href][class="js-resource-card-link"][data-no-instant]').attr("href").split("/like/")[1],
+                    };
+
+                    num++
+                    return dtn
+
+                });
+            }).done(function (items) {
+
+                callerdt(items).then((ie)=>res.json({
+                    data: ie
+                }))
+
+                
+            })
+        }
+
+    })
+})
+
+
+
+app.get('/love_data', async(req, res) => {
+    axios.get(`https://tastedive.com/profile/resources/${getUseIdByToken(req.query.token)}/1/${req.query.type}/added/${req.query.offset || "0"}/12`, {
+    headers: {
+        'authority': 'tastedive.com',
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+        'cookie': `${req.query.token}`,
+        'pragma': 'no-cache',
+        'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'none',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+    }
+}).then(r => {
         if (r.data == undefined) {
             res.json({
                 data: null
