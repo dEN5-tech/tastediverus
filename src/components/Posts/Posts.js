@@ -1,29 +1,63 @@
-import React, { useEffect } from 'react';
-import { useMemo, useState } from "react";
+import React,
+{
+    useEffect
+}
+from 'react';
+import
+{
+    useMemo,
+    useState
+}
+from "react";
 import axios from "axios";
-import { Tiles } from "@rebass/layout";
+import
+{
+    Tiles
+}
+from "@rebass/layout";
 import ElemCard from "../ElemCard/ElemCard";
-import { useParams } from "react-router-dom";
-import { QueryClientProvider, useInfiniteQuery } from "react-query";
+import
+{
+    useParams
+}
+from "react-router-dom";
+import
+{
+    QueryClientProvider,
+    useInfiniteQuery
+}
+from "react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
-import { QueryClient, useQuery } from 'react-query'
+import
+{
+    QueryClient,
+    useQuery
+}
+from 'react-query'
 import Iplayer from "../IPLayer/Iplayer";
 import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
 
 const queryClient = new QueryClient()
 
-function Get_all_length(pages) {
+function Get_all_length(pages)
+{
     let elems = 0
-    pages.forEach(e => {
+    pages.forEach(e =>
+    {
         elems += e.data.length
     })
     return elems
 }
 
 
-const Posts = ({ cookie, type }) => {
+const Posts = (
+{
+    cookie,
+    type
+}) =>
+{
 
 
 
@@ -32,16 +66,30 @@ const Posts = ({ cookie, type }) => {
     const history = useParams()
 
 
-    const { data, error, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    const
+    {
+        data,
+        error,
+        status,
+        fetchNextPage,
+        hasNextPage
+    } = useInfiniteQuery(
         `type_posts_${history.type.toString().split(":").join("")}`,
-        async ({ pageParam = 0, meta }) =>
+        async (
+            {
+                pageParam = 0,
+                meta
+            }) =>
             await fetch(
                 `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
-            ).then((result) => result.json()), {
+            ).then((result) => result.json()),
+            {
 
-                getNextPageParam: (lastPage, pages) => {
+                getNextPageParam: (lastPage, pages) =>
+                {
                     if (lastPage.data.length === 0) hasNextPage = false;
-                    if (lastPage.data) {
+                    if (lastPage.data)
+                    {
                         return Get_all_length(pages)
                     }
                 }
@@ -51,8 +99,10 @@ const Posts = ({ cookie, type }) => {
 
 
 
-    useEffect(() => {
-        if (type) {
+    useEffect(() =>
+    {
+        if (type)
+        {
             console.log(type)
             fetchNextPage()
         }
@@ -100,7 +150,6 @@ const Posts = ({ cookie, type }) => {
 
 
 
-    /*
 
 
 
@@ -109,9 +158,7 @@ const Posts = ({ cookie, type }) => {
 
 
 
-
-
-       const [data,setData]  = useState([])
+/*       const [data,setData]  = useState([])
        const [SearchDara,setSearchDara]  = useState()
        const history = useParams()
        useMemo(()=>{
@@ -143,12 +190,17 @@ const Posts = ({ cookie, type }) => {
                        <div>Not found</div>
                    )}
            </div>
-       );*/
-}
+       );
+}*/
 };
 
 
-const Posts_ = ({ cookie, type }) => {
+const Posts_ = (
+{
+    cookie,
+    type
+}) =>
+{
     return (
         <QueryClientProvider client={queryClient}>
             <Posts type={type} cookie={cookie}/>
