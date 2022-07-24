@@ -2,10 +2,10 @@ const express = require('express')
 const htmlToJson = require("html-to-json");
 var cors = require('cors')
 const axios = require("axios");
-var SpotifyWebApi = require('spotify-web-api-node');
-const { YMApi } = require("ym-api");
-const api = new YMApi();
 const JP = require('jsonpath') ;
+const  nHtmlParser = require('node-html-parser')
+
+
 
 
 const puppeteer = require('puppeteer');
@@ -24,7 +24,6 @@ const chromeOptions = {
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-var spotifyApi = new SpotifyWebApi()
 
 
 
@@ -71,10 +70,6 @@ async function puper_(mail, pass) {
 
 
 
-
-
-
-
 function getUseIdByToken(token){
     return token.match(/(!?tk_r\=(?<userId>.*)\|)/).groups.userId
 }
@@ -110,7 +105,7 @@ async function animevost_search(q){
 
 
 delay(5000)
-const app = express()
+const app = express();
 const port =  3001
 
 
@@ -255,122 +250,225 @@ async function callerdt(items) {
 
 
 
-app.get('/get_data', async(req, res) => {
-    let type_data = req.query.type == "1" ? "recommended" : `recommended/qt-${req.query.type}`
 
-    axios.get(`https://tastedive.com/fragment/${type_data || "recommended"}/start-${req.query.offset || "0"}/rpp-${req.query.count || "12"}`, {
-        headers: {
-            'authority': 'tastedive.com',
-            'accept': '*/*',
-            'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
-            'content-type': 'application/json',
-            'cookie': `${req.query.token}`,
-            'referer': 'https://tastedive.com/',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
-        }
-    }).then(r => {
-        if (r.data == undefined) {
-            res.json({
-                data: null
+
+
+
+
+async function GetParsedInfo(resp){
+    let dt = []
+    const html = nHtmlParser.parse(resp)
+    const cards = html.querySelectorAll('div[class*="entity entity-card grid-item js-entity"]')
+    /*cards.forEach((e)=>console.log(e.rawAttrs))*/
+
+    for(let elem in cards){
+        const title = cards[elem].querySelector('span.entity-title').text
+        const year = cards[elem].getAttribute("data-disambiguation")
+        const type = cards[elem].querySelector('img[class^="entity-image"][alt]')?.getAttribute("class")?.split("entity-image ")[1]||cards[elem].querySelector('img[class^="entity-image no-thumbnail"]')?.getAttribute("class")?.split("entity-image no-thumbnail ")[1]
+        const dataKino = await getQueryKino({title,year})
+        if(dataKino === undefined){}else if(type==="shows"||"movies" && dataKino.__typename!="Person"){
+            dt.push({
+                title: !!dataKino.title.russian ? dataKino.title.russian : title,
+                srcset: cards[elem].querySelector('div.entity-image-wrap > img')?.getAttribute("srcset")|| `https:${
+                    dataKino
+                        .poster
+                        .avatarsUrl
+                }/300x450`,
+                id: cards[elem].querySelector('div.entity-card-content > a').getAttribute("id"),
+                likes: cards[elem].querySelector('div.entity-opine > button.opine.like.js-opine-ex > span.count').text,
+                rating: cards[elem].querySelector('div.entity-titles > span.entity-subtitle > span.score').text,
+                year: cards[elem].getAttribute("data-disambiguation"),
+                type: type,
+                href_id: cards[elem].querySelector('a[id][href][class="js-resource-card-link"][data-no-instant]').getAttribute("href").split("/like/")[1],
+                kinopoisk_id: dataKino.id
             })
         } else {
-            htmlToJson.parse(r.data.toString(), function () {
-                let num = 1
-                return this.map('div[class*="entity entity-card grid-item js-entity"]', function ($item) {
-
-                    var dtn = {
-                        title: $item.find('span.entity-title').text(),
-                        srcset: $item.find('div.entity-image-wrap > img').attr("srcset"),
-                        id: $item.find('div.entity-card-content > a').attr("id"),
-                        likes: $item.find('div.entity-opine > button.opine.like.js-opine-ex > span.count').text(),
-                        rating: $item.find('div.entity-titles > span.entity-subtitle > span.score').text(),
-                        year: $item.attr("data-disambiguation"),
-                        type: $item.find('img[class^="entity-image "][alt]').attr("class").split("entity-image ")[1],
-                        href_id: $item.find('a[id][href][class="js-resource-card-link"][data-no-instant]').attr("href").split("/like/")[1],
-                    };
-
-                    num++
-                    return dtn
-
-                });
-            }).done(function (items) {
-
-                callerdt(items).then((ie)=>res.json({
-                    data: ie
-                }))
-
-                
+            dt.push({
+                title: title,
+                srcset: cards[elem].querySelector('div.entity-image-wrap > img').getAttribute("srcset")||null,
+                id: cards[elem].querySelector('div.entity-card-content > a').getAttribute("id"),
+                likes: cards[elem].querySelector('div.entity-opine > button.opine.like.js-opine-ex > span.count').text,
+                rating: cards[elem].querySelector('div.entity-titles > span.entity-subtitle > span.score').text,
+                year: year,
+                type: type,
+                href_id: cards[elem].querySelector('a[id][href][class="js-resource-card-link"][data-no-instant]').getAttribute("href").split("/like/")[1],
+                kinopoisk_id: null
             })
         }
 
-    })
-})
+
+    }
+    return dt
+}
 
 
 
-app.get('/love_data', async(req, res) => {
-    axios.get(`https://tastedive.com/profile/resources/${getUseIdByToken(req.query.token)}/1/${req.query.type}/added/${req.query.offset || "0"}/12`, {
+
+app.use(async (req, res, next) => {
+    if(req.originalUrl.includes("/get_data")){
+            let type_data = req.query.type == "1" ? "recommended" : `recommended/qt-${req.query.type}`
+    const r =  await axios.get(`https://tastedive.com/fragment/${type_data || "recommended"}/start-${req.query.offset || "0"}/rpp-${req.query.count || "12"}`, {
     headers: {
         'authority': 'tastedive.com',
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'accept': '*/*',
         'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+        'content-type': 'application/json',
         'cookie': `${req.query.token}`,
-        'pragma': 'no-cache',
-        'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+        'referer': 'https://tastedive.com/',
+        'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="101", "Google Chrome";v="101"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'none',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
     }
-}).then(r => {
+})
+
+if (r.data == undefined) {
+    res.data = {
+        data: null
+    }
+} else {
+    res.data = r.data.toString()
+
+       
+}
+    }else if(req.originalUrl.includes("/get_love")){
+
+        const r =  await axios.get(`https://tastedive.com/profile/`+
+            `resources/${getUseIdByToken(req.query.token)}/`+
+            `1/${req.query.type}/added/${req.query.offset || "0"}/${req.query.count || "12"}`, {
+            headers: {
+                'authority': 'tastedive.com',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+                'cookie': `${req.query.token}`,
+                'pragma': 'no-cache',
+                'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'none',
+                'sec-fetch-user': '?1',
+                'upgrade-insecure-requests': '1',
+                'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+            }
+        })
         if (r.data == undefined) {
-            res.json({
+            res.data = {
                 data: null
-            })
+            }
         } else {
-            htmlToJson.parse(r.data.toString(), function () {
-                let num = 1
-                return this.map('div[class*="entity entity-card grid-item js-entity"]', function ($item) {
+            res.data = r.data.toString()
 
-                    var dtn = {
-                        title: $item.find('span.entity-title').text(),
-                        srcset: $item.find('div.entity-image-wrap > img').attr("srcset"),
-                        id: $item.find('div.entity-card-content > a').attr("id"),
-                        likes: $item.find('div.entity-opine > button.opine.like.js-opine-ex > span.count').text(),
-                        rating: $item.find('div.entity-titles > span.entity-subtitle > span.score').text(),
-                        year: $item.attr("data-disambiguation"),
-                        type: $item.find('img[class^="entity-image "][alt]').attr("class").split("entity-image ")[1],
-                        href_id: $item.find('a[id][href][class="js-resource-card-link"][data-no-instant]').attr("href").split("/like/")[1],
-                    };
 
-                    num++
-                    return dtn
-
-                });
-            }).done(function (items) {
-
-                callerdt(items).then((ie)=>res.json({
-                    data: ie
-                }))
-
-                
-            })
         }
+    }else if(req.originalUrl.includes("/get_autocomplete")){
 
-    })
+        const r =   await axios.get('https://tastedive.com/api/autocomplete', {
+            params: {
+                'v': '2',
+                't': req.query.type,
+                'q': req.query.query
+            },
+            headers: {
+                'authority': 'tastedive.com',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+                'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6,zh;q=0.5',
+                'cache-control': 'no-cache',
+                'cookie': `${req.query.token}`,
+                'pragma': 'no-cache',
+                'sec-ch-ua': '".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'none',
+                'sec-fetch-user': '?1',
+                'upgrade-insecure-requests': '1',
+                'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36'
+            }
+        })
+        if (r.data.suggestions.pop() == undefined) {
+            res.data = {
+                data: null
+            }
+        } else {
+            res.data = r.data.suggestions
+
+
+        }
+    }
+
+
+  next()
 })
 
 
+
+
+
+app.get('/get_data',   async function (req, res)  {
+
+    if (res.data === undefined) {
+        res.json({
+            data: null
+        })
+    } else {
+        return res.json(await GetParsedInfo(res.data))
+
+
+    }
+
+
+})
+
+
+app.get('/get_autocomplete',   async function (req, res)  {
+
+    if (res.data === undefined) {
+        res.json({
+            data: null
+        })
+    } else {
+        let dt = []
+        for( let i in res.data){
+            const {title,disambiguation} = res.data[i]
+            const datakino = await getQueryKino({title,year:disambiguation})
+            dt.push({...res.data[i],
+                    title:datakino?.title?.russian||res.data[i].title,
+                    kinopoisk_id: datakino?.id||null,
+                rating:datakino?.rating?.kinopoisk?.value||null}
+
+                )
+        }
+        return res.json(dt)
+
+
+    }
+
+
+})
+
+
+app.get('/get_love_data',   async function (req, res)  {
+
+    if (res.data === {
+        data: null
+    }) {
+        res.json({
+            data: null
+        })
+    } else {
+        return res.json(await GetParsedInfo(res.data))
+
+
+    }
+
+
+})
 
 
 app.get('/get_data_sim', async (req, res) => {
