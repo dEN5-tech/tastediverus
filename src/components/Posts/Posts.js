@@ -26,6 +26,9 @@ function Get_all_length(pages) {
 const Posts = ({ cookie, type }) => {
 
 
+
+
+
     const history = useParams()
 
 
@@ -105,6 +108,9 @@ const Posts = ({ cookie, type }) => {
 
 
 
+
+
+
        const [data,setData]  = useState([])
        const [SearchDara,setSearchDara]  = useState()
        const history = useParams()
@@ -138,6 +144,7 @@ const Posts = ({ cookie, type }) => {
                    )}
            </div>
        );*/
+}
 };
 
 
