@@ -8,7 +8,7 @@ const {Login} = require("./api/system/Login.js")
 const {Like} = require("./api/system/Like.js")
 const {GetData} = require("./api/GetData/GetData.js")
 const {GetLoveData} = require("./api/GetData/GetLoveData.js")
-const {GetSimData} = require("./api//GetSimData.js")
+const {GetSimData} = require("./api/GetData/GetSimData.js")
 const {GetAutocomplete} = require("./api/GetData/GetAutocomplete.js")
 
 const {YandexSearchImg} = require("./api/YandexSearch.js")
