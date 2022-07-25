@@ -1,6 +1,6 @@
 const express = require('express')
 const axios = require("axios");
-const {GetParsedInfo} = require("../utils.js")
+const {GetParsedInfo} = require("../utils/utils.js")
 
 
 function getUseIdByToken(token){

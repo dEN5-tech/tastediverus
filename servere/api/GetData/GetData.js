@@ -1,6 +1,6 @@
 const express = require('express')
 const axios = require("axios");
-const {getQueryKino,GetParsedInfo} = require("../utils.js")
+const {getQueryKino,GetParsedInfo} = require("../utils/utils.js")
 
 
 
