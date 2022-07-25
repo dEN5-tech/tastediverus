@@ -82,7 +82,7 @@ const Posts = (
                 meta
             }) =>
             await fetch(
-                `http://localhost:3001/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
+                `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=20&type=${history.type.toString().split(":").join("")}&token=${cookie.cookie}`
             ).then((result) => result.json()),
             {
 

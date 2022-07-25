@@ -56,7 +56,7 @@ const ElemCard = ({ title ,kinopoisk_id, srcset, id, likes, rating, year, width,
     async function GetAll(params, type) {
 
         if(["m","h"].includes(type)){
-            const response = await axios.get(`http://localhost:3001/search_kinopoisk`, {
+            const response = await axios.get(`https://tastediverus.herokuapp.com/api/search_kinopoisk`, {
             params: {
                 'query': params.query,
                 "year":params.year
