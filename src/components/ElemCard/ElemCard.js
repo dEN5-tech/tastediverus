@@ -19,7 +19,9 @@ import Iplayer from "../IPLayer/Iplayer";
 import invert from 'invert-color';
 import {useNavigate} from 'react-router-dom';
 import jp  from 'jsonpath';
-
+import Collapse from 'react-bootstrap/Collapse';
+import Fade from 'react-bootstrap/Fade';
+import Placeholder from 'react-bootstrap/Placeholder';
 
 
 
@@ -46,16 +48,18 @@ const ElemCard = ({ title ,kinopoisk_id, srcset, id, likes, rating, year, width,
     const [show, setShow] = useState(false);
     const [SearchDara, setSearchDara] = useState(false)
     const [IPlayerData, setIPlayerData] = useState("")
+    const [titleRus, settitleRus] = useState(null)
     const navigate = useNavigate()
+    const [open, setOpen] = useState(false);
 
 
-    async function GetAll(q, type) {
+    async function GetAll(params, type) {
 
         if(["m","h"].includes(type)){
-            const response = await axios.get(`https://tastediverus.herokuapp.com/api/search_show_movie`, {
+            const response = await axios.get(`http://localhost:3001/search_kinopoisk`, {
             params: {
-                'query': q,
-                'type': type
+                'query': params.query,
+                "year":params.year
             },
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -167,39 +171,69 @@ const ElemCard = ({ title ,kinopoisk_id, srcset, id, likes, rating, year, width,
     function openSim(e) {
         navigate(`/similar/${href_id}/${id}`,{state:{type:type_s}});
     }
+    useMemo(()=>{
+        GetAll({query:title,
+            year:year},type_s).then((e)=>{
+                settitleRus(e.title.russian)})
+    },[])
 
 
     return (
-        <Card /*style={{backgroundColor: enum_color[type]}}*/>
-        <Card.Img variant="top" srcSet={srcset} />
+    <Card bg={"dark"}
+    text={"red"}
+    onMouseEnter={() => {
+                setOpen(!open)
+        }}
+    onMouseLeave={() => setOpen(!open)}
+    >
+      <Card.Img srcSet={srcset} alt="Card image" />
+      <Card.ImgOverlay
+      >
+
+      <Collapse in={open} dimension="height">
+      <div style={{borderColor: 'black'}}>
+          <Card.Title>{titleRus||title}</Card.Title>
+
+      
+        
         <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <ListGroup>
-                <ListGroup.Item action onClick={SetLike}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-                    <Heart/> {likes}
-                </ListGroup.Item>
-
-                <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-                    <BarChartFill/> {rating}
-                </ListGroup.Item>
-
-                <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-                    <Calendar3/> {year}
-                </ListGroup.Item>
-                <ListGroup.Item
-                /*style={{backgroundColor: invert(enum_color[type])}}*/
-                 action onClick={openSim}>
-                    <Link/> similar
-                </ListGroup.Item>
-                {kinopoisk_id  ?
-                    (
-                        <ListGroup.Item action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-                            open in player
-                        </ListGroup.Item>
-                    ) : null}
-            </ListGroup>
-        </Card.Body>
+        <Button variant="primary">Go somewhere</Button>
+      </Card.Body>
+      </div>
+      </Collapse>
+      </Card.ImgOverlay>
     </Card>
+
+    //     <Card /*style={{backgroundColor: enum_color[type]}}*/>
+    //     <Card.Img variant="top" srcSet={srcset} />
+    //     <Card.Body>
+    //         <Card.Title>{title}</Card.Title>
+    //         <ListGroup>
+    //             <ListGroup.Item action onClick={SetLike}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
+    //                 <Heart/> {likes}
+    //             </ListGroup.Item>
+
+    //             <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
+    //                 <BarChartFill/> {rating}
+    //             </ListGroup.Item>
+
+    //             <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
+    //                 <Calendar3/> {year}
+    //             </ListGroup.Item>
+    //             <ListGroup.Item
+    //             /*style={{backgroundColor: invert(enum_color[type])}}*/
+    //              action onClick={openSim}>
+    //                 <Link/> similar
+    //             </ListGroup.Item>
+    //             {kinopoisk_id  ?
+    //                 (
+    //                     <ListGroup.Item action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
+    //                         open in player
+    //                     </ListGroup.Item>
+    //                 ) : null}
+    //         </ListGroup>
+    //     </Card.Body>
+    // </Card>
     );
 };
 

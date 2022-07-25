@@ -60,11 +60,12 @@
     "start": "concurrently \"npm run dev_server\" \"npm run api_server\""
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ]
+},
+
   "browserslist": {
     "production": [
       ">0.2%",
