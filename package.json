@@ -17,6 +17,10 @@
     "bootstrap-icons": "^1.8.1",
     "concurrently": "^7.1.0",
     "cors": "^2.8.5",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.30.1",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "filter-object": "^3.0.0",
@@ -43,7 +47,7 @@
     "react-lazyload": "^3.2.0",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-streams": "^13.6.6",
     "styled-components": "^5.3.5",
     "tough-cookie": "^4.0.0",
@@ -60,9 +64,10 @@
     "start": "concurrently \"npm run dev_server\" \"npm run api_server\""
   },
   "eslintConfig": {
-    "extends": ["react-app"]
+    "extends": [
+      "react-app"
+    ]
   },
-
   "browserslist": {
     "production": [
       ">0.2%",
