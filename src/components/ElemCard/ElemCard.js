@@ -82,8 +82,8 @@ const ElemCard = ({ title ,kinopoisk_id, srcset, id, likes, rating, year, width,
     }else if(["s"].includes(type)){
         const response = await axios.get(`https://tastediverus.herokuapp.com/api/search_music`, {
             params: {
-                'query': q,
-                'type': type
+                'query': params.q,
+                'type': params.type
             },
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
