@@ -5,7 +5,7 @@ const axios = require("axios");
 var router = express.Router();
 
 
-router.get('/YandexSearch', (req, res) => {
+router.get('/YandexSearch', async (req, res) => {
     const url = 'https://yandex.ru/images/search?' + new URLSearchParams({
         'from': 'tabbar',
         'rpt': 'imageview',
