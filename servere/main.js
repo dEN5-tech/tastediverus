@@ -1,5 +1,4 @@
 const express = require('express')
-const enableWs = require('express-ws')
 const htmlToJson = require("html-to-json");
 var cors = require('cors')
 const axios = require("axios");
@@ -63,8 +62,6 @@ async function animevost_search(q){
 
 delay(5000)
 const app = express();
-enableWs(app)
-
 const port =  3001
 
 
@@ -220,25 +217,6 @@ const url = 'https://yandex.ru/images/search?' + new URLSearchParams({
     const serpItems = HtmlObj.querySelectorAll('div[data-bem]')
     return serpItems.map((elem,index)=>JSON.parse(serpItems[index].getAttribute('data-bem'))["serp-item"]!==undefined ? JSON.parse(serpItems[index].getAttribute('data-bem'))["serp-item"] : null)
 }
-
-
-
-app.ws('/getData', (ws, req) => {
-    ws.on('message', msg => {
-        dt_ys({query:"smile"}).then((dt)=>{
-            dt.forEach((e)=>{
-                if(e!==null||undefined)
-                ws.send(JSON.stringify({data:e,method:"getData"}))
-            })
-            
-        })
-        
-    })
-
-    ws.on('close', () => {
-        console.log(` WebSocket ${ws.id} was closed`)
-    })
-})
 
 
 
