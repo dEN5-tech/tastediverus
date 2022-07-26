@@ -13,7 +13,7 @@ import Iplayer from "../IPLayer/Iplayer";
 import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
 import {useLocation} from 'react-router-dom';
-
+import Placeholder from 'react-bootstrap/Placeholder';
 
 
 
@@ -35,7 +35,7 @@ const SimPage = ({ cookie, type }) => {
 
 
 
-	const fetchSimPosts = async ({pageParam=history.id}) => await fetch(`https://tastediverus.herokuapp.com/api/get_data_sim?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${pageParam}&offset=14&token=${cookie.cookie}`).then((e)=>e.json())
+	const fetchSimPosts = async ({pageParam=history.id}) => await fetch(`http://localhost:3001/get_sim_data?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${pageParam}&offset=14&token=${cookie.cookie}`).then((e)=>e.json())
     
 
 
@@ -47,11 +47,11 @@ const SimPage = ({ cookie, type }) => {
         `sim_posts_${history.href_id}_${history.id}`,fetchSimPosts, {
 
                 getNextPageParam: (lastPage, pages) => {
-                    if (lastPage.data.length === 0) {
+                    if (lastPage.length === 0) {
                     	setFetched(false)
                     };
-                    if (lastPage.data) {
-                        return parseInt(lastPage.data.pop()?.id)
+                    if (lastPage) {
+                        return parseInt(lastPage.pop()?.id)
                     }
                 }
 
@@ -69,12 +69,13 @@ const SimPage = ({ cookie, type }) => {
 	},[status])
 
     return (
-        <div>
+        <div id="scrollableDiv">
                 {status === "success" && (
                     <InfiniteScroll key={Math.random().toString().split("0.").join("")}
                         dataLength={data?.pages.length * 14}
                                     hasMore={hasNextPage}
                                     next={fetchNextPage}
+                        scrollableTarget="scrollableDiv"
                     >
 
                         <Tiles width={[150, null, 150]}>
@@ -82,12 +83,12 @@ const SimPage = ({ cookie, type }) => {
                             data?.pages.map((page) =>(
                                 <>
 
-                                    {page.data.map((item) => (
+                                    {page.map((item) => (
                                         <LazyLoad
                                         height={"auto"}
                                         key={item}
                                         offset={[-200, 0]}
-                                        placeholder={<Spinner  animation={"border"} role={"status"} />}
+                                        placeholder={<Placeholder as="p" animation="glow"> <Placeholder xs={12} /> </Placeholder>}
                                         >
                                         <ElemCard
                                             history={history}

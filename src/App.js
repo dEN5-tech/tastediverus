@@ -11,10 +11,12 @@ import IframePlayer from "./components/IframePlayer/IframePlayer";
 
 import useLocalStorage from "use-local-storage";
 import {useState} from "react";
-
+import Container from 'react-bootstrap/Container';
 
 
 function Home() {
+
+
     return (<div>Home page</div>);
 }
 
@@ -39,19 +41,22 @@ function App() {
     return (
         <Router>
             <div className="App">
-                <Navbar>
+                <Navbar style={{zIndex: "10000", padding: "0 5px"}}
+                sticky="top" >
                     {/* "Link" in brand component since just redirect is needed */}
                     <Navbar.Brand as={NavLink} to="/">
                         Brand link
                     </Navbar.Brand>
-                    <Nav>
+                    <Nav className="ml-auto">
                         {/* "NavLink" here since "active" class styling is needed */}
                         <Nav.Link as={NavLink} to="/" exact>
                             Home
                         </Nav.Link>
 
                             {cookie ? tdTypes.map((key,) => (
-                                <Nav.Link onClick={e=> {
+                                <Nav.Link
+
+                                onClick={e=> {
                                     setType(e.target.href.split(/.*:/).join(""))
                                 }} key={key.tdType} as={Link} to={`/posts:${key.tdType}`}>
                                     {key.title}
@@ -72,6 +77,7 @@ function App() {
                         </Nav.Link>
                     </Nav>
                 </Navbar>
+
                 <Routes>
                         <Route
                         path="/"

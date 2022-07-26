@@ -51,7 +51,7 @@ router.get('/get_data',   async function (req, res)  {
             data: null
         })
     } else {
-        return res.json(await GetParsedInfo(res.data,false))
+        return res.json(await GetParsedInfo(res.data))
 
 
     }

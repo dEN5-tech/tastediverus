@@ -1,5 +1,19 @@
 const express = require('express')
+const  nHtmlParser = require('node-html-parser')
+
 const axios = require("axios");
+var stream = require('stream');
+var util = require('util');
+function StringifyStream(){
+    stream.Transform.call(this);
+    this._readableState.objectMode = false;
+    this._writableState.objectMode = true;
+}
+util.inherits(StringifyStream, stream.Transform);
+StringifyStream.prototype._transform = function(obj, encoding, cb){
+    this.push(JSON.stringify(obj));
+    cb();
+};
 
 
 var router = express.Router();
@@ -62,10 +76,10 @@ router.get('/YandexSearch', async (req, res) => {
     const dt = []
     const serpItems = HtmlObj.querySelectorAll('div[data-bem]')
     for(let i in serpItems){
-        dt.push(JSON.parse(serpItems[i].getAttribute('data-bem'))["serp-item"])
+        if(JSON.parse(serpItems[i].getAttribute('data-bem'))["serp-item"]!==undefined)
+            dt.push(Buffer.from(`${JSON.stringify(JSON.parse(serpItems[i].getAttribute('data-bem'))["serp-item"])}`))
     }
-
-    res.json({dt})
+    res.json(dt)
 })
 
 

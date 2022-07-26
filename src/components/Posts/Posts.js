@@ -32,12 +32,19 @@ import InfiniteCSRPage from "../InfinityTest/Inf";
 import
 {
     QueryClient,
-    useQuery
+    useQuery,
+    useQueryClient
 }
 from 'react-query'
 import Iplayer from "../IPLayer/Iplayer";
 import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
+import {
+    Card,
+    Tooltip
+} from "react-bootstrap";
+import Placeholder from 'react-bootstrap/Placeholder';
+
 
 const queryClient = new QueryClient()
 
@@ -61,10 +68,53 @@ const Posts = (
 
 
 
+/*  const [dt,setdt] = useState([])*/
+  const history = useParams()
+/*  const queryClient = useQueryClient("images")
+  queryClient.setQueryData('images', [])
+  useEffect(() => {
+    const websocket = new WebSocket('ws://localhost:3001/getData')
+      websocket.addEventListener('open', function (event) {
+    websocket.send('Hello Server!');
+});
+
+// Наблюдает за сообщениями
+websocket.addEventListener('message', function (event) {
+   const data = JSON.parse(event.data)
+   switch (data.method){
+     case "getData":
+
+     queryClient.setQueryData('images', (oldImages) => [
+      ...oldImages,
+      ,data.data
+    ])
+     setdt(queryClient.getQueryData('images'))
+     return
+   }
+});
 
 
-    const history = useParams()
+    return () => {
+      websocket.close()
+    }
+  }, [queryClient])
 
+
+
+return(
+  <div>
+      <Tiles width={[150, null, 150]}>
+          {dt.map((elem)=> {
+          return(
+          <Card>
+          <Card.Img src={elem?.dups[0].url} alt="Card image" />
+          <Card.ImgOverlay>
+          </Card.ImgOverlay>
+          </Card>)})}
+      </Tiles>
+  </div>
+  )
+*/
 
 
     const
@@ -99,7 +149,6 @@ const Posts = (
     );
 
 
-
     useEffect(() =>
     {
         if (type)
@@ -113,12 +162,13 @@ const Posts = (
 
 
     return (
-        <div>
-                {status === "success" && (
+        <div id="scrollableDiv">
+        {status === "success" && (
                     <InfiniteScroll key={Math.random().toString().split("0.").join("")}
                         dataLength={data?.pages.length * 20}
                                     hasMore={hasNextPage}
                                     next={fetchNextPage}
+                        scrollableTarget="scrollableDiv"
                     >
 
                         <Tiles width={[150, null, 150]}>
@@ -131,7 +181,7 @@ const Posts = (
                                         height={"auto"}
                                         key={item.id}
                                         offset={[-200, 0]}
-                                        placeholder={<Spinner  animation={"border"} role={"status"} />}
+                                        placeholder={<Placeholder as="p" animation="glow"> <Placeholder xs={12} /> </Placeholder>}
                                         >
                                         <ElemCard
                                             history={history}

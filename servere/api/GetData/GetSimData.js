@@ -14,9 +14,12 @@ const {GetParsedInfo} = require("../utils/utils.js")
 var router = express.Router();
 
 
+
 router.use(async (req, res, next) => {
 if(req.originalUrl.includes("/get_sim_data")){
-        const r =  await axios.get(`https://tastedive.com/fragment/results/${req.query.title}${req.query.type}/qt-${req.query.type_s}/li-${req.query.last_child}/rpp-${req.query.offset}`, {
+        const url = `https://tastedive.com/fragment/results/${req.query.title}${req.query.type}/qt-${req.query.type_s}/li-${req.query.last_child}/rpp-${req.query.offset}`
+        console.log(url)
+        const r =  await axios.get(url, {
         headers: {
             'authority': 'tastedive.com',
             'accept': '*/*',
