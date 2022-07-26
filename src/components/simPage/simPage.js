@@ -35,7 +35,7 @@ const SimPage = ({ cookie, type }) => {
 
 
 
-	const fetchSimPosts = async ({pageParam=history.id}) => await fetch(`http://localhost:3001/get_sim_data?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${pageParam}&offset=14&token=${cookie.cookie}`).then((e)=>e.json())
+	const fetchSimPosts = async ({pageParam=history.id}) => await fetch(`https://tastediverus.herokuapp.com/api/get_sim_data?title=${history.href_id}&type=&type_s=${loc.state.type}&last_child=${pageParam}&offset=14&token=${cookie.cookie}`).then((e)=>e.json())
     
 
 
