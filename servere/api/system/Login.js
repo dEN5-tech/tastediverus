@@ -1,5 +1,5 @@
 var {Router} = require('express');
-const {launch} = require('puppeteer');
+const puppeteer = require('puppeteer');
 
 const chromeOptions = {
     headless: true,
@@ -22,7 +22,7 @@ const preparePageForTests = async (page) => {
 
 async function puper_(mail, pass) {
 
-    const browser = await launch(chromeOptions);;
+    const browser = await puppeteer.launch(chromeOptions);;
     const page = await browser.newPage();
     await preparePageForTests(page);
 
