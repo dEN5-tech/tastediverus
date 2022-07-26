@@ -46,7 +46,11 @@ async function puper_(mail, pass) {
         await browser.close();
         return cookie
     }catch (e) {
+        console.log(e)
         await browser.close();
+        return false
+    }finally {
+      await browser.close();
     }
 
 
@@ -63,9 +67,7 @@ router.get('/login', (req, res) => {
     /*req.query.email, req.query.password*/
     puper_(req.query.email, req.query.password).then((data)=>{
                     res.json(data ? {cookie:data} :{error:"Not valid data"})
-                }).catch(()=>{
-        res.json({data: null})
-    })
+                })
 
 })
 
