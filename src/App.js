@@ -44,9 +44,18 @@ function App() {
                 <Navbar style={{zIndex: "10000", padding: "0 5px"}}
                 sticky="top" >
                     {/* "Link" in brand component since just redirect is needed */}
-                    <Navbar.Brand as={NavLink} to="/">
-                        Brand link
-                    </Navbar.Brand>
+                    <Container>
+          <Navbar.Brand href="/">
+            <img
+              alt=""
+              src="vectorpaint.png"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
+            TasteDiveRus
+          </Navbar.Brand>
+        </Container>
                     <Nav className="ml-auto">
                         {/* "NavLink" here since "active" class styling is needed */}
                         <Nav.Link as={NavLink} to="/" exact>

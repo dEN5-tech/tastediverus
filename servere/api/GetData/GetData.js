@@ -9,6 +9,7 @@ var router = express.Router();
 // middleware that is specific to this router
 router.use(async (req, res, next) => {
 if(req.originalUrl.includes("/get_data")){
+    try{
             let type_data = req.query.type == "1" ? "recommended" : `recommended/qt-${req.query.type}`
     const r =  await axios.get(`https://tastedive.com/fragment/${type_data || "recommended"}/start-${req.query.offset || "0"}/rpp-${req.query.count || "12"}`, {
     headers: {
@@ -27,16 +28,15 @@ if(req.originalUrl.includes("/get_data")){
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36'
     }
 })
+    if(res.status == 200){
+        res.data = r.data.toString()
+        }else if (res.status == 500){
+               res.data = undefined
+        }
 
-if (r.data == undefined) {
-    res.data = {
-        data: null
+        }catch (err) {
+        console.error(err);
     }
-} else {
-    res.data = r.data.toString()
-
-       
-}
     }
 
   next()

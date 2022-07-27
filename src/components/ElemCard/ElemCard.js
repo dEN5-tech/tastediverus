@@ -257,7 +257,8 @@ const ElemCard = (
     }
 
     return (
-        <Card className="d-flex vw-10 vh-10"
+        <Card 
+        className="d-flex vw-10 vh-10"
     bg={"dark"}
 
     onMouseEnter={() => {
@@ -265,7 +266,18 @@ const ElemCard = (
         }}
     onMouseLeave={() => setOpen(!open)}
     >
-      <Card.Img srcSet={srcset} alt="Card image" />
+      <Card.Img
+      style={{webkitFilter: "blur(1px)",
+  mozFilter: "blur(1px)",
+  oFilter: "blur(1px)",
+  msFilter: "blur(1px)",
+  filter: "blur(1px)"}}
+      width="75"
+      height="300"
+
+      srcSet={srcset}
+      alt="Card image"
+      />
       <Card.ImgOverlay
       >
             <Collapse in={open} dimension="height">
