@@ -29,6 +29,7 @@ const IframePlayer = () => {
         }else{
             axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${params.id}`).then((e) => {
             setIframeData(e.data.data)
+            document.title = `tastediverus | просмотр | ${params.title}`;
         })
             
             }
