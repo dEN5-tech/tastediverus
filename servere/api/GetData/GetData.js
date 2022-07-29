@@ -30,12 +30,12 @@ if(req.originalUrl.includes("/get_data")){
 })
     if(res.status == 200){
         res.data = r.data.toString()
-        }else if (res.status == 500){
+        }else{
                res.data = undefined
         }
 
         }catch (err) {
-        console.error(err);
+        console.log(err);
     }
     }
 

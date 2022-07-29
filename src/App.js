@@ -8,6 +8,10 @@ import Login from "./components/Login/Login";
 import SimPage_ from "./components/simPage/simPage";
 import {Button, Nav, Navbar} from "react-bootstrap";
 import IframePlayer from "./components/IframePlayer/IframePlayer";
+import SearchBar from "./components/SearchBar/SearchBar.js";
+
+
+
 
 import useLocalStorage from "use-local-storage";
 import {useState} from "react";
@@ -56,8 +60,12 @@ function App() {
             TasteDiveRus
           </Navbar.Brand>
         </Container>
+        <Container>
+        <SearchBar/>
+        </Container>
                     <Nav className="ml-auto">
-                        {/* "NavLink" here since "active" class styling is needed */}
+                        
+
                         <Nav.Link as={NavLink} to="/" exact>
                             Home
                         </Nav.Link>
