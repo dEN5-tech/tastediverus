@@ -172,7 +172,7 @@ return(
                     >
 
                         <Tiles width={[150, null, 150]}>
-                            {hasNextPage ?
+                            {hasNextPage && !!data?.pages[0].data  ?
                             data?.pages.map((page) =>(
                                 <>
 

@@ -9,6 +9,10 @@ from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import Image from 'react-bootstrap/Image'
 
+import ListGroup from 'react-bootstrap/ListGroup';
+import {LikeBtn} from "../ActionsBtns/LikeBtn.js"
+
+
 
 
 const axios = require("axios");
@@ -41,13 +45,13 @@ const SearchBar = () => {
 
 
 
-  const handleSearch = (query) => {
+  const handleSearch = (query,type) => {
     setIsLoading(true);
-
-
-    axios.get(`${SEARCH_URI}?type=h&query=${query}`).then((resp) => {
+    console.log(type.split("/posts:")[1])
+    axios.get(`${SEARCH_URI}?type=${type.split("/posts:")[1]}&query=${query}`).then((resp) => {
         setOptions(resp.data);
         setIsLoading(false);
+        setIsOpen(true);
     })
   };
 
@@ -61,15 +65,16 @@ const SearchBar = () => {
   return (
         <div
         style={{width:"80vh"}}>
-      {!loc.pathname.includes("view") ?     <AsyncTypeahead
+        {!loc.pathname.includes("view") ?     <AsyncTypeahead
       ref={refInput}
       filterBy={filterBy}
       id="async-example"
       open={IsOpen}
       isLoading={isLoading}
       minLength={3}
+      searchText={"Идет поиск..."}
       labelKey={"title"}
-      onSearch={handleSearch}
+      onSearch={(e)=>handleSearch(e,loc.pathname)}
 
       onChange={(e)=>{
           if(!loc.pathname.includes("view"))
@@ -80,6 +85,7 @@ const SearchBar = () => {
       }}
       options={options}
       align={"justify"}
+      delay={4}
       placeholder="Найти контент..."
       renderMenuItemChildren={(option) => (
         <>
@@ -98,7 +104,7 @@ const SearchBar = () => {
         </div>
         </>
       )}
-    /> : null}
+    /> : null} 
   </div>
 
 

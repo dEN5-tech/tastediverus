@@ -294,7 +294,10 @@ const ElemCard = (
     marginLeft: "auto",
     marginRight: "auto",
 }}>
-      <ListGroup.Item><Heart/> {likes}</ListGroup.Item>
+      <ListGroup.Item action onClick={SetLike}>
+                     <Heart/> {likes}
+      </ListGroup.Item>
+      
       <ListGroup.Item><BarChartFill/> {rating}</ListGroup.Item>
       <ListGroup.Item><Calendar3/> {year}</ListGroup.Item>
           <Dropdown>

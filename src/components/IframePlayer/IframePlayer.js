@@ -7,8 +7,10 @@ import axios from "axios";
 
 
 
-
+import { useBeforeunload } from 'react-beforeunload';
 import IframeResizer from 'iframe-resizer-react'
+import {openAlert} from "simple-react-alert"
+
 
 
 
@@ -35,6 +37,17 @@ const IframePlayer = () => {
             }
       
     },[])
+
+
+  useBeforeunload((event) => {
+      event.preventDefault();
+      localStorage.setItem('last_view', JSON.stringify({...UrlIframe,kinopoisk_id:params.id,type:params.type}))
+      return true
+
+  });
+
+
+
     return (
 
         <div>
@@ -60,7 +73,7 @@ const IframePlayer = () => {
                 return <ListGroup.Item
             key={`${IframeData[elem].translate} (${IframeData[elem].quality})`}
                         action
-                        onClick={(e)=>setUrlIframe(IframeData[elem].iframe)}>
+                        onClick={(e)=>setUrlIframe({...IframeData[elem],title:params.title})}>
                         {`${elem} (${IframeData[elem].translate||IframeData[elem].quality})`}
             </ListGroup.Item>
             })}
@@ -92,7 +105,7 @@ const IframePlayer = () => {
             width: "98vw"}
             }
             allow="fullscreen"
-            src={UrlIframe}
+            src={UrlIframe.iframe}
             />
             : null } 
         </div>
