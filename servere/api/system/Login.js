@@ -15,8 +15,7 @@ const chromeOptions = {
 const preparePageForTests = async (page) => {
 
 // Pass the User-Agent Test.
-    const userAgent = 'Mozilla/5.0 (X11; Linux x86_64)' +
-        'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36';
+    const userAgent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36';
     await page.setUserAgent(userAgent);
 }
 
@@ -35,16 +34,16 @@ async function puper_(mail, pass) {
             document.querySelector('#password').value = b;
             document.querySelector('button[class="button button-primary"]').click();
         }, mail, pass);
-        await page.waitForSelector('body > main > article > div.title-toggle-wrap > hgroup > h2', {
-            visible: true,
-            timeout: 1500
-        });
-        var cookie = await page.evaluate(function() {
-            return document.cookie;
-        });
 
+        const waitsel = await page.waitForSelector('ul[class="alert-list"] >  li[class="alert-message"]', {
+            visible: true,
+            timeout: 8000
+        });
+        let all_cookies = ""
+        const cookies = await page.cookies()
+        cookies.forEach((e)=>all_cookies+=`${e.name}=${e.value}; `)
         await browser.close();
-        return cookie
+        return all_cookies
     }catch (e) {
         console.log(e)
         await browser.close();

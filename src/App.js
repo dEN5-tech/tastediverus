@@ -17,6 +17,9 @@ import useLocalStorage from "use-local-storage";
 import {useState} from "react";
 import Container from 'react-bootstrap/Container';
 
+import Form from 'react-bootstrap/Form';
+
+
 
 function Home() {
 
@@ -60,9 +63,9 @@ function App() {
             TasteDiveRus
           </Navbar.Brand>
         </Container>
-        <Container>
-        <SearchBar/>
-        </Container>
+<Form className="d-flex">
+            <SearchBar/>
+          </Form>
                     <Nav className="ml-auto">
                         
 
