@@ -47,9 +47,7 @@ if(req.originalUrl.includes("/get_data")){
 router.get('/get_data',   async function (req, res)  {
 
     if (res.data === undefined) {
-        res.json({
-            data: null
-        })
+        res.json([])
     } else {
         return res.json(await GetParsedInfo(res.data))
 

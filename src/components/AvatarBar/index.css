@@ -1,0 +1,42 @@
+.alert-tile-notification:after {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 4px 9px 2px 9px;
+    border: none;
+    border-radius: 100px;
+    background: rgba(168, 25, 25, 0.8);
+    content: attr(data-count);
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 16px;
+    color: white;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.21);
+}
+
+@keyframes shadow-pulse
+{
+     0% {
+        box-shadow: 0 0 0 0px rgba(168, 25, 25, 0.5);
+     }
+     100% {
+          box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+     }
+}
+
+.pulse-button:after {
+	animation: shadow-pulse 1.25s infinite;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+

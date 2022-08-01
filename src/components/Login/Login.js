@@ -6,7 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap-button-loader';
 import {ExclamationDiamondFill} from "react-bootstrap-icons";
-
+import Container from 'react-bootstrap/Container';
 
 const AgreeBtn = styled.button`
   color: #e90707;
@@ -43,13 +43,7 @@ const Login = ({setcookie}) => {
     }
 
     return (
-        <div
-            sx={{
-                maxWidth: 512,
-                mx: 'auto',
-                px: 3,
-            }}>
-            <div>
+        <Container>
                 <Label htmlFor='email'>Email</Label>
                 <Input  onChange={(e)=>setEmail(e.target.value)}
                     id='email'
@@ -57,8 +51,6 @@ const Login = ({setcookie}) => {
                     type='email'
                     placeholder='jane@example.com'
                 />
-            </div>
-            <div>
                 <Label htmlFor='password'>Password</Label>
                 <Input onChange={(e)=>setPass(e.target.value)}
                     id='password'
@@ -66,7 +58,6 @@ const Login = ({setcookie}) => {
                     type='password'
                     placeholder='password'
                 />
-            </div>
             <Button onClick={(e_)=>{
                 setVariant("primary")
                 setWarn(null)
@@ -75,9 +66,7 @@ const Login = ({setcookie}) => {
                 setShow(false)
             }}
                 variant={variant} icon={warn}   loading={!show} disabled={!show}>Login</Button>
-
-        </div>
-
+        </Container>
     );
 };
 

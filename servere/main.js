@@ -13,10 +13,9 @@ const {GetDataWss} = require("./api/utils/Wss.js")
 const {GetLoveData} = require("./api/GetData/GetLoveData.js")
 const {GetSimData} = require("./api/GetData/GetSimData.js")
 const {GetAutocomplete} = require("./api/GetData/GetAutocomplete.js")
+const {GetAvatar} = require("./api/GetData/GetAvatar.js")
 
 const {YandexSearchImg} = require("./api/YandexSearch.js")
-
-
 
 
 
@@ -80,6 +79,8 @@ app.use('/', GetData);
 app.use('/', GetLoveData);
 app.use('/', GetSimData);
 app.use('/', GetAutocomplete);
+app.use('/', GetAvatar);
+
 
 app.use('/', YandexSearchImg);
 

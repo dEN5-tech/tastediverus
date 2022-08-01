@@ -10,25 +10,34 @@ import axios from "axios";
 import { useBeforeunload } from 'react-beforeunload';
 import IframeResizer from 'iframe-resizer-react'
 import {openAlert} from "simple-react-alert"
-
+import useLocalStorage from "use-local-storage";
 
 
 
 
 const IframePlayer = () => {
+
+    const [last_view, set_last_view] = useLocalStorage("last_view", localStorage.getItem('last_view')||undefined);
     const params = useParams()
     const loc = useLocation()
     const [IframeData,setIframeData]=  useState({})
     const [UrlIframe,setUrlIframe]=  useState(false)
 
     useEffect(()=>{
+        if(loc?.state){
+            setUrlIframe(loc.state)
+        }
+         if(last_view?.kinopoisk_id ===params.id){
+            setUrlIframe(last_view.iframe_data)
+        }       
         if(params.type==="s"){
             setIframeData({
                 id:params.id,
                 type:params.type
 
             })
-        }else{
+        }
+        else{
             axios.get(`https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${params.id}`).then((e) => {
             setIframeData(e.data.data)
             document.title = `tastediverus | просмотр | ${params.title}`;
@@ -38,13 +47,6 @@ const IframePlayer = () => {
       
     },[])
 
-
-  useBeforeunload((event) => {
-      event.preventDefault();
-      localStorage.setItem('last_view', JSON.stringify({...UrlIframe,kinopoisk_id:params.id,type:params.type}))
-      return true
-
-  });
 
 
 
@@ -73,7 +75,13 @@ const IframePlayer = () => {
                 return <ListGroup.Item
             key={`${IframeData[elem].translate} (${IframeData[elem].quality})`}
                         action
-                        onClick={(e)=>setUrlIframe({...IframeData[elem],title:params.title})}>
+                        onClick={(e)=>{
+                            localStorage.setItem('last_view', JSON.stringify({iframe_data:UrlIframe,
+          title:params.title,
+          kinopoisk_id:params.id,
+          type:params.type,
+          }))
+                            setUrlIframe({...IframeData[elem],title:params.title})}}>
                         {`${elem} (${IframeData[elem].translate||IframeData[elem].quality})`}
             </ListGroup.Item>
             })}

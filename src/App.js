@@ -1,15 +1,17 @@
 import {
     BrowserRouter as Router,
-    Route, Routes, NavLink, useParams, useNavigate, useHistory, Link
+    Route, Routes, NavLink, useParams, useNavigate, useHistory, Link,
+    Navigate
 } from "react-router-dom";
 import './App.css';
 import Posts from "./components/Posts/Posts";
 import Login from "./components/Login/Login";
+import Logout from "./components/Logout/Logout";
 import SimPage_ from "./components/simPage/simPage";
 import {Button, Nav, Navbar} from "react-bootstrap";
 import IframePlayer from "./components/IframePlayer/IframePlayer";
 import SearchBar from "./components/SearchBar/SearchBar.js";
-
+import {AvatarBar} from "./components/AvatarBar/AvatarBar.js";
 
 
 
@@ -43,7 +45,10 @@ const tdTypes =  [
 
 function App() {
 
+
+    
     const [Type,setType] = useState()
+    const [last_view, set_last_view] = useLocalStorage("last_view", localStorage.getItem('last_view')||undefined);
     const [cookie, setcookie] = useLocalStorage("cookie", localStorage.getItem('cookie')||undefined);
     return (
         <Router>
@@ -84,6 +89,12 @@ function App() {
                             )) : null}
 
 
+
+                        <AvatarBar
+                        cookie={cookie}   
+                        setcookie={setcookie}
+                        last_view={last_view}
+                        >   
                         <Nav.Link onClick={e=>{
                             if(e.target.href.toString().includes("/logout"))
                                 setcookie(undefined)
@@ -94,7 +105,10 @@ function App() {
                             {
                                 cookie ? "logout" : "login"
                             }
-                        </Nav.Link>
+                        </Nav.Link> 
+
+                        </AvatarBar>
+
                     </Nav>
                 </Navbar>
 
@@ -123,6 +137,11 @@ function App() {
                         path="/login"
                         exact="true"
                         element={<Login setcookie={setcookie}/>} />
+
+                        <Route
+                        path="/logout"
+                        exact="true"
+                        element={<Logout setcookie={setcookie}/>} />
                 </Routes>
             </div>
         </Router>

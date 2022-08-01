@@ -64,7 +64,7 @@ const SearchBar = () => {
 
   return (
         <div
-        style={{width:"80vh"}}>
+        style={{width:"65vh"}}>
         {!loc.pathname.includes("view") ?     <AsyncTypeahead
       ref={refInput}
       filterBy={filterBy}
