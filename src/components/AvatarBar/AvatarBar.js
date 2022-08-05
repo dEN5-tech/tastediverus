@@ -60,6 +60,7 @@ export const  AvatarBar = ({children,cookie,setcookie,last_view})=>{
             eventKey={1}
                 title={
                     <div className="pull-left">
+                    {last_view && ViewST ? <AlertNotify/> : null}
                         <Image className="thumbnail-image"
                             src={cookie?.cookie && data?.avatar_url||"https://tastedive.com/dist/images/td-cover.jpg"}
                             alt=""
@@ -67,7 +68,6 @@ export const  AvatarBar = ({children,cookie,setcookie,last_view})=>{
             width="32"
             height="32"
                         />
-                        {last_view && ViewST ? <AlertNotify/> : null}
                          {data?.nickname}
                     </div>
                 }

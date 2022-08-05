@@ -4,6 +4,9 @@ import {
     Navigate
 } from "react-router-dom";
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 import Posts from "./components/Posts/Posts";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
@@ -12,7 +15,7 @@ import {Button, Nav, Navbar} from "react-bootstrap";
 import IframePlayer from "./components/IframePlayer/IframePlayer";
 import SearchBar from "./components/SearchBar/SearchBar.js";
 import {AvatarBar} from "./components/AvatarBar/AvatarBar.js";
-
+import {Logo} from "./components/Logo/Logo.js";
 
 
 import useLocalStorage from "use-local-storage";
@@ -52,43 +55,26 @@ function App() {
     const [cookie, setcookie] = useLocalStorage("cookie", localStorage.getItem('cookie')||undefined);
     return (
         <Router>
+        <Container>
             <div className="App">
                 <Navbar style={{zIndex: "10000", padding: "0 5px"}}
                 sticky="top" >
-                    {/* "Link" in brand component since just redirect is needed */}
-                    <Container>
-          <Navbar.Brand href="/">
-            <img
-              alt=""
-              src="vectorpaint.png"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{' '}
-            TasteDiveRus
-          </Navbar.Brand>
-        </Container>
-<Form className="d-flex">
+
+          <Logo/>
             <SearchBar/>
-          </Form>
+
                     <Nav className="ml-auto">
-                        
-
-                        <Nav.Link as={NavLink} to="/" exact>
-                            Home
-                        </Nav.Link>
-
-                            {cookie ? tdTypes.map((key,) => (
-                                <Nav.Link
+                            {
+            cookie ? tdTypes.map((key,index ) => (
+                <Nav.Link
 
                                 onClick={e=> {
                                     setType(e.target.href.split(/.*:/).join(""))
                                 }} key={key.tdType} as={Link} to={`/posts:${key.tdType}`}>
                                     {key.title}
                                 </Nav.Link>
-                            )) : null}
-
-
+            )) : null
+        }
 
                         <AvatarBar
                         cookie={cookie}   
@@ -111,6 +97,7 @@ function App() {
 
                     </Nav>
                 </Navbar>
+
 
                 <Routes>
                         <Route
@@ -144,6 +131,7 @@ function App() {
                         element={<Logout setcookie={setcookie}/>} />
                 </Routes>
             </div>
+            </Container>
         </Router>
     );
 }

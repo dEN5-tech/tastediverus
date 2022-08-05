@@ -14,7 +14,8 @@ import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
 import {useLocation} from 'react-router-dom';
 import Placeholder from 'react-bootstrap/Placeholder';
-
+import {Container
+} from "react-bootstrap";
 
 
 
@@ -70,6 +71,24 @@ const SimPage = ({ cookie, type }) => {
 
     return (
         <div id="scrollableDiv">
+        {status === "loading" ?
+
+        <Container style={{
+  position: 'fixed',
+  top: 0,
+  bottom: 0,
+  left: 0, 
+  right: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%'
+}
+}>
+        <Spinner animation="border" />
+        </Container>
+
+        : null}
                 {status === "success" && (
                     <InfiniteScroll key={Math.random().toString().split("0.").join("")}
                         dataLength={data?.pages.length * 14}

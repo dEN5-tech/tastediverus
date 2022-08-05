@@ -1,5 +1,5 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "./index.css"
 import axios from "axios";
 import
 {
@@ -50,7 +50,7 @@ import
 from "react-bootstrap";
 import Button from 'react-bootstrap-button-loader';
 import Iplayer from "../IPLayer/Iplayer";
-import invert from 'invert-color';
+
 import
 {
     useNavigate
@@ -257,37 +257,17 @@ const ElemCard = (
     }
 
     return (
-        <Card 
-        className="d-flex vw-10 vh-10"
-    bg={"dark"}
 
-    onMouseEnter={() => {
-                setOpen(!open)
-        }}
-    onMouseLeave={() => setOpen(!open)}
-    >
-      <Card.Img
-      style={{webkitFilter: "blur(1px)",
-  mozFilter: "blur(1px)",
-  oFilter: "blur(1px)",
-  msFilter: "blur(1px)",
-  filter: "blur(1px)"}}
-      width="75"
-      height="300"
+        <figure class="card card-with-hover">
 
-      srcSet={srcset}
-      alt="Card image"
-      />
-      <Card.ImgOverlay
-      >
-            <Collapse in={open} dimension="height">
-            <div>
-            <Card.Title><a
+    <img
 
-                          style={{fontFamily: "Roboto",
-                              color:"black",
-                                  textShadow : "2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff"}
-                              }>{title}</a></Card.Title>
+    srcSet={srcset}
+    alt="img24"
+    />
+    <figcaption class="card-caption">
+      <div class="card-caption-content">
+        <h2>{title}</h2>
              <ListGroup  style={{
     display: "block",
     maxWidth: "90vh",
@@ -314,7 +294,7 @@ const ElemCard = (
     {kinopoisk_id  ?
                  (
                      <Dropdown.Item eventKey="2"
-                     action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
+                     action onClick={openPlayer}>
                          <PlayCircleFill/> open in player
                      </Dropdown.Item>
                  ) : null}
@@ -322,43 +302,10 @@ const ElemCard = (
     </Dropdown>
 
     </ListGroup> 
+      </div>
+    </figcaption>
+  </figure>
 
-    </div>
-
-      </Collapse>
-      </Card.ImgOverlay>
-    </Card>
-
-    //     <Card /*style={{backgroundColor: enum_color[type]}}*/>
-    //     <Card.Img variant="top" srcSet={srcset} />
-    //     <Card.Body>
-    //         <Card.Title>{title}</Card.Title>
-    //         <ListGroup>
-    //             <ListGroup.Item action onClick={SetLike}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-    //                 <Heart/> {likes}
-    //             </ListGroup.Item>
-
-    //             <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-    //                 <BarChartFill/> {rating}
-    //             </ListGroup.Item>
-
-    //             <ListGroup.Item  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-    //                 <Calendar3/> {year}
-    //             </ListGroup.Item>
-    //             <ListGroup.Item
-    //             /*style={{backgroundColor: invert(enum_color[type])}}*/
-    //              action onClick={openSim}>
-    //                 <Link/> similar
-    //             </ListGroup.Item>
-    //             {kinopoisk_id  ?
-    //                 (
-    //                     <ListGroup.Item action onClick={openPlayer}  /*style={{backgroundColor: invert(enum_color[type])}}*/>
-    //                         open in player
-    //                     </ListGroup.Item>
-    //                 ) : null}
-    //         </ListGroup>
-    //     </Card.Body>
-    // </Card>
     );
 };
 

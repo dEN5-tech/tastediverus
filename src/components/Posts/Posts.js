@@ -29,6 +29,9 @@ import
 from "react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
+import {Preloader} from "../Preloader/Preloader.js"
+
+
 import
 {
     QueryClient,
@@ -41,7 +44,8 @@ import LazyLoad from 'react-lazyload';
 import Spinner from 'react-bootstrap/Spinner';
 import {
     Card,
-    Tooltip
+    Tooltip,
+    Container
 } from "react-bootstrap";
 import Placeholder from 'react-bootstrap/Placeholder';
 
@@ -70,6 +74,7 @@ const Posts = (
 
 /*  const [dt,setdt] = useState([])*/
   const history = useParams()
+  const [ploader,setploader] = useState(null)
 /*  const queryClient = useQueryClient("images")
   queryClient.setQueryData('images', [])
   useEffect(() => {
@@ -119,6 +124,7 @@ return(
 
     const
     {
+      isLoading,
         data,
         error,
         status,
@@ -161,8 +167,29 @@ return(
 
 
 
+
+
+
     return (
         <div id="scrollableDiv">
+        {status === "loading" ?
+
+        <Container style={{
+  position: 'fixed',
+  top: 0,
+  bottom: 0,
+  left: 0, 
+  right: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%'
+}
+}>
+        <Spinner animation="border" />
+        </Container>
+
+        : null}
         {status === "success" && (
                     <InfiniteScroll key={Math.random().toString().split("0.").join("")}
                         dataLength={data?.pages.length * 20}

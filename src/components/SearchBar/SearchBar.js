@@ -13,6 +13,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import {LikeBtn} from "../ActionsBtns/LikeBtn.js"
 
 
+import Container from 'react-bootstrap/Container';
+
 
 
 const axios = require("axios");
@@ -75,7 +77,7 @@ const SearchBar = () => {
       searchText={"Идет поиск..."}
       labelKey={"title"}
       onSearch={(e)=>handleSearch(e,loc.pathname)}
-
+      positionFixed={true}
       onChange={(e)=>{
           if(!loc.pathname.includes("view"))
               {
@@ -87,9 +89,12 @@ const SearchBar = () => {
       align={"justify"}
       delay={4}
       placeholder="Найти контент..."
+      style={{overflow:"visible"}}
+      useCache={false}
+      
       renderMenuItemChildren={(option) => (
         <>
-        <div>
+        <Container>
           <Image
             alt={option.title}
             src={GetAvatar(option.data.split("--")[1])}
@@ -100,8 +105,11 @@ const SearchBar = () => {
               width: '24px',
             }}
           />
-          <span>{option.title}</span> {option.rating ? <Badge bg="success">{option.rating}</Badge> : null} 
-        </div>
+          <span
+          style={{whiteSpace: "initial"}}
+          >{option.title}</span> {option.rating ? <Badge bg="success">{option.rating}</Badge> : null} 
+        <hr/></Container>
+        
         </>
       )}
     /> : null} 

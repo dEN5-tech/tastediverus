@@ -5,11 +5,10 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Image from 'react-bootstrap/Image'
 import axios from "axios";
 
-
+import Container from 'react-bootstrap/Container';
 
 import { useBeforeunload } from 'react-beforeunload';
 import IframeResizer from 'iframe-resizer-react'
-import {openAlert} from "simple-react-alert"
 import useLocalStorage from "use-local-storage";
 
 
@@ -52,7 +51,7 @@ const IframePlayer = () => {
 
     return (
 
-        <div>
+        <Container>
         {
             !UrlIframe ? <div style={{
             position: 'absolute',
@@ -69,7 +68,7 @@ const IframePlayer = () => {
         
         {
             IframeData !=={} ?
-            <ListGroup horizontal>
+            <Container><ListGroup horizontal>
             {Object.keys(IframeData).map((elem)=>{
                 if(Object.keys(IframeData[elem])[0])
                 return <ListGroup.Item
@@ -85,7 +84,7 @@ const IframePlayer = () => {
                         {`${elem} (${IframeData[elem].translate||IframeData[elem].quality})`}
             </ListGroup.Item>
             })}
-            </ListGroup> : null
+            </ListGroup></Container> : null
         }
            {params.type == 's' ? 
             <IframeResizer  onClick={(e)=>{
@@ -95,28 +94,31 @@ const IframePlayer = () => {
             style={{display: "block",
             background: "#000",
             border: "none",
-            height: "90vh",
-            width: "98vw"}
+            height: "95vh",
+            width: "95vw"}
             }
             frameborder="0">
             </IframeResizer>
             : null }
-            {["h","m"].includes(params.type) ? 
+            
+            {["h","m"].includes(params.type) ?
+            <Container>
             <IframeResizer
             onClick={(e)=>{
-            e.stopPropogation()
-        }}
-            style={{display: "block",
+            e.stopPropogation()}}
+
+            style={{
             background: "#000",
             border: "none",
-            height: "90vh",
-            width: "98vw"}
+            height: "80vh",
+            width: "80vw"}
             }
+
             allow="fullscreen"
             src={UrlIframe.iframe}
-            />
-            : null } 
-        </div>
+            /></Container>
+            : null }  
+        </Container>
             
     );
 };
