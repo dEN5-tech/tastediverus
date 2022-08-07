@@ -1,143 +1,140 @@
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import React from "react";
+import useLocalStorage from "use-local-storage";
 import {
     BrowserRouter as Router,
-    Route, Routes, NavLink, useParams, useNavigate, useHistory, Link,
-    Navigate
+    Route,
+    Routes,
+    NavLink,
+    useParams,
+    useNavigate,
+    useHistory,
+    Link,
+    Navigate,
 } from "react-router-dom";
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { NavBar } from "./components/Navbar/Navbar.js";
 
-import Posts from "./components/Posts/Posts";
-import Login from "./components/Login/Login";
-import Logout from "./components/Logout/Logout";
-import SimPage_ from "./components/simPage/simPage";
-import {Button, Nav, Navbar} from "react-bootstrap";
-import IframePlayer from "./components/IframePlayer/IframePlayer";
-import SearchBar from "./components/SearchBar/SearchBar.js";
-import {AvatarBar} from "./components/AvatarBar/AvatarBar.js";
-import {Logo} from "./components/Logo/Logo.js";
+import { Button, Nav, Navbar } from "react-bootstrap";
 
+import { useState } from "react";
 
-import useLocalStorage from "use-local-storage";
-import {useState} from "react";
-import Container from 'react-bootstrap/Container';
+const IframePlayer = React.lazy(() =>
+    import("./components/IframePlayer/IframePlayer")
+);
+const Login = React.lazy(() => import("./components/Login/Login"));
+const Logout = React.lazy(() => import("./components/Logout/Logout"));
+const Posts = React.lazy(() => import("./components/Posts/Posts"));
+const SearchBar = React.lazy(() =>
+    import("./components/SearchBar/SearchBar.js")
+);
+const SimPage_ = React.lazy(() => import("./components/simPage/simPage"));
 
-import Form from 'react-bootstrap/Form';
-
-
+const tdTypes = [
+    { tdType: "a", title: "Авторы" },
+    { tdType: "b", title: "Книги" },
+    { tdType: "m", title: "Фильмы" },
+    { tdType: "s", title: "Артисты" },
+    { tdType: "p", title: "Подкасты" },
+    { tdType: "h", title: "ТВ-шоу" },
+    { tdType: "g", title: "Игры" },
+];
 
 function Home() {
-
-
-    return (<div>Home page</div>);
+    return <div>Home page</div>;
 }
 
-
-
-const tdTypes =  [
-    {tdType:'a',title:"Авторы"},
-    {tdType:'b',title:"Книги"},
-    {tdType:'m',title:"Фильмы"},
-    {tdType:'s',title:"Артисты"},
-    {tdType:'p',title:"Подкасты"},
-    {tdType:'h',title:"ТВ-шоу"},
-    {tdType:'g',title:"Игры"}
-]
-
-
-
 function App() {
-
-
-    
-    const [Type,setType] = useState()
-    const [last_view, set_last_view] = useLocalStorage("last_view", localStorage.getItem('last_view')||undefined);
-    const [cookie, setcookie] = useLocalStorage("cookie", localStorage.getItem('cookie')||undefined);
+    const [Type, setType] = useState();
+    const [last_view, set_last_view] = useLocalStorage(
+        "last_view",
+        localStorage.getItem("last_view") || undefined
+    );
+    const [cookie, setcookie] = useLocalStorage(
+        "cookie",
+        localStorage.getItem("cookie") || undefined
+    );
     return (
         <Router>
-        <Container>
-            <div className="App">
-                <Navbar style={{zIndex: "10000", padding: "0 5px"}}
-                sticky="top" >
-
-          <Logo/>
-            <SearchBar/>
-
-                    <Nav className="ml-auto">
-                            {
-            cookie ? tdTypes.map((key,index ) => (
-                <Nav.Link
-
-                                onClick={e=> {
-                                    setType(e.target.href.split(/.*:/).join(""))
-                                }} key={key.tdType} as={Link} to={`/posts:${key.tdType}`}>
-                                    {key.title}
-                                </Nav.Link>
-            )) : null
-        }
-
-                        <AvatarBar
-                        cookie={cookie}   
+            <Container>
+                <div className="App">
+                    <NavBar
+                        cookie={cookie}
                         setcookie={setcookie}
                         last_view={last_view}
-                        >   
-                        <Nav.Link onClick={e=>{
-                            if(e.target.href.toString().includes("/logout"))
-                                setcookie(undefined)
-                        }}
-                            as={NavLink} to={
-                            cookie ? "/logout" : "/login"
-                            }>
-                            {
-                                cookie ? "logout" : "login"
+                        tdTypes={tdTypes}
+                        setType={setType}
+                        SearchBar={SearchBar}
+                    />
+
+                    <Routes>
+                        <Route
+                            path="/"
+                            exact="true"
+                            element={
+                                <React.Suspense>
+                                    <Home />
+                                </React.Suspense>
                             }
-                        </Nav.Link> 
-
-                        </AvatarBar>
-
-                    </Nav>
-                </Navbar>
-
-
-                <Routes>
-                        <Route
-                        path="/"
-                        exact="true"
-                        element={<Home/>} />
-                        
-                        <Route
-                        path="/posts:type"
-                        exact="true"
-                        element={<Posts type={Type} cookie={cookie}/>} />
+                        />
 
                         <Route
-                        path="/view/:type/:id/:title"
-                        exact="true"
-                        element={<IframePlayer/>} />
+                            path="/posts:type"
+                            exact="true"
+                            element={
+                                <React.Suspense>
+                                    <Posts type={Type} cookie={cookie} />
+                                </React.Suspense>
+                            }
+                        />
 
                         <Route
-                        path="/similar/:href_id/:id"
-                        exact="true"
-                        element={<SimPage_ type={Type} cookie={cookie}/>} />
+                            path="/view/:type/:id/:title"
+                            exact="true"
+                            element={
+                                <React.Suspense>
+                                    <IframePlayer />
+                                </React.Suspense>
+                            }
+                        />
 
                         <Route
-                        path="/login"
-                        exact="true"
-                        element={<Login setcookie={setcookie}/>} />
+                            path="/similar/:href_id/:id"
+                            exact="true"
+                            element={
+                                <React.Suspense>
+                                    <SimPage_ type={Type} cookie={cookie} />
+                                </React.Suspense>
+                            }
+                        />
 
                         <Route
-                        path="/logout"
-                        exact="true"
-                        element={<Logout setcookie={setcookie}/>} />
-                </Routes>
-            </div>
+                            path="/login"
+                            exact="true"
+                            element={
+                                <React.Suspense>
+                                    <Login setcookie={setcookie} />
+                                </React.Suspense>
+                            }
+                        />
+
+                        <Route
+                            path="/logout"
+                            exact="true"
+                            element={
+                                <React.Suspense>
+                                    <Logout setcookie={setcookie} />
+                                </React.Suspense>
+                            }
+                        />
+                    </Routes>
+                </div>
             </Container>
         </Router>
     );
 }
-
-
-
-
 
 export default App;

@@ -14,20 +14,89 @@
 }
 
 
- @media screen and (max-width: 600px) {
+
+
+ @media screen and (max-width: 800px) {
    .ml-auto.navbar-nav > a {
        display: none;
-       background-color: rgba(0,0,0,0.8);
     }
+}
+
+
+ @media screen and (min-width: 800px) {
+  div.ml-auto.navbar-nav > div > div > a:nth-child(1) > div {
+       display: none;
+    }
+
+}
+
+/* Basic nav Unknowndown */
+#basic-nav-dropdown{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ transform:translatex(0px) translatey(-6px);
+ height:46px;
+}
+
+
+#basic-nav-dropdown .pull-left{
+ display:flex;
+}
+
+
+#async-example .dropdown-item .container{
+ padding-top:0px !important;
+ transform:translatex(0px) translatey(0px);
+ flex-direction:row;
+}
+
+/* Rounded */
+#async-example .dropdown-item .rounded{
+ min-height:206px;
+ transform:translatex(0px) translatey(0px);
+}
+
+/* Rounded */
+#root .container .App .navbar div .rbt #async-example .dropdown-item .container .rounded{
+ width:41% !important;
+}
+
+/* Badge */
+#async-example .dropdown-item .badge{
+ min-height:25px;
+ height:21px;
+ max-height:25px;
+}
+
+
 
 /*#scrollableDiv > div > div > div > div > figure {
       width: 50vw;
     height: calc(100vh - 50vh);
   }*/
 
- }
+
+.navbar .navbar-nav .nav-item{
+ padding-top:10px;
+}
 
 
+
+#root .App nav{
+ display:inline-flex;
+ justify-content:space-between;
+ z-index:10000;
+ position:fixed;
+ left:0px;
+ border-top-left-radius:15px;
+ border-top-right-radius:15px;
+ border-bottom-left-radius:15px;
+ border-bottom-right-radius:15px;
+ padding-left:10px !important;
+ padding-right:6px !important;
+ visibility:visible;
+}
 
 
 

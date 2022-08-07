@@ -8,7 +8,7 @@ export const Logo = ()=>{
 			  <Navbar.Brand href="/">
             <img
               alt=""
-              src="vectorpaint.png"
+              src="https://tastediverus.herokuapp.com/vectorpaint.png"
               width="30"
               height="30"
               className="d-inline-block align-top"

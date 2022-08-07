@@ -1,13 +1,3 @@
-import React from 'react';
-import "./index.css"
-import axios from "axios";
-import
-{
-    useMemo,
-    useState,
-    useEffect
-}
-from "react";
 import
 {
     Card,
@@ -16,12 +6,9 @@ import
 from "react-bootstrap";
 import
 {
-    ListGroup
+    Col
 }
 from "react-bootstrap";
-
-
-
 import
 {
     Heart,
@@ -35,12 +22,7 @@ import
 from 'react-bootstrap-icons';
 import
 {
-    Col
-}
-from "react-bootstrap";
-import
-{
-    Row
+    ListGroup
 }
 from "react-bootstrap";
 import
@@ -48,19 +30,39 @@ import
     OverlayTrigger
 }
 from "react-bootstrap";
-import Button from 'react-bootstrap-button-loader';
-import Iplayer from "../IPLayer/Iplayer";
-
+import
+{
+    Row,
+    Container
+}
+from "react-bootstrap";
+import
+{
+    useMemo,
+    useState,
+    useEffect
+}
+from "react";
 import
 {
     useNavigate
 }
 from 'react-router-dom';
-import jp from 'jsonpath';
+import "./index.css"
+import Button from 'react-bootstrap-button-loader';
 import Collapse from 'react-bootstrap/Collapse';
-import Fade from 'react-bootstrap/Fade';
-import Placeholder from 'react-bootstrap/Placeholder';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Fade from 'react-bootstrap/Fade';
+import Iplayer from "../IPLayer/Iplayer";
+import LazyLoad from 'react-lazyload';
+import Placeholder from 'react-bootstrap/Placeholder';
+import React from 'react';
+import axios from "axios";
+import jp from 'jsonpath';
+
+
+
+
 
 
 
@@ -259,16 +261,18 @@ const ElemCard = (
     return (
 
         <figure class="card card-with-hover">
+        <img
+        srcSet={srcset}
+        alt="img24"
+        />
 
-    <img
-
-    srcSet={srcset}
-    alt="img24"
-    />
+    
     <figcaption class="card-caption">
       <div class="card-caption-content">
-        <h2>{title}</h2>
-             <ListGroup  style={{
+                                                      <LazyLoad
+                                        placeholder={<Placeholder as="p" animation="glow"> <Placeholder xs={12} /> </Placeholder>}
+                                        >
+<ListGroup  style={{
     display: "block",
     maxWidth: "90vh",
     marginLeft: "auto",
@@ -301,7 +305,20 @@ const ElemCard = (
       </Dropdown.Menu>
     </Dropdown>
 
-    </ListGroup> 
+    </ListGroup>
+                                            </LazyLoad>
+        <Container style={{
+  top: 10,
+  bottom: 0,
+  left: 0, 
+  right: 0,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%'
+}
+}>{title}</Container>
+              
       </div>
     </figcaption>
   </figure>

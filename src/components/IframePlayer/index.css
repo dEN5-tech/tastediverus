@@ -1,0 +1,14 @@
+/* Container */
+#root .container .App > .container{
+ padding-top:60px;
+}
+
+/* List group item */
+#root .App .list-group-item:first-child{
+ border-top-left-radius:50px;
+}
+
+/* List group item */
+#root .App .list-group-item:last-child{
+ border-top-right-radius:50px;
+}

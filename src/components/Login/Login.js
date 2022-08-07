@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 
 import { Label, Input } from '@rebass/forms'
+import { Flex, Box } from 'reflexbox'
 import styled from 'styled-components';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Button from 'react-bootstrap-button-loader';
 import {ExclamationDiamondFill} from "react-bootstrap-icons";
 import Container from 'react-bootstrap/Container';
+import "./index.css";
+
 
 const AgreeBtn = styled.button`
   color: #e90707;
@@ -44,19 +47,23 @@ const Login = ({setcookie}) => {
 
     return (
         <Container>
-                <Label htmlFor='email'>Email</Label>
-                <Input  onChange={(e)=>setEmail(e.target.value)}
+                <Label color='white' htmlFor='email'>Email</Label>
+                <Input  color='white'
+                 bg='black'
+                 variant='outline'
+                onChange={(e)=>setEmail(e.target.value)}
                     id='email'
                     name='email'
                     type='email'
-                    placeholder='jane@example.com'
                 />
-                <Label htmlFor='password'>Password</Label>
-                <Input onChange={(e)=>setPass(e.target.value)}
+                <Label color='white' htmlFor='password'>Password</Label>
+                <Input color='white'
+                 bg='black'
+                 variant='outline'
+                onChange={(e)=>setPass(e.target.value)}
                     id='password'
                     name='password'
                     type='password'
-                    placeholder='password'
                 />
             <Button onClick={(e_)=>{
                 setVariant("primary")
@@ -66,6 +73,7 @@ const Login = ({setcookie}) => {
                 setShow(false)
             }}
                 variant={variant} icon={warn}   loading={!show} disabled={!show}>Login</Button>
+
         </Container>
     );
 };
