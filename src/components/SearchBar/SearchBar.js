@@ -10,6 +10,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { LikeBtn } from "../ActionsBtns/LikeBtn.js";
 
 import Container from "react-bootstrap/Container";
+import useOnClickOutside from 'use-onclickoutside'
+import {  Input } from '@rebass/forms'
+
 
 const axios = require("axios");
 
@@ -19,11 +22,16 @@ export default function SearchBar() {
   const params = useParams();
   const navigate = useNavigate();
   const loc = useLocation();
-  const refInput = useRef();
 
   const [isLoading, setIsLoading] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState([]);
+  const ref = React.useRef(null)
+  const [ValInput,setValInput] = useState("")
+  useOnClickOutside(ref, (e)=>{
+    setIsOpen(false)
+    setValInput("")
+  })
 
   useEffect(() => {
     if (loc.hash.includes("#search")) {
@@ -58,7 +66,6 @@ export default function SearchBar() {
     <div style={{ width: "65vh" }}>
       {!loc.pathname.includes("view") ? (
         <AsyncTypeahead
-          ref={refInput}
           filterBy={filterBy}
           id="async-example"
           open={IsOpen}
@@ -79,9 +86,20 @@ export default function SearchBar() {
           placeholder="Найти..."
           style={{ overflow: "visible" }}
           useCache={false}
+renderInput={({ inputRef, referenceElementRef, ...inputProps }) => (
+    <Input
+      onChange={(e)=>setValInput(e.target.value)}
+      value={ValInput}
+      {...inputProps}
+      ref={(input) => {
+        inputRef(input);
+        referenceElementRef(input);
+      }}/>)}
           renderMenuItemChildren={(option) => (
             <>
-              <Container id={"outerRenderContainer"}>
+              <Container
+               ref={ref}
+              id={"outerRenderContainer"}>
                 <div id={"innerDivH"}>
                   <div
                     id={"poster"}

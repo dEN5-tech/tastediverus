@@ -48,29 +48,11 @@ const IframePlayer = () => {
     }, []);
 
     return (
-        <Container>
-            {!UrlIframe ? (
-                <div
-                    style={{
-                        position: "absolute",
-                        top: "50vh",
-                        left: "50vh",
-                        right: "50vh",
-                        bottom: "50vh",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <h1 style={{ color: "white" }}>Выберите плеер</h1>
-                </div>
-            ) : null}
-
+        <Container id={"main-container"}>
             {IframeData !== {} ? (
                 <Container>
-                    <ListGroup 
-                    id={"iframes-byId"}
-                    horizontal>
-                        {Object.keys(IframeData).map((elem,index) => {
+                    <ListGroup id={"iframes-byId"} horizontal>
+                        {Object.keys(IframeData).map((elem, index) => {
                             if (Object.keys(IframeData[elem])[0])
                                 return (
                                     <ListGroup.Item
@@ -109,32 +91,29 @@ const IframePlayer = () => {
                         e.stopPropogation();
                     }}
                     src={`https://music.yandex.ru/iframe/#artist/${IframeData.id}`}
-                    style={{
-                        display: "block",
-                        background: "#000",
-                        border: "none",
-                        height: "95vh",
-                        width: "95vw",
-                    }}
                     frameborder="0"
                 ></IframeResizer>
             ) : null}
 
             {["h", "m"].includes(params.type) ? (
-                <Container>
+                <Container
+                    id={"iframe-container"}
+                >
                     <IframeResizer
                         onClick={(e) => {
                             e.stopPropogation();
                         }}
-                        style={{
-                            background: "#000",
-                            border: "none",
-                            height: "80vh",
-                            width: "80vw",
-                        }}
+                        id={"iframe"}
                         allow="fullscreen"
                         src={UrlIframe.iframe}
                     />
+            {!UrlIframe ? (
+                <div
+                id={"heading-div"}
+                >
+                    <h1 style={{ color: "white" }}>Выберите плеер</h1>
+                </div>
+            ) : null}
                 </Container>
             ) : null}
         </Container>

@@ -54,10 +54,11 @@ export default function AvatarBar({ children, cookie, setcookie, last_view }) {
                     {data?.nickname}
                 </div>
             }
-            id="basic-nav-dropdown"
+            id="dropdownMenuAvatar"
         >
             {last_view ? (
                 <Dropdown.Item
+                    id={"lastViewDropdownItem"}
                     onClick={(e) => {
                         setViewST(false);
                         nav(
@@ -75,7 +76,9 @@ export default function AvatarBar({ children, cookie, setcookie, last_view }) {
                 id={`nav-link-${index}`}
                 >{e}</Dropdown.Item>
             ))}
-            <Dropdown.Item>
+            <Dropdown.Item
+            id={cookie ? "logoutDropdownItem" : "loginDropdownItem"}
+            >
                 <Nav.Link
                     onClick={(e) => {
                         if (e.target.href.toString().includes("/logout"))
