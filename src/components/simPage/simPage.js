@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useMemo, useState } from "react";
 import axios from "axios";
 import { Tiles } from "@rebass/layout";
-import ElemCard from "../ElemCard/ElemCard";
 import { useParams } from "react-router-dom";
 import { QueryClientProvider, useInfiniteQuery } from "react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -17,7 +16,14 @@ import Placeholder from 'react-bootstrap/Placeholder';
 import {Container
 } from "react-bootstrap";
 
+import importedComponent from "react-imported-component";
 
+
+
+const ElemCard = importedComponent(() => import("../ElemCard/ElemCard"), {
+});
+
+ElemCard.preload(); 
 
 
 const queryClient = new QueryClient()
@@ -52,6 +58,7 @@ const SimPage = ({ cookie, type }) => {
                     	setFetched(false)
                     };
                     if (lastPage) {
+                        console.log(parseInt(lastPage.pop()?.id))
                         return parseInt(lastPage.pop()?.id)
                     }
                 }
@@ -59,15 +66,6 @@ const SimPage = ({ cookie, type }) => {
             }
     );
 
-
-
-
-	useEffect(()=>{
-		if(status === "success"){
-			setFetched(true)
-		}
-
-	},[status])
 
     return (
         <div id="scrollableDiv">
@@ -106,7 +104,6 @@ const SimPage = ({ cookie, type }) => {
                                         <LazyLoad
                                         height={"auto"}
                                         key={item}
-                                        offset={[-200, 0]}
                                         placeholder={<Placeholder as="p" animation="glow"> <Placeholder xs={12} /> </Placeholder>}
                                         >
                                         <ElemCard

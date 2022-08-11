@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
-export const OverAvatars = ({ cookie }) => {
+export default function OverAvatars  ({ cookie })  {
     const [AvatarData, setAvatarData] = useState([]);
     const [Status, setStatus] = useState(false);
     useEffect(() => {

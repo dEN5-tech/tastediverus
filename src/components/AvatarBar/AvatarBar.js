@@ -15,22 +15,7 @@ import Image from "react-bootstrap/Image";
 
 import { AlertNotify } from "./AlertNotify.js";
 
-function Avatar({ children }) {
-    console.log(children);
-    return (
-        <div>
-            {children}
-            <img
-                src="https://img.tastedive.com/a/436542-1659099699-5be5b5e.jpg"
-                alt="User avatar"
-                width="32"
-                height="32"
-            />
-        </div>
-    );
-}
-
-export const AvatarBar = ({ children, cookie, setcookie, last_view }) => {
+export default function AvatarBar({ children, cookie, setcookie, last_view }) {
     const nav = useNavigate();
     const [data, setData] = useState({});
     const [ViewST, setViewST] = useState(false);
@@ -47,9 +32,6 @@ export const AvatarBar = ({ children, cookie, setcookie, last_view }) => {
             setData({});
         }
     }, [cookie]);
-
-
-
 
     return (
         <NavDropdown
@@ -88,11 +70,23 @@ export const AvatarBar = ({ children, cookie, setcookie, last_view }) => {
                     {last_view && ViewST ? <AlertNotify /> : null}
                 </Dropdown.Item>
             ) : null}
-            {children.length > 0 ? (
-                children.map((e) => <Dropdown.Item>{e}</Dropdown.Item>)
-            ) : (
-                <Dropdown.Item>{children}</Dropdown.Item>
-            )}
+            {children.map((e,index) => (
+                <Dropdown.Item
+                id={`nav-link-${index}`}
+                >{e}</Dropdown.Item>
+            ))}
+            <Dropdown.Item>
+                <Nav.Link
+                    onClick={(e) => {
+                        if (e.target.href.toString().includes("/logout"))
+                            setcookie(undefined);
+                    }}
+                    as={NavLink}
+                    to={cookie ? "/logout" : "/login"}
+                >
+                    {cookie ? "logout" : "login"}
+                </Nav.Link>
+            </Dropdown.Item>
         </NavDropdown>
     );
-};
+}

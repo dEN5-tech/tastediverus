@@ -26,6 +26,7 @@
     "http-proxy-middleware": "^2.0.6",
     "iframe-resizer-react": "^1.1.0",
     "jsonpath": "^1.1.1",
+    "memoize-one": "^6.0.0",
     "node-html-parser": "^5.3.3",
     "nodemon": "^2.0.15",
     "os-browserify": "^0.3.0",
@@ -39,10 +40,12 @@
     "react-dom": "^18.0.0",
     "react-fetch-streams": "^1.1.2",
     "react-iframe": "^1.8.0",
+    "react-imported-component": "^6.5.3",
     "react-infinite-scroll-component": "^6.1.0",
     "react-infinite-scroll-hook": "^4.0.3",
     "react-intersection-observer": "^9.4.0",
     "react-lazyload": "^3.2.0",
+    "react-prerendered-component": "^1.2.4",
     "react-query": "^3.39.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
@@ -80,6 +83,16 @@
     ]
   },
   "devDependencies": {
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
     "prettier": "^2.7.1"
   }
 }

@@ -15,22 +15,17 @@ import {
     Link,
     Navigate,
 } from "react-router-dom";
-
-import { NavBar } from "./components/Navbar/Navbar.js";
-
-import { Button, Nav, Navbar } from "react-bootstrap";
-
+import { Button, Nav } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useState } from "react";
 
+const NavBar = React.lazy(() => import("./components/Navbar/Navbar"));
 const IframePlayer = React.lazy(() =>
     import("./components/IframePlayer/IframePlayer")
 );
 const Login = React.lazy(() => import("./components/Login/Login"));
 const Logout = React.lazy(() => import("./components/Logout/Logout"));
 const Posts = React.lazy(() => import("./components/Posts/Posts"));
-const SearchBar = React.lazy(() =>
-    import("./components/SearchBar/SearchBar.js")
-);
 const SimPage_ = React.lazy(() => import("./components/simPage/simPage"));
 
 const tdTypes = [
@@ -61,21 +56,34 @@ function App() {
         <Router>
             <Container>
                 <div className="App">
-                    <NavBar
-                        cookie={cookie}
-                        setcookie={setcookie}
-                        last_view={last_view}
-                        tdTypes={tdTypes}
-                        setType={setType}
-                        SearchBar={SearchBar}
-                    />
+                    <React.Suspense
+                        fallback={
+                            <Container>
+                                <Spinner animation="border" />
+                            </Container>
+                        }
+                    >
+                        <NavBar
+                            cookie={cookie}
+                            setcookie={setcookie}
+                            last_view={last_view}
+                            tdTypes={tdTypes}
+                            setType={setType}
+                        />
+                    </React.Suspense>
 
                     <Routes>
                         <Route
                             path="/"
                             exact="true"
                             element={
-                                <React.Suspense>
+                                <React.Suspense
+                                    fallback={
+                                        <Container>
+                                            <Spinner animation="border" />
+                                        </Container>
+                                    }
+                                >
                                     <Home />
                                 </React.Suspense>
                             }
@@ -85,7 +93,13 @@ function App() {
                             path="/posts:type"
                             exact="true"
                             element={
-                                <React.Suspense>
+                                <React.Suspense
+                                    fallback={
+                                        <Container>
+                                            <Spinner animation="border" />
+                                        </Container>
+                                    }
+                                >
                                     <Posts type={Type} cookie={cookie} />
                                 </React.Suspense>
                             }
@@ -95,7 +109,13 @@ function App() {
                             path="/view/:type/:id/:title"
                             exact="true"
                             element={
-                                <React.Suspense>
+                                <React.Suspense
+                                    fallback={
+                                        <Container>
+                                            <Spinner animation="border" />
+                                        </Container>
+                                    }
+                                >
                                     <IframePlayer />
                                 </React.Suspense>
                             }
@@ -105,7 +125,13 @@ function App() {
                             path="/similar/:href_id/:id"
                             exact="true"
                             element={
-                                <React.Suspense>
+                                <React.Suspense
+                                    fallback={
+                                        <Container>
+                                            <Spinner animation="border" />
+                                        </Container>
+                                    }
+                                >
                                     <SimPage_ type={Type} cookie={cookie} />
                                 </React.Suspense>
                             }
@@ -115,7 +141,13 @@ function App() {
                             path="/login"
                             exact="true"
                             element={
-                                <React.Suspense>
+                                <React.Suspense
+                                    fallback={
+                                        <Container>
+                                            <Spinner animation="border" />
+                                        </Container>
+                                    }
+                                >
                                     <Login setcookie={setcookie} />
                                 </React.Suspense>
                             }
@@ -125,7 +157,13 @@ function App() {
                             path="/logout"
                             exact="true"
                             element={
-                                <React.Suspense>
+                                <React.Suspense
+                                    fallback={
+                                        <Container>
+                                            <Spinner animation="border" />
+                                        </Container>
+                                    }
+                                >
                                     <Logout setcookie={setcookie} />
                                 </React.Suspense>
                             }

@@ -1,3 +1,45 @@
 #async-example{
 	overflow:visible;
 }
+
+
+/* Span Tag */
+#innerDivH span{
+ text-align:center;
+ display:flex !important;
+ justify-content:center;
+ align-items:center;
+ flex-wrap:wrap;
+}
+
+/* Badge */
+#innerDivH .badge{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ position:fixed;
+}
+
+#type{
+ position:absolute !important;
+ top:43%;
+}
+
+
+/* Outer render container */
+#outerRenderContainer{
+ flex:0 0 auto;
+ align-self:flex-start;
+ flex-direction:column;
+}
+
+/* Inner divh */
+#innerDivH{
+ display:inline-flex;
+}
+
+#innerDivH > span.badge.bg-success{
+	width: 25%;
+	height: 25%
+}
+

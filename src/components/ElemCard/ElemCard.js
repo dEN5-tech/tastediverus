@@ -54,7 +54,6 @@ import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Fade from 'react-bootstrap/Fade';
 import Iplayer from "../IPLayer/Iplayer";
-import LazyLoad from 'react-lazyload';
 import Placeholder from 'react-bootstrap/Placeholder';
 import React from 'react';
 import axios from "axios";
@@ -269,9 +268,6 @@ const ElemCard = (
     
     <figcaption class="card-caption">
       <div class="card-caption-content">
-                                                      <LazyLoad
-                                        placeholder={<Placeholder as="p" animation="glow"> <Placeholder xs={12} /> </Placeholder>}
-                                        >
 <ListGroup  style={{
     display: "block",
     maxWidth: "90vh",
@@ -306,16 +302,10 @@ const ElemCard = (
     </Dropdown>
 
     </ListGroup>
-                                            </LazyLoad>
         <Container style={{
-  top: 10,
-  bottom: 0,
-  left: 0, 
-  right: 0,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '100%'
+ color: "#ecf0f1",
+ fontSize: "25px",
+ textShadow: "rgba(0, 0, 0, 0.3) 0px 1px 1px",
 }
 }>{title}</Container>
               

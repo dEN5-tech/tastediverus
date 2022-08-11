@@ -67,13 +67,16 @@ const IframePlayer = () => {
 
             {IframeData !== {} ? (
                 <Container>
-                    <ListGroup horizontal>
-                        {Object.keys(IframeData).map((elem) => {
+                    <ListGroup 
+                    id={"iframes-byId"}
+                    horizontal>
+                        {Object.keys(IframeData).map((elem,index) => {
                             if (Object.keys(IframeData[elem])[0])
                                 return (
                                     <ListGroup.Item
                                         key={`${IframeData[elem].translate} (${IframeData[elem].quality})`}
                                         action
+                                        id={`iframe-select-${index}`}
                                         onClick={(e) => {
                                             localStorage.setItem(
                                                 "last_view",

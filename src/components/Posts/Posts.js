@@ -2,22 +2,30 @@ import React, { useEffect } from "react";
 import { useMemo, useState, useRef } from "react";
 import axios from "axios";
 import { Tiles } from "@rebass/layout";
-import ElemCard from "../ElemCard/ElemCard";
+
 import { useParams } from "react-router-dom";
 import { QueryClientProvider, useInfiniteQuery } from "react-query";
-import InfiniteScroll from "react-infinite-scroll-component";
 import InfiniteCSRPage from "../InfinityTest/Inf";
 import { Preloader } from "../Preloader/Preloader.js";
 import "./index.css";
 
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import Iplayer from "../IPLayer/Iplayer";
-import { OverAvatars } from "../OverAvatars/OverAvatars.js";
 
 import Spinner from "react-bootstrap/Spinner";
 import { Card, Tooltip, Container } from "react-bootstrap";
 import Placeholder from "react-bootstrap/Placeholder";
 import { useInView } from "react-intersection-observer";
+import OverAvatars from "../OverAvatars/OverAvatars";
+import importedComponent from "react-imported-component";
+
+
+
+const ElemCard = importedComponent(() => import("../ElemCard/ElemCard"), {
+});
+
+ElemCard.preload(); 
+
 
 const queryClient = new QueryClient();
 
@@ -28,6 +36,97 @@ function Get_all_length(pages) {
   });
   return elems;
 }
+
+const genres = [
+  {
+    tag: "urn:tag:genre:action",
+    title: "Action",
+  },
+  {
+    tag: "urn:tag:genre:adventure",
+    title: "Adventure",
+  },
+  {
+    tag: "urn:tag:genre:animation",
+    title: "Animation",
+  },
+  {
+    tag: "urn:tag:genre:biography",
+    title: "Biography",
+  },
+  {
+    tag: "urn:tag:genre:comedy",
+    title: "Comedy",
+  },
+  {
+    tag: "urn:tag:genre:crime",
+    title: "Crime",
+  },
+  {
+    tag: "urn:tag:genre:documentary",
+    title: "Documentary",
+  },
+  {
+    tag: "urn:tag:genre:drama",
+    title: "Drama",
+  },
+  {
+    tag: "urn:tag:genre:family",
+    title: "Family",
+  },
+  {
+    tag: "urn:tag:genre:fantasy",
+    title: "Fantasy",
+  },
+  {
+    tag: "urn:tag:genre:history",
+    title: "History",
+  },
+  {
+    tag: "urn:tag:genre:horror",
+    title: "Horror",
+  },
+  {
+    tag: "urn:tag:genre:music",
+    title: "Music",
+  },
+  {
+    tag: "urn:tag:genre:musical",
+    title: "Musical",
+  },
+  {
+    tag: "urn:tag:genre:mystery",
+    title: "Mystery",
+  },
+  {
+    tag: "urn:tag:genre:romance",
+    title: "Romance",
+  },
+  {
+    tag: "urn:tag:genre:sci_fi",
+    title: "Sci-Fi",
+  },
+  {
+    tag: "urn:tag:genre:short",
+    title: "Short",
+  },
+  {
+    tag: "urn:tag:genre:sport",
+    title: "Sport",
+  },
+  {
+    tag: "urn:tag:genre:thriller",
+    title: "Thriller",
+  },
+  {
+    tag: "urn:tag:genre:war",
+    title: "War",
+  },
+  {
+    tag: "urn:tag:genre:western",
+    title: "Western",
+  },
+];
 
 const Posts = ({ cookie, type }) => {
   const history = useParams();
@@ -58,7 +157,7 @@ const Posts = ({ cookie, type }) => {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.length === 0) hasNextPage = false;
         if (lastPage) {
-          return Get_all_length(pages);
+          return pages.length * 12;
         }
       },
     }
@@ -72,9 +171,7 @@ const Posts = ({ cookie, type }) => {
 
   return (
     <div id="scrollableDiv">
-      <OverAvatars
-      cookie={cookie}
-      />
+      <OverAvatars cookie={cookie} />
       {status === "loading" ? (
         <Container
           style={{
@@ -100,13 +197,13 @@ const Posts = ({ cookie, type }) => {
               data?.pages.map((page) => (
                 <>
                   {page.map((item) => (
-                    <ElemCard
-                      history={history}
-                      width={170}
-                      key={item.id}
-                      type_s={history.type.toString().split(":").join("")}
-                      {...item}
-                    />
+                      <ElemCard
+                        history={history}
+                        width={170}
+                        key={item.id}
+                        type_s={history.type.toString().split(":").join("")}
+                        {...item}
+                      />
                   ))}
                 </>
               ))
@@ -115,8 +212,7 @@ const Posts = ({ cookie, type }) => {
             )}
           </Tiles>
           <div>
-          <Spinner ref={ref}
-          animation="border" />
+            <Spinner ref={ref} animation="border" />
           </div>
           <div>
             {isFetching && !isFetchingNextPage
