@@ -14,6 +14,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Image from "react-bootstrap/Image";
 
 import { AlertNotify } from "./AlertNotify.js";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function AvatarBar({ children, cookie, setcookie, last_view }) {
     const nav = useNavigate();
@@ -71,6 +72,7 @@ export default function AvatarBar({ children, cookie, setcookie, last_view }) {
                     {last_view && ViewST ? <AlertNotify /> : null}
                 </Dropdown.Item>
             ) : null}
+            <SearchBar/>
             {children.map((e,index) => (
                 <Dropdown.Item
                 id={`nav-link-${index}`}

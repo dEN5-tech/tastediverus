@@ -10,9 +10,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { LikeBtn } from "../ActionsBtns/LikeBtn.js";
 
 import Container from "react-bootstrap/Container";
-import useOnClickOutside from 'use-onclickoutside'
-import {  Input } from '@rebass/forms'
-
+import useOnClickOutside from "use-onclickoutside";
+import { Input } from "@rebass/forms";
+import Figure from "react-bootstrap/Figure";
+import { Menu, useItem } from "react-bootstrap-typeahead";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const axios = require("axios");
 
@@ -26,12 +28,10 @@ export default function SearchBar() {
   const [isLoading, setIsLoading] = useState(false);
   const [IsOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState([]);
-  const ref = React.useRef(null)
-  const [ValInput,setValInput] = useState("")
-  useOnClickOutside(ref, (e)=>{
-    setIsOpen(false)
-    setValInput("")
-  })
+  const [ValInput, setValInput] = useState("");
+
+
+
 
   useEffect(() => {
     if (loc.hash.includes("#search")) {
@@ -62,8 +62,11 @@ export default function SearchBar() {
   const GetAvatar = (id) =>
     `https://images.qloo.com/i/${id}-140x200-outside.jpg`;
 
+  const DropdownItem = (props) => <Dropdown.Item {...useItem(props)} />;
   return (
-    <div style={{ width: "65vh" }}>
+    <div
+    id={"searchBar"}
+    >
       {!loc.pathname.includes("view") ? (
         <AsyncTypeahead
           filterBy={filterBy}
@@ -86,65 +89,60 @@ export default function SearchBar() {
           placeholder="Найти..."
           style={{ overflow: "visible" }}
           useCache={false}
-renderInput={({ inputRef, referenceElementRef, ...inputProps }) => (
-    <Input
-      onChange={(e)=>setValInput(e.target.value)}
-      value={ValInput}
-      {...inputProps}
-      ref={(input) => {
-        inputRef(input);
-        referenceElementRef(input);
-      }}/>)}
-          renderMenuItemChildren={(option) => (
-            <>
-              <Container
-               ref={ref}
-              id={"outerRenderContainer"}>
-                <div id={"innerDivH"}>
-                  <div
-                    id={"poster"}
-                    style={{
-                      backgroundImage: `url(${GetAvatar(
-                        option.data.split("--")[1]
-                      )})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "auto",
-                    }}
-                  >
-                    {option.rating ? (
-                      <Badge id={"rating"} as="div" bg="success">
-                        {option.rating}
-                      </Badge>
-                    ) : null}
-                    {option.type ? (
-                      <Badge id={"type"} as="div" bg="danger">
-                        {option.qloo_category}
-                      </Badge>
-                    ) : null}
-                  </div>
-                  <span id={"title"} style={{ whiteSpace: "initial" }}>
-                    {option.title}
-                  </span>{" "}
-                </div>
-                <ListGroup className={"functions-search"} horizontal>
-                  <ListGroup.Item
-                    variant="primary"
-                    action
-                    onClick={() => console.log(option)}
-                  >
-                    Like
-                  </ListGroup.Item>
-                  <ListGroup.Item
-                    variant="primary"
-                    action
-                    onClick={() => console.log(option)}
-                  >
-                    Like
-                  </ListGroup.Item>
-                </ListGroup>
-              </Container>
-              <hr />
-            </>
+          renderInput={({ inputRef, referenceElementRef, ...inputProps }) => (
+            <Input
+              onChange={(e) => setValInput(e.target.value)}
+              value={ValInput}
+              {...inputProps}
+              ref={(input) => {
+                inputRef(input);
+                referenceElementRef(input);
+              }}
+            />
+          )}
+          renderMenu={(results, menuProps) => (
+            <Container>
+    <button
+    id={"closeButton"}
+    onClick={()=>setIsOpen(false)}>
+      x
+    </button>
+            <Menu
+            id={"searchDropdownMenu"}
+            {...menuProps}>
+              {results.map((option, position) => (
+                <DropdownItem
+                option={option} position={position}>
+                  <Container
+                  id={"outerRenderContainer"}>
+                    <Figure>
+                      {option.rating ? (
+                        <div id={"ratingContainer"}>
+                          <Badge id={"ratingBadge"} bg="success">
+                            {option.rating}
+                          </Badge>
+                        </div>
+                      ) : null}
+                      <Figure.Image
+                        width={171}
+                        alt=""
+                        src={GetAvatar(option.data.split("--")[1])}
+                      />
+                      <Figure.Caption>
+                        <span id={"title"} style={{ whiteSpace: "initial" }}>
+                          {option.title}
+                          {option.disambiguation
+                            ? ` (${option.disambiguation})`
+                            : null}
+                        </span>
+                      </Figure.Caption>
+                    </Figure>
+                  </Container>
+                  <hr />
+                </DropdownItem>
+              ))}
+            </Menu>
+            </Container>
           )}
         />
       ) : null}

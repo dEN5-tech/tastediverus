@@ -1,11 +1,13 @@
 import React from 'react';
 import  {Navbar} from "react-bootstrap"
-
+import {  Link } from "react-router-dom";
 
 export const Logo = ()=>{
 
 		return (
-			  <Navbar.Brand href="/">
+			  <Navbar.Brand
+        as={Link}
+        to="/">
             <img
               alt=""
               src="https://tastediverus.herokuapp.com/vectorpaint.png"

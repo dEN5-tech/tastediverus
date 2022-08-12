@@ -12,10 +12,16 @@
    .ml-auto.navbar-nav > a {
        display: none;
     }
+    #root > div > div > nav > #searchBar {
+       display: none;
+    }
 }
 
  @media screen and (min-width: 990px) {
   a[id^="nav-link-"] {
+       display: none;
+    }
+  #root > div > div > nav > div.ml-auto.navbar-nav > div > div > #searchBar{
        display: none;
     }
 
@@ -31,8 +37,8 @@
 
 
 
-body{
-  background-image: linear-gradient(128deg,#1E90FF,#008080,#3CB371,#F1F3F4,#9370DB,#DDA0DD,#BA55D3,#B22222);
+#root{
+  background: linear-gradient(128deg,#1E90FF,#008080,#3CB371,#F1F3F4,#9370DB,#DDA0DD,#BA55D3,#B22222);
   animation: bganimation 14s infinite;
 }
 
