@@ -1,31 +1,21 @@
-import React, { useEffect } from "react";
-import { useMemo, useState, useRef } from "react";
-import axios from "axios";
 import { Tiles } from "@rebass/layout";
+import { useEffect, useState } from "react";
 
-import { useParams } from "react-router-dom";
 import { QueryClientProvider, useInfiniteQuery } from "react-query";
-import InfiniteCSRPage from "../InfinityTest/Inf";
-import { Preloader } from "../Preloader/Preloader.js";
+import { useParams } from "react-router-dom";
 import "./index.css";
 
-import { QueryClient, useQuery, useQueryClient } from "react-query";
-import Iplayer from "../IPLayer/Iplayer";
+import { QueryClient } from "react-query";
 
+import { Container } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { Card, Tooltip, Container } from "react-bootstrap";
-import Placeholder from "react-bootstrap/Placeholder";
+import importedComponent from "react-imported-component";
 import { useInView } from "react-intersection-observer";
 import OverAvatars from "../OverAvatars/OverAvatars";
-import importedComponent from "react-imported-component";
 
+const ElemCard = importedComponent(() => import("../ElemCard/ElemCard"), {});
 
-
-const ElemCard = importedComponent(() => import("../ElemCard/ElemCard"), {
-});
-
-ElemCard.preload(); 
-
+ElemCard.preload();
 
 const queryClient = new QueryClient();
 
@@ -197,13 +187,13 @@ const Posts = ({ cookie, type }) => {
               data?.pages.map((page) => (
                 <>
                   {page.map((item) => (
-                      <ElemCard
-                        history={history}
-                        width={170}
-                        key={item.id}
-                        type_s={history.type.toString().split(":").join("")}
-                        {...item}
-                      />
+                    <ElemCard
+                      history={history}
+                      width={170}
+                      key={item.id}
+                      type_s={history.type.toString().split(":").join("")}
+                      {...item}
+                    />
                   ))}
                 </>
               ))

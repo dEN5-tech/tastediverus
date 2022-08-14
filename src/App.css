@@ -43,7 +43,6 @@
   animation: bganimation 14s infinite;
 }
 
-
 @keyframes bganimation {
   0% {
     background-position: 0% 0%;

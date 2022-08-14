@@ -1,13 +1,17 @@
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+import { Nav, Navbar } from "react-bootstrap";
 import AvatarBar from "../AvatarBar/AvatarBar";
-import SearchBar from "../SearchBar/SearchBar";
 import { Logo } from "../Logo/Logo.js";
-import React, { useEffect } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import SearchBar from "../SearchBar/SearchBar";
 
-
-export default function NavBar  ({ cookie, tdTypes, last_view, setcookie, setType }) {
+export default function NavBar({
+  cookie,
+  tdTypes,
+  last_view,
+  setcookie,
+  setType,
+}) {
   return (
     <Navbar style={{ zIndex: "10000", padding: "0 5px" }} sticky="top">
       <Logo />
@@ -47,4 +51,4 @@ export default function NavBar  ({ cookie, tdTypes, last_view, setcookie, setTyp
       </Nav>
     </Navbar>
   );
-};
+}

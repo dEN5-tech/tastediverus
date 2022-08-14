@@ -1,53 +1,53 @@
 /* Container */
-#root > .container{
- transform:translatex(0px) translatey(0px);
+#root > .container {
+  transform: translatex(0px) translatey(0px);
 }
 
 /* Container */
-#root .App .container{
- display:flex;
- flex-direction:column;
- justify-content:center;
- transform:translatex(0px) translatey(0px);
- padding-top:200px !important;
+#root .App .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translatex(0px) translatey(0px);
+  padding-top: 200px !important;
 }
 
 /* Button */
-.App .btn-primary{
- margin-top:10px;
- transform:translatex(0px) translatey(0px);
- border-top-left-radius:50px;
- border-top-right-radius:50px;
- border-bottom-left-radius:50px;
- border-bottom-right-radius:50px;
+.App .btn-primary {
+  margin-top: 10px;
+  transform: translatex(0px) translatey(0px);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
 }
 
 /* Body */
-body{
- transform:translatex(0px) translatey(0px);
+body {
+  transform: translatex(0px) translatey(0px);
 }
 
 /* Root */
-#root{
- min-height:650px;
- transform:translatex(0px) translatey(0px);
+#root {
+  min-height: 650px;
+  transform: translatex(0px) translatey(0px);
 }
 
 /* Email */
-#email{
- transform:translatex(0px) translatey(0px);
- border-top-left-radius:50px;
- border-top-right-radius:50px;
- border-bottom-left-radius:50px;
- border-bottom-right-radius:50px;
- background-color:#2ecc71;
+#email {
+  transform: translatex(0px) translatey(0px);
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  background-color: #2ecc71;
 }
 
 /* Password */
-#password{
- border-top-left-radius:50px;
- border-top-right-radius:50px;
- border-bottom-left-radius:50px;
- border-bottom-right-radius:50px;
- background-color:#8e44ad;
+#password {
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  background-color: #8e44ad;
 }

@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
-import { useLocation, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import Badge from "react-bootstrap/Badge";
-import Image from "react-bootstrap/Image";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./index.css";
 
-import ListGroup from "react-bootstrap/ListGroup";
-import { LikeBtn } from "../ActionsBtns/LikeBtn.js";
-
-import Container from "react-bootstrap/Container";
-import useOnClickOutside from "use-onclickoutside";
 import { Input } from "@rebass/forms";
-import Figure from "react-bootstrap/Figure";
 import { Menu, useItem } from "react-bootstrap-typeahead";
+import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
+import Figure from "react-bootstrap/Figure";
 
 const axios = require("axios");
 
@@ -29,9 +23,6 @@ export default function SearchBar() {
   const [IsOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const [ValInput, setValInput] = useState("");
-
-
-
 
   useEffect(() => {
     if (loc.hash.includes("#search")) {
@@ -64,9 +55,7 @@ export default function SearchBar() {
 
   const DropdownItem = (props) => <Dropdown.Item {...useItem(props)} />;
   return (
-    <div
-    id={"searchBar"}
-    >
+    <div id={"searchBar"}>
       {!loc.pathname.includes("view") ? (
         <AsyncTypeahead
           filterBy={filterBy}
@@ -102,46 +91,40 @@ export default function SearchBar() {
           )}
           renderMenu={(results, menuProps) => (
             <Container>
-    <button
-    id={"closeButton"}
-    onClick={()=>setIsOpen(false)}>
-      x
-    </button>
-            <Menu
-            id={"searchDropdownMenu"}
-            {...menuProps}>
-              {results.map((option, position) => (
-                <DropdownItem
-                option={option} position={position}>
-                  <Container
-                  id={"outerRenderContainer"}>
-                    <Figure>
-                      {option.rating ? (
-                        <div id={"ratingContainer"}>
-                          <Badge id={"ratingBadge"} bg="success">
-                            {option.rating}
-                          </Badge>
-                        </div>
-                      ) : null}
-                      <Figure.Image
-                        width={171}
-                        alt=""
-                        src={GetAvatar(option.data.split("--")[1])}
-                      />
-                      <Figure.Caption>
-                        <span id={"title"} style={{ whiteSpace: "initial" }}>
-                          {option.title}
-                          {option.disambiguation
-                            ? ` (${option.disambiguation})`
-                            : null}
-                        </span>
-                      </Figure.Caption>
-                    </Figure>
-                  </Container>
-                  <hr />
-                </DropdownItem>
-              ))}
-            </Menu>
+              <button id={"closeButton"} onClick={() => setIsOpen(false)}>
+                x
+              </button>
+              <Menu id={"searchDropdownMenu"} {...menuProps}>
+                {results.map((option, position) => (
+                  <DropdownItem option={option} position={position}>
+                    <Container id={"outerRenderContainer"}>
+                      <Figure>
+                        {option.rating ? (
+                          <div id={"ratingContainer"}>
+                            <Badge id={"ratingBadge"} bg="success">
+                              {option.rating}
+                            </Badge>
+                          </div>
+                        ) : null}
+                        <Figure.Image
+                          width={171}
+                          alt=""
+                          src={GetAvatar(option.data.split("--")[1])}
+                        />
+                        <Figure.Caption>
+                          <span id={"title"} style={{ whiteSpace: "initial" }}>
+                            {option.title}
+                            {option.disambiguation
+                              ? ` (${option.disambiguation})`
+                              : null}
+                          </span>
+                        </Figure.Caption>
+                      </Figure>
+                    </Container>
+                    <hr />
+                  </DropdownItem>
+                ))}
+              </Menu>
             </Container>
           )}
         />

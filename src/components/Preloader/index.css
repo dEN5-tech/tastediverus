@@ -112,7 +112,7 @@
   border-radius: 50em;
 }
 .preloader .preloader-container .animated-preloader:after {
-  content: '';
+  content: "";
   display: inline-block;
   width: 100px;
   height: 100px;
@@ -126,7 +126,7 @@
   animation: preloader-inside-white 1s ease-in-out infinite;
 }
 .preloader .preloader-container .animated-preloader:before {
-  content: '';
+  content: "";
   display: inline-block;
   width: 100px;
   height: 100px;
