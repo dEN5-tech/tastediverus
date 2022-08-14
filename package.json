@@ -52,6 +52,7 @@
     "react-streams": "^13.6.6",
     "reflexbox": "^4.0.6",
     "sass": "^1.54.3",
+    "source-map-explorer": "^2.5.2",
     "styled-components": "^5.3.5",
     "use-local-storage": "^2.3.6",
     "use-onclickoutside": "^0.4.1",
@@ -59,11 +60,12 @@
   },
   "scripts": {
     "start_": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev_server": "nodemon servere/main.js",
     "api_server": "nodemon server.js",
+    "analyze": "source-map-explorer build/static/js/main.*",
     "start": "concurrently \"npm run dev_server\" \"npm run api_server\""
   },
   "eslintConfig": {

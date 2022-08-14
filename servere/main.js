@@ -14,6 +14,7 @@ const {GetRecUsersData} = require("./api/GetData/GetRecUsersData.js")
 const {GetSimData} = require("./api/GetData/GetSimData.js")
 const {GetAutocomplete} = require("./api/GetData/GetAutocomplete.js")
 const {GetAvatar} = require("./api/GetData/GetAvatar.js")
+const {GetDataBestSimAutoComp} = require("./api/GetData/GetBestSimAutoComp.js")
 
 const {YandexSearchImg} = require("./api/YandexSearch.js")
 
@@ -69,7 +70,6 @@ const expressWs = require('express-ws')(app);
 
 
 async function GetUsers(query){
-    console.log(unescape(Buffer.from(query.token, 'base64').toString('ascii')))
         const response = await axios.get(`https://tastedive.com/fragment/recommended-users/start-0/rpp-12`,
         {
             headers:
@@ -123,17 +123,6 @@ async function GetUsers(query){
 
 
 
-app.ws('/ws/:offset/:token/:count', function(ws, req, next) {
-      setInterval(function () {
-          GetUsers(req.params).then((dt)=>{
-          ws.send(JSON.stringify(dt));
-      })
-}, 10000);
-});
-
-
-
-
 
 
 app.use('/', Login);
@@ -146,7 +135,7 @@ app.use('/', GetSimData);
 app.use('/', GetAutocomplete);
 app.use('/', GetAvatar);
 app.use('/', GetRecUsersData);
-
+app.use('/', GetDataBestSimAutoComp);
 
 app.use('/', YandexSearchImg);
 

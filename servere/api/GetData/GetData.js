@@ -35,7 +35,6 @@ if(req.originalUrl.includes("/get_data")){
         }
 
         }catch (err) {
-        console.log(err);
     }
     }
 
