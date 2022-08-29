@@ -37,7 +37,7 @@ if(req.originalUrl.includes("/get_avatar")){
 })
     if(response.status == 200){
         const html = nHtmlParser.parse(response.data.toString())
-        const avatarUrl =  html.querySelector('img[src]').getAttribute("src")||"https://tastedive.com/dist/images/td-cover.jpg"
+        const avatarUrl =  html.querySelector(`div[class^="user"] > img[src]`).getAttribute("src")||"https://tastedive.com/dist/images/td-cover.jpg"
         const NickName =  html.querySelector('input[id="username"][name="username"]').getAttribute("value")
         res.data = {avatar_url:avatarUrl,nickname:NickName}
         }else{
