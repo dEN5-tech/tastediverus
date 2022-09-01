@@ -1,0 +1,14 @@
+2 lines (12 sloc)  219 Bytes
+
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://localhost:3001/:path*"
+    },
+    {
+      "source": "/api/:path*/",
+      "destination": "https://localhost:3001/:path*/"
+    }
+  ]
+}
