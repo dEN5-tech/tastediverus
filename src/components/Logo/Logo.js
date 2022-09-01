@@ -6,7 +6,7 @@ export const Logo = () => {
     <Navbar.Brand as={Link} to="/">
       <img
         alt=""
-        src="https://tastediverus.herokuapp.com/vectorpaint.png"
+        src="https://tastediverus.vercel.app/vectorpaint.png"
         width="30"
         height="30"
         className="d-inline-block align-top"

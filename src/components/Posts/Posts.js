@@ -138,7 +138,7 @@ const Posts = ({ cookie, type }) => {
     `type_posts_${history.type.toString().split(":").join("")}`,
     async ({ pageParam = 0, meta }) =>
       await fetch(
-        `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=12&type=${history.type
+        `https://tastediverus.vercel.app/api/get_data?offset=${pageParam}&count=12&type=${history.type
           .toString()
           .split(":")
           .join("")}&token=${cookie.cookie}`

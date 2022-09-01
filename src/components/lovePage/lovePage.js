@@ -24,7 +24,7 @@ function Get_all_length(pages) {
 const lovePage = ({ cookie, type }) => {
   const fetchSimPosts = async ({ pageParam = history.id }) =>
     await fetch(
-      `https://tastediverus.herokuapp.com/api/love_data?offset=${pageParam}&type=${loc.state.type}&token=${cookie.cookie}`
+      `https://tastediverus.vercel.app/api/love_data?offset=${pageParam}&type=${loc.state.type}&token=${cookie.cookie}`
     ).then((e) => e.json());
 
   const loc = useLocation();

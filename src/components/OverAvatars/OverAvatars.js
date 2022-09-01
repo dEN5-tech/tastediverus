@@ -10,7 +10,7 @@ export default function OverAvatars({ cookie }) {
   useEffect(() => {
     axios
       .get(
-        `https://tastediverus.herokuapp.com/api/get_recommended_users?offset=0&count=20&token=${cookie.cookie}`
+        `https://tastediverus.vercel.app/api/get_recommended_users?offset=0&count=20&token=${cookie.cookie}`
       )
       .then((result) => {
         setAvatarData(result.data);

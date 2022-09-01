@@ -46,7 +46,7 @@ const ElemCard = ({
   async function GetAll(params, type) {
     if (["m", "h"].includes(type)) {
       const response = await axios.get(
-        `https://tastediverus.herokuapp.com/api/search_kinopoisk`,
+        `https://tastediverus.vercel.app/api/search_kinopoisk`,
         {
           params: {
             query: params.query,
@@ -77,7 +77,7 @@ const ElemCard = ({
       return response.data;
     } else if (["s"].includes(type)) {
       const response = await axios.get(
-        `https://tastediverus.herokuapp.com/api/search_music`,
+        `https://tastediverus.vercel.app/api/search_music`,
         {
           params: {
             query: params.q,
@@ -133,7 +133,7 @@ const ElemCard = ({
 
   function SetLike() {
     axios
-      .get(`https://tastediverus.herokuapp.com/api/like`, {
+      .get(`https://tastediverus.vercel.app/api/like`, {
         params: {
           id: `${id}`,
           year: `${year}`,
@@ -170,7 +170,7 @@ const ElemCard = ({
   function openPlayer(e) {
     axios
       .get(
-        `https://tastediverus.herokuapp.com/api/AhoyAgregator?kinopoisk=${kinopoisk_id}`
+        `https://tastediverus.vercel.app/api/AhoyAgregator?kinopoisk=${kinopoisk_id}`
       )
       .then((e) => {
         navigate(`/view/${type_s}/${kinopoisk_id}/${title}`);

@@ -12,7 +12,7 @@ import Figure from "react-bootstrap/Figure";
 
 const axios = require("axios");
 
-const SEARCH_URI = "https://tastediverus.herokuapp.com/api/get_autocomplete";
+const SEARCH_URI = "https://tastediverus.vercel.app/api/get_autocomplete";
 
 export default function SearchBar() {
   const params = useParams();
