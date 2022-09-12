@@ -19,4 +19,3 @@ jobs:
           dontuseforce: false #OPTIONAL and DEFAULT - false
           usedocker: false #OPTIONAL and DEFAULT - false
           appdir: "" #OPTIONAL and DEFAULT - "". This is useful if the api you're deploying is in a subfolder
-          branch: "main"
