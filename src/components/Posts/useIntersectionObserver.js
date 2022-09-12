@@ -7,7 +7,7 @@ export default function useIntersectionObserver({
   threshold = 1.0,
   rootMargin = "0px",
 }) {
-  React.useEffect(() => {
+  React.useMemo(() => {
     const observer = new IntersectionObserver(onIntersect, {
       root: root && root.current,
       rootMargin,

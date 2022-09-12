@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import Badge from "react-bootstrap/Badge";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ export default function SearchBar() {
   const [options, setOptions] = useState([]);
   const [ValInput, setValInput] = useState("");
 
-  useEffect(() => {
+  useMemo(() => {
     if (loc.hash.includes("#search")) {
       const query = loc.hash.replace("#search=", "");
       axios.get(`${SEARCH_URI}?type=h&query=${query}`).then((resp) => {

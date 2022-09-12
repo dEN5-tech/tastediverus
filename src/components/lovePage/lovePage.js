@@ -1,5 +1,5 @@
 import { Tiles } from "@rebass/layout";
-import { useEffect, useState } from "react";
+import {memo, useEffect, useState} from "react";
 import Spinner from "react-bootstrap/Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import LazyLoad from "react-lazyload";
@@ -11,7 +11,9 @@ import {
 import { useLocation, useParams } from "react-router-dom";
 import ElemCard from "../ElemCard/ElemCard";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  refetchOnWindowFocus:false
+});
 
 function Get_all_length(pages) {
   let elems = 0;
@@ -21,7 +23,7 @@ function Get_all_length(pages) {
   return elems;
 }
 
-const lovePage = ({ cookie, type }) => {
+const lovePage = memo(({ cookie, type }) => {
   const fetchSimPosts = async ({ pageParam = history.id }) =>
     await fetch(
       `https://tastediverus.herokuapp.com/api/love_data?offset=${pageParam}&type=${loc.state.type}&token=${cookie.cookie}`
@@ -93,7 +95,7 @@ const lovePage = ({ cookie, type }) => {
       )}
     </div>
   );
-};
+});
 
 const lovePage_ = ({ cookie, type }) => {
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {memo, useEffect, useState} from "react";
 
 import axios from "axios";
 
@@ -12,7 +12,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import SearchBar from "../SearchBar/SearchBar";
 import { AlertNotify } from "./AlertNotify.js";
 
-export default function AvatarBar({ children, cookie, setcookie, last_view }) {
+export default memo(function AvatarBar({ children, cookie, setcookie, last_view }) {
   const nav = useNavigate();
   const [data, setData] = useState({});
   const [ViewST, setViewST] = useState(false);
@@ -85,4 +85,4 @@ export default function AvatarBar({ children, cookie, setcookie, last_view }) {
       </Dropdown.Item>
     </NavDropdown>
   );
-}
+})

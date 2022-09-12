@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useMemo } from "react";
 import { Navigate } from "react-router-dom";
 
 const Logout = ({ setcookie }) => {
-  useEffect(() => {
+  useMemo(() => {
     setcookie(undefined);
   }, []);
 

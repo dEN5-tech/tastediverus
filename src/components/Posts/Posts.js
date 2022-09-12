@@ -1,5 +1,5 @@
 import { Tiles } from "@rebass/layout";
-import { useEffect, useState } from "react";
+import {memo, useEffect, useState} from "react";
 
 import { QueryClientProvider, useInfiniteQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -17,7 +17,9 @@ const ElemCard = importedComponent(() => import("../ElemCard/ElemCard"), {});
 
 ElemCard.preload();
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  refetchOnWindowFocus:false
+});
 
 function Get_all_length(pages) {
   let elems = 0;
@@ -118,7 +120,7 @@ const genres = [
   },
 ];
 
-const Posts = ({ cookie, type }) => {
+const Posts = memo(({ cookie, type }) => {
   const history = useParams();
   const [ploader, setploader] = useState(null);
   const { ref, inView } = useInView();
@@ -248,7 +250,7 @@ const Posts = ({ cookie, type }) => {
                </div>
            );
     }*/
-};
+});
 
 const Posts_ = ({ cookie, type }) => {
   return (

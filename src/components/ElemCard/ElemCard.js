@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import {memo, useState} from "react";
 import { Container, ListGroup } from "react-bootstrap";
 import {
   BarChartFill,
@@ -18,7 +18,7 @@ const enum_color = {
   shows: "#148cc8",
 };
 
-const ElemCard = ({
+const ElemCard = memo(({
   title,
   kinopoisk_id,
   srcset,
@@ -239,6 +239,6 @@ const ElemCard = ({
       </figcaption>
     </figure>
   );
-};
+});
 
 export default ElemCard;

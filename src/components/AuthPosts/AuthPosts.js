@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-import { useEffect } from "react";
+import { useMemo } from "react";
 import { Nav } from "react-bootstrap";
 
 export const AuthPosts = ({ cookie, tdTypes, setType }) => {
-  useEffect(() => {
+  useMemo(() => {
     if (cookie) {
       return tdTypes.map((key, index) => (
         <Nav.Link

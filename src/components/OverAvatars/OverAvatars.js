@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import {memo, useEffect, useState} from "react";
 import { Container } from "react-bootstrap";
 import "./index.css";
 
 import axios from "axios";
 
-export default function OverAvatars({ cookie }) {
+export default memo(function OverAvatars({ cookie }) {
   const [AvatarData, setAvatarData] = useState([]);
   const [Status, setStatus] = useState(false);
   useEffect(() => {
@@ -41,4 +41,4 @@ export default function OverAvatars({ cookie }) {
       </div>
     </Container>
   );
-}
+})

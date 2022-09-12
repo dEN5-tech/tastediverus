@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useLocation, useParams } from "react-router-dom";
 import "./index.css";
@@ -20,7 +20,7 @@ const IframePlayer = () => {
   const [IframeData, setIframeData] = useState({});
   const [UrlIframe, setUrlIframe] = useState(false);
 
-  useEffect(() => {
+  useMemo(() => {
     if (loc?.state) {
       setUrlIframe(loc.state);
     }

@@ -4,8 +4,9 @@ import { Nav, Navbar } from "react-bootstrap";
 import AvatarBar from "../AvatarBar/AvatarBar";
 import { Logo } from "../Logo/Logo.js";
 import SearchBar from "../SearchBar/SearchBar";
+import {memo} from "react";
 
-export default function NavBar({
+export default memo(function NavBar({
   cookie,
   tdTypes,
   last_view,
@@ -51,4 +52,4 @@ export default function NavBar({
       </Nav>
     </Navbar>
   );
-}
+})
