@@ -25,7 +25,7 @@ const Login = ({ setcookie }) => {
     elem.preventDefault();
     axios
       .get(
-        `https://tastediverus.herokuapp.com/api/login?email=${email}&password=${pass}`
+        `https://tastediverus.vercel.app/api/login?email=${email}&password=${pass}`
       )
       .then(function (response) {
         if (response.data.cookie) {

@@ -22,7 +22,7 @@ export default memo(function AvatarBar({ children, cookie, setcookie, last_view 
     if (cookie?.cookie) {
       axios
         .get(
-          `https://tastediverus.herokuapp.com/api/get_avatar?token=${cookie.cookie}`
+          `https://tastediverus.vercel.app/api/get_avatar?token=${cookie.cookie}`
         )
         .then((r) => setData(r.data));
     } else if (cookie?.cookie === undefined) {

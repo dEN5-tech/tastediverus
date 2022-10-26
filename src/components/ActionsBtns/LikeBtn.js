@@ -4,7 +4,7 @@ import { Heart } from "react-bootstrap-icons";
 export const LikeBtn = (params) => {
   function SetLike() {
     axios
-      .get(`https://tastediverus.herokuapp.com/api/like`, {
+      .get(`https://tastediverus.vercel.app/api/like`, {
         params: {
           id: `${params.id}`,
           year: `${params.year}`,

@@ -18,7 +18,7 @@ function InfiniteCSRPage() {
     "infiniteCharacters",
     async ({ pageParam = 0, meta }) =>
       await fetch(
-        `https://tastediverus.herokuapp.com/api/get_data?offset=${pageParam}&count=20&type=h`
+        `https://tastediverus.vercel.app/api/get_data?offset=${pageParam}&count=20&type=h`
       ).then((result) => result.json()),
     {
       getNextPageParam: (lastPage, pages) => {
